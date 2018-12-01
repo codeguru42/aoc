@@ -1,6 +1,10 @@
-def main():
+def part1():
     with open('day1.txt') as file:
-        print(sum(int(line) for line in file))
+        return sum(int(line) for line in file)
+
+
+def main():
+    print(part1())
 
 
 if __name__ == "__main__":
