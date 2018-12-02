@@ -18,7 +18,18 @@ def part1():
 
 
 def part2():
-    pass
+    with open('day2.txt') as file:
+        ids = [line.strip() for line in file]
+
+        for id1 in ids:
+            for id2 in ids:
+                d = distance(id1, id2)
+                if d == 1:
+                    return ''.join(x for x, y in zip(id1, id2) if x == y)
+
+
+def distance(s, t):
+    return sum(0 if x == y else 1 for x, y in zip(s, t))
 
 
 def main():
