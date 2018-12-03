@@ -28,7 +28,22 @@ def part1():
 
 
 def part2():
-    pass
+    claims = parse()
+    overlap = {}
+    for claim in claims:
+        left, top = claim['loc']
+        width, height = claim['size']
+        for x in range(left, left + width):
+            for y in range(top, top + height):
+                o = overlap.get((x, y), set())
+                o.add(claim['id'])
+                overlap[(x, y)] = o
+    all_ids = set(claim['id'] for claim in claims)
+    overlap_ids = set()
+    for loc in overlap:
+        if len(overlap[loc]) > 1:
+            overlap_ids |= overlap[loc]
+    return all_ids - overlap_ids
 
 
 def main():
