@@ -30,7 +30,14 @@ def parse():
             })
             x = asleep
     except StopIteration:
-        return guards
+        asleep_counts = {}
+        for g in guards:
+            counts = asleep_counts.get(g['id'], Counter())
+            for c in g['minutes']:
+                for m in range(c['asleep'], c['awake']):
+                    counts[m] += 1
+            asleep_counts[g['id']] = counts
+        return asleep_counts
 
 
 def read_file():
@@ -47,15 +54,7 @@ def read_file():
 
 
 def part1():
-    guards = parse()
-    asleep_counts = {}
-
-    for g in guards:
-        counts = asleep_counts.get(g['id'], Counter())
-        for c in g['minutes']:
-            for m in range(c['asleep'], c['awake']):
-                counts[m] += 1
-        asleep_counts[g['id']] = counts
+    asleep_counts = parse()
 
     totals = []
     for id, counts in asleep_counts.items():
@@ -70,7 +69,14 @@ def part1():
 
 
 def part2():
-    pass
+    asleep_counts = parse()
+    max_minutes = {
+        guard_id: counts.most_common(1)
+        for guard_id, counts in asleep_counts.items()
+    }
+    ms = [x for x in max_minutes.items() if x[1]]
+    m = max(ms, key=lambda x: x[1][0][1])
+    return int(m[0]) * m[1][0][0]
 
 
 def main():
