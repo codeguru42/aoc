@@ -29,15 +29,24 @@ def part1(polymer):
     return len(react(polymer))
 
 
-def part2():
-    pass
+def part2(polymer):
+    units = set(polymer.lower())
+    m = len(polymer)
+    for unit in units:
+        replaced = polymer.replace(unit, '')
+        replaced = replaced.replace(unit.upper(), '')
+        reduced = react(replaced)
+        if len(reduced) < m:
+            m = len(reduced)
+    return m
 
 
 def main():
     assert part1('dabAcCaCBAcCcaDA') == 10
     polymer = read_input().strip()
     print(part1(polymer))
-    print(part2())
+    assert part2('dabAcCaCBAcCcaDA') == 4
+    print(part2(polymer))
 
 
 if __name__ == "__main__":
