@@ -3,7 +3,7 @@ def read_input():
         return file.read()
 
 
-def part1(polymer):
+def react(polymer):
     start = ''
     end = polymer
 
@@ -22,7 +22,11 @@ def part1(polymer):
             else:
                 start = start + end[0]
                 end = end[1:]
-    return len(start)
+    return start
+
+
+def part1(polymer):
+    return len(react(polymer))
 
 
 def part2():
