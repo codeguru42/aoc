@@ -14,9 +14,7 @@ def react(polymer):
         else:
             a = start[-1]
             b = end[0]
-            if ((a.islower() and b.isupper())
-                or (a.isupper() and b.islower())) \
-                    and a.lower() == b.lower():
+            if a == b.swapcase():
                 start = start[:-1]
                 end = end[1:]
             else:
