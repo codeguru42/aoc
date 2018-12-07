@@ -56,7 +56,18 @@ def part1(points):
 
 
 def part2(points):
-    return points
+    coords = list(zip(*points))
+    min_x = min(coords[0])
+    max_x = max(coords[0])
+    min_y = min(coords[1])
+    max_y = max(coords[1])
+    area = 0
+    for x in range(min_x, max_x + 1):
+        for y in range(min_y + 1, max_y):
+            distances = [manhattan_distance((x, y), p) for p in points]
+            if sum(distances) < 10000:
+                area += 1
+    return area
 
 
 def main():
