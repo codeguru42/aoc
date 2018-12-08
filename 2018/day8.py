@@ -19,7 +19,8 @@ def parse_tree(data):
 
 
 def part1(tree):
-    return tree
+    return sum(part1(child) for child in tree['children']) + \
+        sum(tree['metadata'])
 
 
 def part2(tree):
