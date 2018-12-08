@@ -24,7 +24,13 @@ def part1(tree):
 
 
 def part2(tree):
-    return tree
+    if len(tree['children']) == 0:
+        return sum(tree['metadata'])
+    return sum(
+        part2(tree['children'][i-1])
+        for i in tree['metadata']
+        if 0 < i <= len(tree['children'])
+    )
 
 
 def main():
