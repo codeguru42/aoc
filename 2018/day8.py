@@ -1,20 +1,35 @@
 def parse():
     with open('day8.txt') as file:
-        return file.readlines()
+        data = [int(x) for x in file.readline().split()]
+        tree, remaining = parse_tree(data)
+        assert len(remaining) == 0
+        return tree
 
 
-def part1(steps):
-    return steps
+def parse_tree(data):
+    tree = {'children': []}
+    child_count = data[0]
+    metadata_count = data[1]
+    data = data[2:]
+    for _ in range(child_count):
+        child, data = parse_tree(data)
+        tree['children'].append(child)
+    tree['metadata'] = data[:metadata_count]
+    return tree, data[metadata_count:]
 
 
-def part2(steps):
-    return steps
+def part1(tree):
+    return tree
+
+
+def part2(tree):
+    return tree
 
 
 def main():
-    inp = parse()
-    print(part1(inp))
-    print(part2(inp))
+    tree = parse()
+    print(part1(tree))
+    print(part2(tree))
 
 
 if __name__ == "__main__":
