@@ -1,21 +1,26 @@
-def part1(int_codes):
-    i = 0
-    int_codes[1] = 12
-    int_codes[2] = 2
-    while int_codes[i] != 99:
-        lhs = int_codes[i + 1]
-        rhs = int_codes[i + 2]
-        dest = int_codes[i + 3]
-        if int_codes[i] == 1:
-            int_codes[dest] = int_codes[lhs] + int_codes[rhs]
-        elif int_codes[i] == 2:
-            int_codes[dest] = int_codes[lhs] * int_codes[rhs]
-        i += 4
-    return int_codes[0]
+def part1(program):
+    memory = list(program)
+    memory[1] = 12
+    memory[2] = 2
+    run_program(memory)
+    return memory[0]
 
 
-def part2(int_codes):
+def part2(program):
     pass
+
+
+def run_program(memory):
+    i = 0
+    while memory[i] != 99:
+        lhs = memory[i + 1]
+        rhs = memory[i + 2]
+        dest = memory[i + 3]
+        if memory[i] == 1:
+            memory[dest] = memory[lhs] + memory[rhs]
+        elif memory[i] == 2:
+            memory[dest] = memory[lhs] * memory[rhs]
+        i += 4
 
 
 def main():
