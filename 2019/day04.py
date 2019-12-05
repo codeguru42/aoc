@@ -24,13 +24,31 @@ def part1(start, end):
                 has_double = True
             if a < b:
                 monotonic_increasing = False
+                break
         if has_double and monotonic_increasing:
             count += 1
     return count
 
 
 def part2(start, end):
-    pass
+    count = 0
+    for n in range(start, end + 1):
+        has_double = False
+        monotonic_increasing = True
+        repeat_count = 1
+        for a, b in pairwise(digits(n)):
+            if a == b:
+                repeat_count += 1
+            else:
+                if repeat_count == 2:
+                    has_double = True
+                repeat_count = 1
+            if a < b:
+                monotonic_increasing = False
+                break
+        if has_double and monotonic_increasing :
+            count += 1
+    return count
 
 
 def main():
