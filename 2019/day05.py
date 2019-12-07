@@ -7,16 +7,19 @@ def part2(program):
 
 
 def run_program(memory):
-    i = 0
-    while memory[i] != 99:
-        lhs = memory[i + 1]
-        rhs = memory[i + 2]
-        dest = memory[i + 3]
-        if memory[i] == 1:
+    inst_ptr = 0
+    opcode = memory[inst_ptr]
+    while opcode != 99:
+        lhs = memory[inst_ptr + 1]
+        rhs = memory[inst_ptr + 2]
+        dest = memory[inst_ptr + 3]
+        if opcode == 1:
             memory[dest] = memory[lhs] + memory[rhs]
-        elif memory[i] == 2:
+            jump = 4
+        elif opcode == 2:
             memory[dest] = memory[lhs] * memory[rhs]
-        i += 4
+            jump = 4
+        inst_ptr += jump
 
 
 def main():
