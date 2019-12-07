@@ -26,6 +26,8 @@ def parse_inst(memory, inst_ptr):
     elif opcode == 4:
         mode = inst[0] // 100 % 10
         args = [inst[1] if mode else memory[inst[1]]]
+    else:
+        args = []
     return opcode, args
 
 
@@ -37,10 +39,10 @@ def run_program(memory):
             memory[args[2]] = args[0] + args[1]
             jump = 4
         elif opcode == 2:
-            memory[args[2]] = args[0] + args[1]
+            memory[args[2]] = args[0] * args[1]
             jump = 4
         elif opcode == 3:
-            user_input = input()
+            user_input = input('Enter a value: ')
             memory[args[0]] = int(user_input)
             jump = 2
         elif opcode == 4:
@@ -53,7 +55,7 @@ def run_program(memory):
 def main():
     with open('day05.txt') as file:
         int_codes = [int(x) for x in file.readline().split(',')]
-        print(part1(int_codes))
+        part1(int_codes)
         print(part2(int_codes))
 
 
