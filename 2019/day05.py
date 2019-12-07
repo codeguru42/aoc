@@ -61,13 +61,13 @@ def run_program(memory):
                 inst_ptr = args[1]
                 jump = 0
             else:
-                jump = 2
+                jump = 3
         elif opcode == 6:
             if args[0] == 0:
                 inst_ptr = args[1]
                 jump = 0
             else:
-                jump = 2
+                jump = 3
         elif opcode == 7:
             memory[args[2]] = int(args[0] < args[1])
             jump = 4
