@@ -6,27 +6,35 @@ def part2(program):
     pass
 
 
+def digits(n):
+    while n > 0:
+        yield n % 10
+        n //= 10
+
+
+def parse_inst(memory, inst_ptr):
+    inst = memory[inst_ptr:inst_ptr+4]
+    opcode = inst[0] % 100
+    args = [arg if mode == 1 else memory[arg] for arg, mode in zip(inst[1:], digits(opcode // 100))]
+    return opcode, args
+
+
 def run_program(memory):
     inst_ptr = 0
-    opcode = memory[inst_ptr]
+    opcode, args = parse_inst(memory, inst_ptr)
     while opcode != 99:
-        lhs = memory[inst_ptr + 1]
-        rhs = memory[inst_ptr + 2]
-        dest = memory[inst_ptr + 3]
         if opcode == 1:
-            memory[dest] = memory[lhs] + memory[rhs]
+            memory[args[2]] = args[0] + args[1]
             jump = 4
         elif opcode == 2:
-            memory[dest] = memory[lhs] * memory[rhs]
+            memory[args[2]] = args[0] + args[1]
             jump = 4
         elif opcode == 3:
             user_input = input()
-            dest = memory[inst_ptr + 1]
-            memory[dest] = user_input
+            memory[args[0]] = user_input
             jump = 2
         elif opcode == 4:
-            loc = memory[inst_ptr + 1]
-            print(memory[loc])
+            print(memory[args[0]])
             jump = 2
         inst_ptr += jump
 
