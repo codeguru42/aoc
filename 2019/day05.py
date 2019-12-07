@@ -19,6 +19,15 @@ def run_program(memory):
         elif opcode == 2:
             memory[dest] = memory[lhs] * memory[rhs]
             jump = 4
+        elif opcode == 3:
+            user_input = input()
+            dest = memory[inst_ptr + 1]
+            memory[dest] = user_input
+            jump = 2
+        elif opcode == 4:
+            loc = memory[inst_ptr + 1]
+            print(memory[loc])
+            jump = 2
         inst_ptr += jump
 
 
