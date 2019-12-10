@@ -32,8 +32,6 @@ def parse_inst(memory, inst_ptr):
     elif opcode in (5, 6):
         inst = memory[inst_ptr+1:inst_ptr+3]
         args = [arg if mode == 1 else memory[arg] for arg, mode in zip(inst, digits(modes))]
-        # Last argument is an lvalue
-        args[-1] = inst[-1]
     else:
         args = []
     return opcode, args
