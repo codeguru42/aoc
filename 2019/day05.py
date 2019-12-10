@@ -70,7 +70,7 @@ def run_program(memory):
             memory[args[2]] = int(args[0] < args[1])
             jump = 4
         elif opcode == 8:
-            memory[args[2]] = int(args[0] > args[1])
+            memory[args[2]] = int(args[0] == args[1])
             jump = 4
         else:
             raise Exception(f'Invalid opcode {opcode} at address {inst_ptr}')
