@@ -72,6 +72,8 @@ def run_program(memory):
         elif opcode == 8:
             memory[args[2]] = int(args[0] > args[1])
             jump = 4
+        else:
+            raise Exception(f'Invalid opcode {opcode} at address {inst_ptr}')
         inst_ptr += jump
         opcode, args = parse_inst(memory, inst_ptr)
 
