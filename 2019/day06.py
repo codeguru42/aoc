@@ -15,12 +15,40 @@ def count_orbits(planet, orbits, count):
     return sum(count_orbits(p, orbits, count + 1) for p in orbits[planet]) + count
 
 
+def find_path(current, destination, orbits):
+    if current == destination:
+        return [current]
+    for next_planet in orbits[current]:
+        path = find_path(next_planet, destination, orbits)
+        if path:
+            return [current, *path]
+
+
+def find_path_from_root(planet, orbits):
+    return find_path('COM', planet, orbits)
+
+
+def find_common_root(path1, path2):
+    common = None
+    for x, y in zip(path1, path2):
+        if x == y:
+            common = x
+    return common
+
+
 def part1(orbits):
     return count_orbits('COM', orbits, 0)
 
 
 def part2(orbits):
-    pass
+    you = find_path_from_root('YOU', orbits)
+    print(you)
+    santa = find_path_from_root('SAN', orbits)
+    print(santa)
+    common = find_common_root(you, santa)
+    common_path = find_path_from_root(common, orbits)
+    print(common_path)
+    return (len(you) - len(common_path)) + (len(santa) - len(common_path)) -2
 
 
 def main():
