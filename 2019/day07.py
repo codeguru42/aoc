@@ -1,3 +1,32 @@
+import unittest
+
+
+class Day07Test(unittest.TestCase):
+    def test_part1_a(self):
+        expected_outp = 43210
+        expected_phase = (4, 3, 2, 1, 0)
+        expected = (expected_outp, expected_phase)
+        program = [3, 15, 3, 16, 1002, 16, 10, 16, 1, 16, 15, 15, 4, 15, 99, 0, 0]
+        result = part1(program, 0)
+        self.assertEqual(expected, result)
+
+    def test_part1_b(self):
+        expected_outp = 54321
+        expected_phase = (0, 1, 2, 3, 4)
+        expected = (expected_outp, expected_phase)
+        program = [3, 23, 3, 24, 1002, 24, 10, 24, 1002, 23, -1, 23, 101, 5, 23, 23, 1, 24, 23, 23, 4, 23, 99, 0, 0]
+        result = part1(program, 0)
+        self.assertEqual(expected, result)
+
+    def test_part1_c(self):
+        expected_outp = 65210
+        expected_phase = (1, 0, 4, 3, 2)
+        expected = (expected_outp, expected_phase)
+        program = [3, 31, 3, 32, 1002, 32, 10, 32, 1001, 31, -2, 31, 1007, 31, 0, 33, 1002, 33, 7, 33, 1, 33, 31, 31, 1, 32, 31, 31, 4, 31, 99, 0, 0, 0]
+        result = part1(program, 0)
+        self.assertEqual(expected, result)
+
+
 def part1(program):
     run_program(list(program))
 
