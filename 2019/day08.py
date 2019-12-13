@@ -11,7 +11,7 @@ def grouper(iterable, n, fillvalue=None):
 
 
 def parse(file, size):
-    return grouper(file, size)
+    return list(grouper(file, size))
 
 
 def part1(layers):
@@ -25,16 +25,22 @@ def part1(layers):
     return ones_and_twos
 
 
-def part2(layers):
-    pass
+def part2(layers, width, height):
+    image = ['2'] * (width * height)
+    for layer in layers:
+        image = [p if i == '2' else i for p, i in zip(layer, image)]
+    rows = [''.join(row) for row in grouper(image, width)]
+    return '\n'.join(rows)
 
 
 def main():
-    layer_size = 25*6
+    width = 25
+    height = 6
+    layer_size = width * height
     with open('day08.txt') as file:
         layers = parse(file.read().strip(), layer_size)
         print(part1(layers))
-        print(part2(layers))
+        print(part2(layers, width, height))
 
 
 if __name__ == '__main__':
