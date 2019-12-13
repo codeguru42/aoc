@@ -1,4 +1,5 @@
 import unittest
+from itertools import permutations
 
 
 class Day07Test(unittest.TestCase):
@@ -27,8 +28,20 @@ class Day07Test(unittest.TestCase):
         self.assertEqual(expected, result)
 
 
-def part1(program):
-    run_program(list(program))
+def part1(program, inp):
+    max_outp = 0
+    max_phase = None
+    phases = range(5)
+    for phase in permutations(phases):
+        next_inp = inp
+        for p in phase:
+            inp_list = [p, next_inp]
+            outp = run_program(list(program), inp_list)
+            next_inp = outp[0]
+        if outp[0] > max_outp:
+            max_outp = outp[0]
+            max_phase = phase
+    return max_outp, max_phase
 
 
 def part2(program):
@@ -66,7 +79,8 @@ def parse_inst(memory, inst_ptr):
     return opcode, args
 
 
-def run_program(memory):
+def run_program(memory, inp):
+    outp = []
     inst_ptr = 0
     opcode, args = parse_inst(memory, inst_ptr)
     while opcode != 99:
@@ -77,11 +91,10 @@ def run_program(memory):
             memory[args[2]] = args[0] * args[1]
             jump = 4
         elif opcode == 3:
-            user_input = input('Enter a value: ')
-            memory[args[0]] = int(user_input)
+            memory[args[0]] = int(inp.pop(0))
             jump = 2
         elif opcode == 4:
-            print(args[0])
+            outp.append(args[0])
             jump = 2
         elif opcode == 5:
             if args[0] != 0:
@@ -105,13 +118,14 @@ def run_program(memory):
             raise Exception(f'Invalid opcode {opcode} at address {inst_ptr}')
         inst_ptr += jump
         opcode, args = parse_inst(memory, inst_ptr)
+    return outp
 
 
 def main():
-    with open('day05.txt') as file:
+    with open('day07.txt') as file:
         int_codes = [int(x) for x in file.readline().split(',')]
-        part1(int_codes)
-        part2(int_codes)
+        print(part1(int_codes, 0))
+        print(part2(int_codes))
 
 
 if __name__ == '__main__':
