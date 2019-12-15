@@ -29,17 +29,21 @@ def pairwise(iterable):
 def part1(start, end):
     count = 0
     for n in range(start, end + 1):
-        has_double = False
-        monotonic_increasing = True
-        for a, b in pairwise(digits(n)):
-            if a == b:
-                has_double = True
-            if a < b:
-                monotonic_increasing = False
-                break
-        if has_double and monotonic_increasing:
+        if is_password1(n):
             count += 1
     return count
+
+
+def is_password1(n):
+    has_double = False
+    monotonic_increasing = True
+    for a, b in pairwise(digits(n)):
+        if a == b:
+            has_double = True
+        if a < b:
+            monotonic_increasing = False
+            break
+    return has_double and monotonic_increasing
 
 
 def part2(start, end):
