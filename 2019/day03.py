@@ -17,6 +17,21 @@ class Day03Test(unittest.TestCase):
         distance = part1(wires_input.split())
         self.assertEqual(135, distance)
 
+    def test_part2_a(self):
+        wires_input = 'R8,U5,L5,D3\nU7,R6,D4,L4'
+        distance = part2(wires_input.split())
+        self.assertEqual(30, distance)
+
+    def test_part2_b(self):
+        wires_input = 'R75,D30,R83,U83,L12,D49,R71,U7,L72\nU62,R66,U55,R34,D71,R55,D58,R83'
+        distance = part2(wires_input.split())
+        self.assertEqual(610, distance)
+
+    def test_part2_c(self):
+        wires_input = 'R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51\nU98,R91,D20,R16,D67,R40,U7,R15,U6,R7'
+        distance = part2(wires_input.split())
+        self.assertEqual(410, distance)
+
 
 def parse_wires(wire):
     points = []
