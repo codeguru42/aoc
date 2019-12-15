@@ -18,8 +18,35 @@ class Day03Test(unittest.TestCase):
         self.assertEqual(135, distance)
 
 
+def parse_wires(wire):
+    points = []
+    moves = wire.split(',')
+    curr = (0, 0)
+    for move in moves:
+        d = move[0]
+        size = int(move[1:])
+        delta = (0, 0)
+        if d == 'R':
+            delta = (1, 0)
+        elif d == 'L':
+            delta = (-1, 0)
+        elif d == 'U':
+            delta = (0, 1)
+        elif d == 'D':
+            delta = (0, -1)
+        else:
+            raise Exception(f'Unknown direction {d}')
+        for _ in range(size):
+            curr = [a + b for a, b in zip(curr, delta)]
+            points.append(tuple(curr))
+    return points
+
+
 def part1(wires):
-    pass
+    wire_points = [parse_wires(wire) for wire in wires]
+    intersect = set(wire_points[0]) & set(wire_points[1])
+    x, y = min(intersect, key=lambda p: abs(p[0]) + abs(p[1]))
+    return abs(x) + abs(y)
 
 
 def part2(wires):
