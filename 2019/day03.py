@@ -65,7 +65,10 @@ def part1(wires):
 
 
 def part2(wires):
-    pass
+    wire_points = [parse_wires(wire) for wire in wires]
+    intersect = set(wire_points[0]) & set(wire_points[1])
+    distances = [wire_points[0].index(p) + wire_points[1].index(p) + 2 for p in intersect]
+    return min(distances)
 
 
 def main():
