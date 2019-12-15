@@ -1,4 +1,16 @@
+import unittest
 from itertools import tee
+
+
+class Day04Test(unittest.TestCase):
+    def test_part1_a(self):
+        self.assertTrue(is_password1(111111))
+
+    def test_part1_b(self):
+        self.assertFalse(is_password1(223450))
+
+    def test_part1_c(self):
+        self.assertFalse(is_password1(123789))
 
 
 def digits(n):
