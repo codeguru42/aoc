@@ -33,13 +33,14 @@ def part1(program, inp):
     max_phase = None
     phases = range(5)
     for phase in permutations(phases):
+        amps = [(run_program(list(program)), p) for p in phase]
         next_inp = inp
-        for p in phase:
-            inp_list = [p, next_inp]
-            outp = run_program(list(program), inp_list)
-            next_inp = outp[0]
-        if outp[0] > max_outp:
-            max_outp = outp[0]
+        for amp, p in amps:
+            amp.send(p)
+            amp.send(next_inp)
+            next_inp = next(amp)
+        if next_inp > max_outp:
+            max_outp = next_inp
             max_phase = phase
     return max_outp, max_phase
 
@@ -79,8 +80,7 @@ def parse_inst(memory, inst_ptr):
     return opcode, args
 
 
-def run_program(memory, inp):
-    outp = []
+async def run_program(memory):
     inst_ptr = 0
     opcode, args = parse_inst(memory, inst_ptr)
     while opcode != 99:
@@ -91,10 +91,10 @@ def run_program(memory, inp):
             memory[args[2]] = args[0] * args[1]
             jump = 4
         elif opcode == 3:
-            memory[args[0]] = int(inp.pop(0))
+            memory[args[0]] = yield
             jump = 2
         elif opcode == 4:
-            outp.append(args[0])
+            yield args[0]
             jump = 2
         elif opcode == 5:
             if args[0] != 0:
@@ -118,7 +118,6 @@ def run_program(memory, inp):
             raise Exception(f'Invalid opcode {opcode} at address {inst_ptr}')
         inst_ptr += jump
         opcode, args = parse_inst(memory, inst_ptr)
-    return outp
 
 
 def main():
