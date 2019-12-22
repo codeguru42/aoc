@@ -1,3 +1,4 @@
+import asyncio
 import unittest
 from itertools import permutations
 
@@ -29,24 +30,33 @@ class Day07Test(unittest.TestCase):
 
 
 def part1(program, inp):
+    loop = asyncio.get_event_loop()
     max_outp = 0
     max_phase = None
     phases = range(5)
     for phase in permutations(phases):
-        amps = [(run_program(list(program)), p) for p in phase]
-        next_inp = inp
-        for amp, p in amps:
-            amp.send(p)
-            amp.send(next_inp)
-            next_inp = next(amp)
-        if next_inp > max_outp:
-            max_outp = next_inp
+        amps = []
+        inp_queue = asyncio.Queue()
+        amps.append(loop.create_task(amp_input(inp, inp_queue)))
+        outp_queue = asyncio.Queue()
+        for p in phase:
+            amps.append(run_program(list(program), p, inp_queue, outp_queue))
+            outp_queue = inp_queue
+            inp_queue = asyncio.Queue()
+        amps.append(amp_output(outp_queue))
+
+        task = asyncio.gather(*amps)
+        thrust = loop.run_until_complete(task)
+        print(thrust)
+        if thrust > max_outp:
+            max_outp = thrust
             max_phase = phase
     return max_outp, max_phase
 
 
 def part2(program):
-    run_program(list(program))
+    # run_program(list(program))
+    pass
 
 
 def digits(n):
@@ -80,7 +90,16 @@ def parse_inst(memory, inst_ptr):
     return opcode, args
 
 
-async def run_program(memory):
+async def amp_input(inp, out_queue):
+    await out_queue.put(inp)
+
+
+async def amp_output(inp_queue):
+    return await inp_queue.get()
+
+
+async def run_program(memory, phase, inp, outp):
+    await inp.put(phase)
     inst_ptr = 0
     opcode, args = parse_inst(memory, inst_ptr)
     while opcode != 99:
@@ -91,10 +110,11 @@ async def run_program(memory):
             memory[args[2]] = args[0] * args[1]
             jump = 4
         elif opcode == 3:
-            memory[args[0]] = yield
+            memory[args[0]] = await inp.get()
             jump = 2
         elif opcode == 4:
-            yield args[0]
+            await outp.put(args[0])
+            print(args[0])
             jump = 2
         elif opcode == 5:
             if args[0] != 0:
