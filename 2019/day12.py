@@ -15,6 +15,13 @@ class TestDay12(unittest.TestCase):
         expected = [(-1, 0, 2), (2, -10, -7), (4, -8, 8), (3, 5, -1)]
         self.assertEqual(moons, expected)
 
+    def test_step1(self):
+        moon_coords = [(-1, 0, 2), (2, -10, -7), (4, -8, 8), (3, 5, -1)]
+        moons = [Moon(mc) for mc in moon_coords]
+        result = step(moons)
+        expected = [] # TODO fill out expected values
+        self.assertEqual(result, expected)
+
 
 def parse_moons(file):
     moons = []
@@ -23,6 +30,10 @@ def parse_moons(file):
         moon = tuple(int(n) for n in matches.group(1, 2, 3))
         moons.append(moon)
     return moons
+
+
+def step(moons):
+    pass
 
 
 def part1(moons):
