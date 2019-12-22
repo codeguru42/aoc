@@ -1,3 +1,4 @@
+import re
 import unittest
 
 example_moons = '''
@@ -10,13 +11,18 @@ example_moons = '''
 
 class TestDay12(unittest.TestCase):
     def test_parse_moons(self):
-        moons = parse_moons(example_moons.split())
-        expected = [(1, 0, 2), (2, -10, -7), (4, -8, 8), (3, 5, -1)]
+        moons = parse_moons(example_moons.strip().split('\n'))
+        expected = [(-1, 0, 2), (2, -10, -7), (4, -8, 8), (3, 5, -1)]
         self.assertEqual(moons, expected)
 
 
 def parse_moons(file):
-    pass
+    moons = []
+    for line in file:
+        matches = re.search(r'<x=(-?[0-9]+), ?y=(-?[0-9]+), ?z=(-?[0-9]+)>', line)
+        moon = tuple(int(n) for n in matches.group(1, 2, 3))
+        moons.append(moon)
+    return moons
 
 
 def part1(moons):
