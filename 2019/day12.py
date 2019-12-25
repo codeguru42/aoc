@@ -83,8 +83,17 @@ def step(moons):
         m.pos += m.vel
 
 
+def calc_energy(moons):
+    energy = 0
+    for moon in moons:
+        energy += np.sum(np.abs(moon.pos)) * np.sum(np.abs(moon.vel))
+    return energy
+
+
 def part1(moons):
-    pass
+    for _ in range(1000):
+        step(moons)
+    return calc_energy(moons)
 
 
 def part2(moons):
