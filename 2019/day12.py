@@ -1,6 +1,8 @@
 import re
 import unittest
 
+import numpy as np
+
 example_moons = '''
 <x=-1, y=0, z=2>
 <x=2, y=-10, z=-7>
@@ -16,11 +18,41 @@ class TestDay12(unittest.TestCase):
         self.assertEqual(moons, expected)
 
     def test_step1(self):
-        moon_coords = [(-1, 0, 2), (2, -10, -7), (4, -8, 8), (3, 5, -1)]
-        moons = [Moon(mc) for mc in moon_coords]
-        result = step(moons)
-        expected = [] # TODO fill out expected values
-        self.assertEqual(result, expected)
+        moon_pos = [(-1, 0, 2), (2, -10, -7), (4, -8, 8), (3, 5, -1)]
+        moons = [Moon(mc) for mc in moon_pos]
+        step(moons)
+        expected_pos = [
+            [2, -1, 1],
+            [3, -7, -4,],
+            [1, -7,  5,],
+            [2,  2,  0,],
+        ]
+        expected_vels = [
+            [3, -1, -1],
+            [1,  3,  3],
+            [-3,  1, -3],
+            [-1, -3,  1],
+        ]
+        expected = [Moon(p, v) for p, v in zip(expected_pos, expected_vels)]
+        self.assertEqual(moons, expected)
+
+
+class Moon:
+    def __init__(self, pos, vel=None):
+        self.pos = np.array(pos)
+        if vel:
+            self.vel = np.array(vel)
+        else:
+            self.vel = np.array((0, 0, 0))
+
+    def __eq__(self, other):
+        return np.all(self.pos == other.pos) and np.all(self.vel == other.vel)
+
+    def __str__(self):
+        return f'<Moon: pos={self.pos}, vel{self.vel}>'
+
+    def __repr__(self):
+        return str(self)
 
 
 def parse_moons(file):
@@ -32,8 +64,22 @@ def parse_moons(file):
     return moons
 
 
+def compare(a, b):
+    if a < b:
+        return 1
+    elif a == b:
+        return 0
+    else:
+        return -1
+
+
 def step(moons):
-    pass
+    for m1 in moons:
+        for m2 in moons:
+            dv = np.array([compare(a, b) for a, b in zip(m1.pos, m2.pos)])
+            m1.vel += dv
+    for m in moons:
+        m.pos += m.vel
 
 
 def part1(moons):
