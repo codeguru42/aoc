@@ -14,7 +14,8 @@ example_moons = '''
 class TestDay12(unittest.TestCase):
     def test_parse_moons(self):
         moons = parse_moons(example_moons.strip().split('\n'))
-        expected = [(-1, 0, 2), (2, -10, -7), (4, -8, 8), (3, 5, -1)]
+        expected_pos = [(-1, 0, 2), (2, -10, -7), (4, -8, 8), (3, 5, -1)]
+        expected = [Moon(p) for p in expected_pos]
         self.assertEqual(moons, expected)
 
     def test_step1(self):
@@ -60,7 +61,7 @@ def parse_moons(file):
     for line in file:
         matches = re.search(r'<x=(-?[0-9]+), ?y=(-?[0-9]+), ?z=(-?[0-9]+)>', line)
         moon = tuple(int(n) for n in matches.group(1, 2, 3))
-        moons.append(moon)
+        moons.append(Moon(moon))
     return moons
 
 
