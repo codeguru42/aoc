@@ -48,11 +48,10 @@ def run_program(memory):
             memory[args[2]] = args[0] * args[1]
             jump = 4
         elif opcode == 3:
-            user_input = input('Enter a value: ')
-            memory[args[0]] = int(user_input)
+            memory[args[0]] = yield
             jump = 2
         elif opcode == 4:
-            print(args[0])
+            yield args[0]
             jump = 2
         elif opcode == 5:
             if args[0] != 0:
