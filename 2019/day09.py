@@ -22,11 +22,13 @@ class Day09Test(unittest.TestCase):
 
 
 def part1(program):
-    run_program(list(program))
+    itr = run_program(program)
+    next(itr)
+    return itr.send(1)
 
 
 def part2(program):
-    run_program(list(program))
+    return list(run_program(program))
 
 
 def digits(n):
@@ -131,8 +133,8 @@ def run_program(program):
 def main():
     with open('day09.txt') as file:
         int_codes = [int(x) for x in file.readline().split(',')]
-        part1(int_codes)
-        part2(int_codes)
+        print(part1(int_codes))
+        print(part2(int_codes))
 
 
 if __name__ == '__main__':
