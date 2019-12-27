@@ -66,7 +66,6 @@ def part2(start, end):
 def is_password2(n):
     has_double = False
     monotonic_increasing = True
-    count_doubles = 0
     repeat_count = 1
     for a, b in pairwise(digits(n)):
         if a == b:
