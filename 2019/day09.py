@@ -28,7 +28,9 @@ def part1(program):
 
 
 def part2(program):
-    return list(run_program(program))
+    itr = run_program(program)
+    next(itr)
+    return itr.send(2)
 
 
 def digits(n):
