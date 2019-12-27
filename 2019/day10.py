@@ -69,28 +69,28 @@ input_d = '''
 class Day10Test(unittest.TestCase):
     def test_part1a(self):
         expected = ((5, 8), 33)
-        actual = part1(parse_asteroids(input_a))
+        actual = part1(parse_asteroids(input_a.split()))
         self.assertEqual(expected, actual)
 
     def test_part1b(self):
         expected = ((1, 2), 35)
-        actual = part1(parse_asteroids(input_b))
+        actual = part1(parse_asteroids(input_b.split()))
         self.assertEqual(expected, actual)
 
     def test_part1c(self):
         expected = ((6, 3), 41)
-        actual = part1(parse_asteroids(input_c))
+        actual = part1(parse_asteroids(input_c.split()))
         self.assertEqual(expected, actual)
 
     def test_part1d(self):
         expected = ((11, 13), 210)
-        actual = part1(parse_asteroids(input_d))
+        actual = part1(parse_asteroids(input_d.split()))
         self.assertEqual(expected, actual)
 
 
 def parse_asteroids(lines):
     return [
-        (i, j)
+        (j, i)
         for i, line in enumerate(lines)
         for j, cell in enumerate(line)
         if cell == '#'
@@ -112,6 +112,7 @@ def part1(asteroids):
                 while not np.all(x == a2):
                     if tuple(x) in asteroids:
                         blocked = True
+                        break
                     x += delta
                 if not blocked:
                     counts[tuple(a1)] += 1
