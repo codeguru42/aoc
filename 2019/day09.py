@@ -1,4 +1,5 @@
 import unittest
+from collections import defaultdict
 
 
 class Day09Test(unittest.TestCase):
@@ -40,23 +41,23 @@ def parse_inst(memory, inst_ptr, rel_base):
     opcode = memory[inst_ptr] % 100
     modes = memory[inst_ptr] // 100
     if opcode in (1, 2, 7, 8):
-        inst = memory[inst_ptr+1:inst_ptr+4]
+        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 4))
         args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
         # Last argument is an lvalue
         mode = modes // 100
         args[-1] = inst[-1] if mode == 0 else rel_base + inst[-1] if mode == 2 else None
     elif opcode == 3:
-        inst = memory[inst_ptr+1:inst_ptr+2]
+        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
         mode = modes % 10
         args = [inst[0] if mode == 0 else rel_base + inst[0] if mode == 2 else None]
     elif opcode == 4:
-        inst = memory[inst_ptr+1:inst_ptr+2]
+        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
         args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
     elif opcode in (5, 6):
-        inst = memory[inst_ptr+1:inst_ptr+3]
+        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 3))
         args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
     elif opcode == 9:
-        inst = memory[inst_ptr+1:inst_ptr+2]
+        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
         args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
     else:
         args = []
@@ -82,7 +83,8 @@ def get_arg(memory, opcode, arg, inst_ptr, rel_base, mode):
             f'Invalid mode {mode} in instruction {opcode} at address {inst_ptr}')
 
 
-def run_program(memory):
+def run_program(program):
+    memory = defaultdict(lambda: 0, enumerate(program))
     inst_ptr = 0
     rel_base = 0
     opcode, args = parse_inst(memory, inst_ptr, rel_base)
