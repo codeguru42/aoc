@@ -1,8 +1,11 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 
 def part1(program):
-    pass
+    outp = list(run_program(program))
+    tile_ids = outp[2::3]
+    counts = Counter(tile_ids)
+    return counts[2]
 
 
 def part2(program):
