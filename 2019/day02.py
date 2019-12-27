@@ -26,6 +26,21 @@ class Day02Test(unittest.TestCase):
         run_program(program)
         self.assertEqual(expected, program)
 
+    def test_part1(self):
+        with open('day02.txt') as file:
+            int_codes = [int(x) for x in file.readline().split(',')]
+            result = part1(int_codes)
+            expected = 3085697
+            self.assertEqual(expected, result)
+
+    def test_part2(self):
+        with open('day02.txt') as file:
+            int_codes = [int(x) for x in file.readline().split(',')]
+            target = 19690720
+            result = part2(int_codes, 19690720)
+            expected = 9425
+            self.assertEqual(expected, result)
+
 
 def part1(program):
     memory = list(program)
