@@ -36,32 +36,56 @@ def digits(n):
         count += 1
 
 
-def parse_inst(memory, inst_ptr):
+def parse_inst(memory, inst_ptr, rel_base):
     opcode = memory[inst_ptr] % 100
     modes = memory[inst_ptr] // 100
     if opcode in (1, 2, 7, 8):
         inst = memory[inst_ptr+1:inst_ptr+4]
-        args = [arg if mode == 1 else memory[arg] for arg, mode in zip(inst, digits(modes))]
+        args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
         # Last argument is an lvalue
-        args[-1] = inst[-1]
+        mode = modes // 100
+        args[-1] = inst[-1] if mode == 0 else rel_base + inst[-1] if mode == 2 else None
     elif opcode == 3:
         inst = memory[inst_ptr+1:inst_ptr+2]
-        args = [inst[0]]
-    elif opcode == 4:
         mode = modes % 10
+        args = [inst[0] if mode == 0 else rel_base + inst[0] if mode == 2 else None]
+    elif opcode == 4:
         inst = memory[inst_ptr+1:inst_ptr+2]
-        args = [inst[0] if mode else memory[inst[0]]]
+        args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
     elif opcode in (5, 6):
         inst = memory[inst_ptr+1:inst_ptr+3]
-        args = [arg if mode == 1 else memory[arg] for arg, mode in zip(inst, digits(modes))]
+        args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
+    elif opcode == 9:
+        inst = memory[inst_ptr+1:inst_ptr+2]
+        args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
     else:
         args = []
     return opcode, args
 
 
+def get_args(memory, opcode, inst, inst_ptr, modes, rel_base):
+    return [
+        get_arg(memory, opcode, arg, inst_ptr, rel_base, mode)
+        for arg, mode in zip(inst, digits(modes))
+    ]
+
+
+def get_arg(memory, opcode, arg, inst_ptr, rel_base, mode):
+    if mode == 0:
+        return memory[arg]
+    elif mode == 1:
+        return arg
+    elif mode == 2:
+        return memory[rel_base + arg]
+    else:
+        raise Exception(
+            f'Invalid mode {mode} in instruction {opcode} at address {inst_ptr}')
+
+
 def run_program(memory):
     inst_ptr = 0
-    opcode, args = parse_inst(memory, inst_ptr)
+    rel_base = 0
+    opcode, args = parse_inst(memory, inst_ptr, rel_base)
     while opcode != 99:
         if opcode == 1:
             memory[args[2]] = args[0] + args[1]
@@ -93,10 +117,13 @@ def run_program(memory):
         elif opcode == 8:
             memory[args[2]] = int(args[0] == args[1])
             jump = 4
+        elif opcode == 9:
+            rel_base += args[0]
+            jump = 2
         else:
             raise Exception(f'Invalid opcode {opcode} at address {inst_ptr}')
         inst_ptr += jump
-        opcode, args = parse_inst(memory, inst_ptr)
+        opcode, args = parse_inst(memory, inst_ptr, rel_base)
 
 
 def main():
