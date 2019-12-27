@@ -1,3 +1,32 @@
+import unittest
+
+
+class Day02Test(unittest.TestCase):
+    def test_run_program_a(self):
+        program = [1, 0, 0, 0, 99]
+        expected = [2, 0, 0, 0, 99]
+        run_program(program)
+        self.assertEqual(expected, program)
+
+    def test_run_program_b(self):
+        program = [2, 3, 0, 3, 99]
+        expected = [2, 3, 0, 6, 99]
+        run_program(program)
+        self.assertEqual(expected, program)
+
+    def test_run_program_c(self):
+        program = [2, 4, 4, 5, 99, 0]
+        expected = [2, 4, 4, 5, 99, 9801]
+        run_program(program)
+        self.assertEqual(expected, program)
+
+    def test_run_program_d(self):
+        program = [1, 1, 1, 4, 99, 5, 6, 0, 99]
+        expected = [30, 1, 1, 4, 2, 5, 6, 0, 99]
+        run_program(program)
+        self.assertEqual(expected, program)
+
+
 def part1(program):
     memory = list(program)
     memory[1] = 12
