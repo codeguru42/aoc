@@ -65,17 +65,25 @@ def part1(program, inp):
 def part2(program, inp):
     max_outp = 0
     max_phase = None
-    phases = range(5)
+    phases = range(5, 10)
     for phase in permutations(phases):
-        amps = [(run_program(list(program)), p) for p in phase]
-        outp = inp
-        for amp, p in amps:
-            inp_list = [p, outp]
-            outp = next(amp)
-            for i in inp_list:
-                outp = amp.send(i)
-        if outp > max_outp:
-            max_outp = outp
+        amps = []
+        for p in phase:
+            amp = run_program(program)
+            next(amp)
+            amp.send(p)
+            amps.append(amp)
+        stop_count = 0
+        while True:
+            try:
+                for amp in amps:
+                    inp = amp.send(inp)
+            except StopIteration:
+                stop_count += 1
+            if stop_count == 5:
+                break
+        if inp > max_outp:
+            max_outp = inp
             max_phase = phase
     return max_outp, max_phase
 
