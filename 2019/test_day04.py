@@ -21,3 +21,6 @@ class Day04Test(unittest.TestCase):
 
     def test_part2_c(self):
         self.assertTrue(is_password2(111122))
+
+    def test_part2_d(self):
+        self.assertTrue(is_password2(112345))
