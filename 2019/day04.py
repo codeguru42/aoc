@@ -56,6 +56,8 @@ def is_password2(n):
         if a < b:
             monotonic_increasing = False
             break
+    if repeat_count == 2:
+        has_double = True
     return has_double and monotonic_increasing
 
 
