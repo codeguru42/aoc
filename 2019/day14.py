@@ -2,10 +2,13 @@ def parse_reactions(file):
     reactions = {}
 
     for line in file:
-        reactants, product = line.strip().split('=>')
-        reactants = [r.split() for r in reactants.split(',')]
+        reactants_str, product = line.strip().split('=>')
+        reactants = []
+        for r in reactants_str.split(','):
+            x, y = r.strip().split()
+            reactants.append((int(x), y))
         amt, p = product.split()
-        reactions[p] = amt, reactants
+        reactions[p] = int(amt), reactants
     return reactions
 
 
