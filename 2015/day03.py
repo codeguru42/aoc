@@ -20,18 +20,19 @@ def count_houses(consume):
     filename = sys.argv[1]
     with open(filename) as file:
         for line in file:
-            return len(consume(line))
+            return len(set(consume(line)))
 
 
 def part1():
     def f(line):
-        return set(houses(line))
+        yield from houses(line)
     return count_houses(f)
 
 
 def part2():
     def f(line):
-        return set(houses(line[::2])) | set(houses(line[1::2]))
+        yield from houses(line[::2])
+        yield from houses(line[1::2])
     return count_houses(f)
 
 
