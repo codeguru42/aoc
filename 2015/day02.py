@@ -25,28 +25,30 @@ def volume(l, w, h):
     return l*w*h
 
 
-def total_wrapping_paper(lines):
+def apply_all(f, lines):
     for line in lines:
         dims = [int(d) for d in line.split('x')]
-        yield surface_area(*dims) + min_area(*dims)
+        yield f(*dims)
 
 
-def total_ribbon(lines):
-    for line in lines:
-        dims = [int(d) for d in line.split('x')]
-        yield min_perimeter(*dims) + volume(*dims)
+def wrapping_paper(*dims):
+    return surface_area(*dims) + min_area(*dims)
+
+
+def ribbon(*dims):
+    return min_perimeter(*dims) + volume(*dims)
 
 
 def part1():
     filename = sys.argv[1]
     with open(filename) as file:
-        print(sum(total_wrapping_paper(file)))
+        print(sum(apply_all(wrapping_paper, file)))
 
 
 def part2():
     filename = sys.argv[1]
     with open(filename) as file:
-        print(sum(total_ribbon(file)))
+        print(sum(apply_all(ribbon, file)))
 
 
 def main():
