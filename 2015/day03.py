@@ -16,11 +16,11 @@ def houses(directions):
         yield x, y
 
 
-def count_houses(consume):
+def count_houses(*fs):
     filename = sys.argv[1]
     with open(filename) as file:
         for line in file:
-            return len(set(consume(line)))
+            return len(set.union(*(set(f(line)) for f in fs)))
 
 
 def part1():
@@ -32,8 +32,10 @@ def part1():
 def part2():
     def f(line):
         yield from houses(line[::2])
+
+    def g(line):
         yield from houses(line[1::2])
-    return count_houses(f)
+    return count_houses(f, g)
 
 
 def main():
