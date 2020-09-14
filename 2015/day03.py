@@ -1,3 +1,5 @@
+from itertools import chain
+
 import sys
 
 
@@ -20,7 +22,7 @@ def count_houses(*fs):
     filename = sys.argv[1]
     with open(filename) as file:
         for line in file:
-            return len(set.union(*(set(f(line)) for f in fs)))
+            return len(set(chain(*(f(line) for f in fs))))
 
 
 def part1():
