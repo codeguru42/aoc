@@ -1,5 +1,12 @@
+import sys
+
+
 def part1():
-    pass
+    filename = sys.argv[1]
+    with open(filename) as file:
+        for line in file:
+            for c in line:
+                print(c)
 
 
 def part2():
