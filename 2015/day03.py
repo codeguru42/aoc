@@ -16,20 +16,23 @@ def houses(directions):
         yield x, y
 
 
-def part1():
+def count_houses(consume):
     filename = sys.argv[1]
     with open(filename) as file:
         for line in file:
-            print(len(set(houses(line))))
+            print(len(consume(line)))
+
+
+def part1():
+    def f(line):
+        return set(houses(line))
+    count_houses(f)
 
 
 def part2():
-    filename = sys.argv[1]
-    with open(filename) as file:
-        for line in file:
-            santa = set(houses(line[::2]))
-            robo_santa = set(houses(line[1::2]))
-            print(len(santa | robo_santa))
+    def f(line):
+        return set(houses(line[::2])) | set(houses(line[1::2]))
+    count_houses(f)
 
 
 def main():
