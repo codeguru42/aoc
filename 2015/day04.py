@@ -16,14 +16,18 @@ def hashes(secret_key):
         yield x, md5(secret_key + str(x).encode('utf8'))
 
 
-def part1(secret_key):
+def mine(secret_key, leading_zeros):
     for x, hash in hashes(secret_key):
-        if hash.hexdigest().startswith('0'*5):
+        if hash.hexdigest().startswith('0'*leading_zeros):
             return x
 
 
+def part1(secret_key):
+    return mine(secret_key, 5)
+
+
 def part2(secret_key):
-    pass
+    return mine(secret_key, 6)
 
 
 def main():
