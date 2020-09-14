@@ -24,7 +24,12 @@ def part1():
 
 
 def part2():
-    pass
+    filename = sys.argv[1]
+    with open(filename) as file:
+        for line in file:
+            santa = set(houses(line[::2]))
+            robo_santa = set(houses(line[1::2]))
+            print(len(santa | robo_santa))
 
 
 def main():
