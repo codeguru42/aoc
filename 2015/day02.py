@@ -39,16 +39,18 @@ def ribbon(*dims):
     return min_perimeter(*dims) + volume(*dims)
 
 
-def part1():
+def total(f):
     filename = sys.argv[1]
     with open(filename) as file:
-        print(sum(apply_all(wrapping_paper, file)))
+        print(sum(apply_all(f, file)))
+
+
+def part1():
+    total(wrapping_paper)
 
 
 def part2():
-    filename = sys.argv[1]
-    with open(filename) as file:
-        print(sum(apply_all(ribbon, file)))
+    total(ribbon)
 
 
 def main():
