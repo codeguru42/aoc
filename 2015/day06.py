@@ -46,8 +46,44 @@ def part1():
     return sum(sum(row) for row in lights)
 
 
+def turn_on2(lights, start, end):
+    startx, starty = start
+    endx, endy = end
+    for i in range(startx, endx+1):
+        for j in range(starty, endy+1):
+            lights[i][j] += 1
+
+
+def turn_off2(lights, start, end):
+    startx, starty = start
+    endx, endy = end
+    for i in range(startx, endx+1):
+        for j in range(starty, endy+1):
+            lights[i][j] -= 1
+            if lights[i][j] < 0:
+                lights[i][j] = 0
+
+
+def toggle2(lights, start, end):
+    startx, starty = start
+    endx, endy = end
+    for i in range(startx, endx+1):
+        for j in range(starty, endy+1):
+            lights[i][j] += 2
+
+
 def part2():
-    pass
+    lights = [[0] * 1000 for i in range(1000)]
+    with open('day06.txt') as file:
+        for line in file:
+            inst, start, end = parse(line)
+            if inst == 'turn on':
+                turn_on2(lights, start, end)
+            elif inst == 'turn off':
+                turn_off2(lights, start, end)
+            elif inst == 'toggle':
+                toggle2(lights, start, end)
+    return sum(sum(row) for row in lights)
 
 
 def main():
