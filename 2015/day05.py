@@ -1,7 +1,7 @@
 import unittest
 from collections import Counter
 
-from itertools import islice
+from itertools import islice, zip_longest
 
 
 class TestHasThreeVowels(unittest.TestCase):
@@ -87,8 +87,78 @@ def part1():
         return sum(is_nice(word) for word in file)
 
 
+class TestHasRepeatingPair(unittest.TestCase):
+    def test_example1(self):
+        self.assertTrue(has_repeating_pair('xyxy'))
+
+    def test_example2(self):
+        self.assertTrue(has_repeating_pair('aabcdefgaa'))
+
+    def test_example3(self):
+        self.assertFalse(has_repeating_pair('aaa'))
+
+    def test_example4(self):
+        self.assertTrue(has_repeating_pair('axyxy'))
+
+    def test_example5(self):
+        self.assertTrue(has_repeating_pair('xxyxx'))
+
+
+class TestHasXYX(unittest.TestCase):
+    def test_example1(self):
+        self.assertTrue(has_xyx('xyx'))
+
+    def test_example2(self):
+        self.assertTrue(has_xyx('abcdefeghi'))
+
+    def test_example3(self):
+        self.assertTrue(has_xyx('aaa'))
+
+    def test_example5(self):
+        self.assertTrue(has_xyx('xxyxx'))
+
+
+class TestIsNice2(unittest.TestCase):
+    def test_example1(self):
+        self.assertTrue(is_nice2('qjhvhtzxzqqjkmpb'))
+
+    def test_example2(self):
+        self.assertTrue(is_nice2('xxyxx'))
+
+    def test_example3(self):
+        self.assertFalse(is_nice2('uurcxstgmygtbstg'))
+
+    def test_example4(self):
+        self.assertFalse(is_nice2('ieodomkazucvgmuy'))
+
+
+def grouper(iterable, n, fillvalue=None):
+    args = [iter(iterable)] * n
+    return zip_longest(*args, fillvalue=fillvalue)
+
+
+def has_repeating_pair(word):
+    for i, pair in enumerate(window(word, 2)):
+        if ''.join(pair) in word[i+2:]:
+            return True
+    return False
+
+
+def has_xyx(word):
+    for triple in window(word, 3):
+        if triple[0] == triple[-1]:
+            return True
+    return False
+
+
+def is_nice2(word):
+    return has_repeating_pair(word) and has_xyx(word)
+
+
 def part2():
-    pass
+    filename = 'day05.txt'
+    with open(filename) as file:
+        return sum(is_nice2(word) for word in file)
 
 
 def main():
