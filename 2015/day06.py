@@ -1,4 +1,5 @@
 import re
+import numpy as np
 
 
 def parse(line):
@@ -8,82 +9,37 @@ def parse(line):
     return groups[0].strip(), (int(groups[1]), int(groups[2])), (int(groups[3]), int(groups[4]))
 
 
-def turn_on(lights, start, end):
-    startx, starty = start
-    endx, endy = end
-    for i in range(startx, endx+1):
-        for j in range(starty, endy+1):
-            lights[i][j] = True
-
-
-def turn_off(lights, start, end):
-    startx, starty = start
-    endx, endy = end
-    for i in range(startx, endx+1):
-        for j in range(starty, endy+1):
-            lights[i][j] = False
-
-
-def toggle(lights, start, end):
-    startx, starty = start
-    endx, endy = end
-    for i in range(startx, endx+1):
-        for j in range(starty, endy+1):
-            lights[i][j] = not lights[i][j]
-
-
 def part1():
-    lights = [[False] * 1000 for i in range(1000)]
+    lights = np.array([[False] * 1000 for i in range(1000)])
     with open('day06.txt') as file:
         for line in file:
             inst, start, end = parse(line)
+            startx, starty = start
+            endx, endy = end
             if inst == 'turn on':
-                turn_on(lights, start, end)
+                lights[startx:endx+1, starty:endy+1] = True
             elif inst == 'turn off':
-                turn_off(lights, start, end)
+                lights[startx:endx+1, starty:endy+1] = False
             elif inst == 'toggle':
-                toggle(lights, start, end)
-    return sum(sum(row) for row in lights)
-
-
-def turn_on2(lights, start, end):
-    startx, starty = start
-    endx, endy = end
-    for i in range(startx, endx+1):
-        for j in range(starty, endy+1):
-            lights[i][j] += 1
-
-
-def turn_off2(lights, start, end):
-    startx, starty = start
-    endx, endy = end
-    for i in range(startx, endx+1):
-        for j in range(starty, endy+1):
-            lights[i][j] -= 1
-            if lights[i][j] < 0:
-                lights[i][j] = 0
-
-
-def toggle2(lights, start, end):
-    startx, starty = start
-    endx, endy = end
-    for i in range(startx, endx+1):
-        for j in range(starty, endy+1):
-            lights[i][j] += 2
+                lights[startx:endx+1, starty:endy+1] = np.logical_not(lights[startx:endx+1, starty:endy+1])
+    return np.sum(np.sum(lights))
 
 
 def part2():
-    lights = [[0] * 1000 for i in range(1000)]
+    lights = np.array([[0] * 1000 for i in range(1000)])
     with open('day06.txt') as file:
         for line in file:
             inst, start, end = parse(line)
+            startx, starty = start
+            endx, endy = end
             if inst == 'turn on':
-                turn_on2(lights, start, end)
+                lights[startx:endx+1, starty:endy+1] += 1
             elif inst == 'turn off':
-                turn_off2(lights, start, end)
+                lights[startx:endx+1, starty:endy+1] -= 1
+                lights[lights < 0] = 0
             elif inst == 'toggle':
-                toggle2(lights, start, end)
-    return sum(sum(row) for row in lights)
+                lights[startx:endx+1, starty:endy+1] += 2
+    return np.sum(np.sum(lights))
 
 
 def main():
