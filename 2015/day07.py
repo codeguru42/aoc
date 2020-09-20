@@ -1,7 +1,8 @@
 def part1():
     with open('day07.txt') as file:
-        for line in file:
-            print(line.strip())
+        parsed = [line.strip().split('->') for line in file]
+        wires = {wire.strip(): op.strip() for op, wire in parsed}
+        print(wires)
 
 
 def part2():
