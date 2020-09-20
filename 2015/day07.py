@@ -1,5 +1,7 @@
 def part1():
-    pass
+    with open('day07.txt') as file:
+        for line in file:
+            print(line.strip())
 
 
 def part2():
