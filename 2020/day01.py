@@ -1,16 +1,17 @@
-from itertools import combinations
+import itertools
+import math
 
 
 def part1():
-    for expense1, expense2 in combinations(read_expenses(), 2):
-        if expense1 + expense2 == 2020:
-            return expense1 * expense2
+    for expenses in itertools.combinations(read_expenses(), 2):
+        if sum(expenses) == 2020:
+            return math.prod(expenses)
 
 
 def part2():
-    for expense1, expense2, expense3 in combinations(read_expenses(), 3):
-        if expense1 + expense2 + expense3 == 2020:
-            return expense1 * expense2 * expense3
+    for expenses in itertools.combinations(read_expenses(), 3):
+        if sum(expenses) == 2020:
+            return math.prod(expenses)
 
 
 def read_expenses():
