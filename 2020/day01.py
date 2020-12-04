@@ -6,7 +6,11 @@ def part1():
 
 
 def part2():
-    pass
+    for expense1 in read_expenses():
+        for expense2 in read_expenses():
+            for expense3 in read_expenses():
+                if expense1 + expense2 + expense3 == 2020:
+                    return expense1 * expense2 * expense3
 
 
 def read_expenses():
