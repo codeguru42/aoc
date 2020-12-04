@@ -3,13 +3,15 @@ import math
 
 
 def part1():
-    for expenses in itertools.combinations(read_expenses(), 2):
-        if sum(expenses) == 2020:
-            return math.prod(expenses)
+    return solve(2)
 
 
 def part2():
-    for expenses in itertools.combinations(read_expenses(), 3):
+    return solve(3)
+
+
+def solve(count):
+    for expenses in itertools.combinations(read_expenses(), count):
         if sum(expenses) == 2020:
             return math.prod(expenses)
 
