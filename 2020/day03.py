@@ -1,10 +1,14 @@
-def part1(lines):
+def count_trees(lines, x_slope, y_slope):
     count = 0
-    for i, line in enumerate(lines):
+    for i, line in enumerate(lines[::y_slope]):
         line = line.strip()
-        if line[(i * 3) % len(line)] == '#':
+        if line[(i * x_slope) % len(line)] == '#':
             count += 1
     return count
+
+
+def part1(lines):
+    return count_trees(list(lines), 3, 1)
 
 
 def part2():
