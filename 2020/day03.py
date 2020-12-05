@@ -1,5 +1,10 @@
-def part1():
-    pass
+def part1(lines):
+    count = 0
+    for i, line in enumerate(lines):
+        line = line.strip()
+        if line[(i * 3) % len(line)] == '#':
+            count += 1
+    return count
 
 
 def part2():
@@ -7,7 +12,8 @@ def part2():
 
 
 def main():
-    print(part1())
+    with open('day03.txt') as lines:
+        print(part1(lines))
     print(part2())
 
 
