@@ -5,12 +5,12 @@ def part1(lines):
     valid_count = 0
     for line in lines:
         parts = line.split()
-        min, max = parts[0].split('-')
-        min = int(min)
-        max = int(max)
+        min_count, max_count = parts[0].split('-')
+        min_count = int(min_count)
+        max_count = int(max_count)
         letter = parts[1][0]
         counts = collections.Counter(parts[2])
-        if min <= counts[letter] <= max:
+        if min_count <= counts[letter] <= max_count:
             valid_count += 1
     return valid_count
 
