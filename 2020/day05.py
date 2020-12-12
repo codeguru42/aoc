@@ -34,11 +34,36 @@ class TestBinarySearch(unittest.TestCase):
         self.assertEqual((5, 5), binary_search('R', 4, 5))
 
 
+class TestGetSeat(unittest.TestCase):
+    def test_example1(self):
+        self.assertEqual((44, 5), get_seat('FBFBBFFRLR'))
+
+    def test_example2(self):
+        self.assertEqual((70, 7), get_seat('BFFFBBFRRR'))
+
+    def test_example3(self):
+        self.assertEqual((14, 7), get_seat('FFFBBBFRRR'))
+
+    def test_example4(self):
+        self.assertEqual((102, 4), get_seat('BBFFBBFRLL'))
+
+
 def binary_search(next, min, max):
     mid = (min + max) // 2
     if next in ('F', 'L'):
         return min, mid
     return mid + 1, max
+
+
+def get_seat(boarding_pass):
+    matches = re.fullmatch(r'([FB]*)([LR]*)', boarding_pass)
+    min_row, max_row = 0, 127
+    for c in matches.group(1):
+        min_row, max_row = binary_search(c, min_row, max_row)
+    min_col, max_col = 0, 7
+    for c in matches.group(2):
+        min_col, max_col = binary_search(c, min_col, max_col)
+    return min_row, min_col
 
 
 def part1():
