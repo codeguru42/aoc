@@ -84,8 +84,11 @@ def get_id(row, col):
     return row * 8 + col
 
 
-def part1():
-    pass
+def part1(boarding_passes):
+    return max(
+        get_id(*get_seat(boarding_pass.strip()))
+        for boarding_pass in boarding_passes
+    )
 
 
 def part2():
@@ -93,7 +96,8 @@ def part2():
 
 
 def main():
-    print(part1())
+    with open('day05.txt') as file:
+        print(part1(file))
     print(part2())
 
 
