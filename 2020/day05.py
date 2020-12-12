@@ -48,6 +48,20 @@ class TestGetSeat(unittest.TestCase):
         self.assertEqual((102, 4), get_seat('BBFFBBFRLL'))
 
 
+class TestGetID(unittest.TestCase):
+    def test_example1(self):
+        self.assertEqual(357, get_id(44, 5))
+
+    def test_example2(self):
+        self.assertEqual(567, get_id(70, 7))
+
+    def test_example3(self):
+        self.assertEqual(119, get_id(14, 7))
+
+    def test_example4(self):
+        self.assertEqual(820, get_id(102, 4))
+
+
 def binary_search(next, min, max):
     mid = (min + max) // 2
     if next in ('F', 'L'):
@@ -64,6 +78,10 @@ def get_seat(boarding_pass):
     for c in matches.group(2):
         min_col, max_col = binary_search(c, min_col, max_col)
     return min_row, min_col
+
+
+def get_id(row, col):
+    return row * 8 + col
 
 
 def part1():
