@@ -1,3 +1,4 @@
+import itertools
 import re
 import unittest
 
@@ -91,14 +92,23 @@ def part1(boarding_passes):
     )
 
 
-def part2():
-    pass
+def part2(boarding_passes):
+    all_seats = itertools.product(range(128), range(8))
+    taken_seats = [
+        get_seat(boarding_pass.strip())
+        for boarding_pass in boarding_passes
+    ]
+    return sorted(
+        get_id(*seat)
+        for seat in set(all_seats) - set(taken_seats)
+    )
 
 
 def main():
     with open('day05.txt') as file:
         print(part1(file))
-    print(part2())
+    with open('day05.txt') as file:
+        print(part2(file))
 
 
 if __name__ == '__main__':
