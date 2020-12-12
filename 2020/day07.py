@@ -31,7 +31,7 @@ class TestParse(unittest.TestCase):
             None: ['faded blue', 'dotted black', ]
         }
         actual = parse(example.splitlines())
-        self.assertEqual(defaultdict(list, expected), actual)
+        self.assertEqual(expected, actual)
 
 
 def parse(file):
@@ -66,7 +66,6 @@ def part2():
 def main():
     with open('day07.txt') as file:
         bags = parse(file)
-    pprint(bags)
     print(part1(bags))
     print(part2())
 
