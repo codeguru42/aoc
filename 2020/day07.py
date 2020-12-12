@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import unittest
 from collections import defaultdict
 
@@ -49,8 +51,12 @@ def parse(file):
     return bags
 
 
-def part1():
-    pass
+def count(color, bags):
+    return len(bags[color]) + sum(count(c, bags) for c in bags[color])
+
+
+def part1(bags):
+    return count('shiny gold', bags)
 
 
 def part2():
@@ -60,8 +66,8 @@ def part2():
 def main():
     with open('day07.txt') as file:
         bags = parse(file)
-    print(bags)
-    print(part1())
+    pprint(bags)
+    print(part1(bags))
     print(part2())
 
 
