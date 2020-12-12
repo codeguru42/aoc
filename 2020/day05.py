@@ -93,15 +93,19 @@ def part1(boarding_passes):
 
 
 def part2(boarding_passes):
-    all_seats = itertools.product(range(128), range(8))
+    all_seats = itertools.product(range(1, 127), range(8))
     taken_seats = [
         get_seat(boarding_pass.strip())
         for boarding_pass in boarding_passes
     ]
-    return sorted(
+    seat_ids = sorted(
         get_id(*seat)
         for seat in set(all_seats) - set(taken_seats)
     )
+
+    for seat_id in seat_ids:
+        if seat_id + 1 not in seat_ids and seat_id - 1 not in seat_ids:
+            return seat_id
 
 
 def main():
