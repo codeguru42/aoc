@@ -1,3 +1,5 @@
+import string
+
 import unittest
 
 example = """abc
@@ -45,14 +47,26 @@ def part1(file):
     return sum(len(s) for s in parse_yeses(file))
 
 
-def part2():
-    pass
+def parse_yeses2(file):
+    group = set(string.ascii_letters)
+    for line in file:
+        if line.strip():
+            group &= set(line.strip())
+        else:
+            yield group
+            group = set(string.ascii_letters)
+    yield group
+
+
+def part2(file):
+    return sum(len(s) for s in parse_yeses2(file))
 
 
 def main():
     with open('day06.txt') as file:
         print(part1(file))
-    print(part2())
+    with open('day06.txt') as file:
+        print(part2(file))
 
 
 if __name__ == '__main__':
