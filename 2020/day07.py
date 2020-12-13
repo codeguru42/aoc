@@ -18,13 +18,13 @@ dotted black bags contain no other bags.
 class TestParse(unittest.TestCase):
     def test_parse(self):
         expected = {
-            'light red': ['bright white', 'muted yellow', ],
-            'dark orange': ['bright white', 'muted yellow', ],
-            'bright white': ['shiny gold', ],
-            'muted yellow': ['shiny gold', 'faded blue', ],
-            'shiny gold': ['dark olive', 'vibrant plum', ],
-            'dark olive': ['faded blue', 'dotted black', ],
-            'vibrant plum': ['faded blue', 'dotted black', ],
+            'light red': [('bright white', 1), ('muted yellow', 2), ],
+            'dark orange': [('bright white', 3), ('muted yellow', 4), ],
+            'bright white': [('shiny gold', 1), ],
+            'muted yellow': [('shiny gold', 2), ('faded blue', 9), ],
+            'shiny gold': [('dark olive', 1), ('vibrant plum', 2), ],
+            'dark olive': [('faded blue', 3), ('dotted black', 4), ],
+            'vibrant plum': [('faded blue', 5), ('dotted black', 6), ],
         }
         actual = parse(example.splitlines())
         self.assertEqual(expected, actual)
@@ -74,9 +74,10 @@ def parse(file):
             if not 'no other bags' in bag_groups[1]:
                 for color_str in bag_groups[1].split(','):
                     color_match = re.search(color, color_str)
+                    bag_count = color_match.group(1)
                     bag = color_match.group(2)
                     if bag:
-                        bags[bag_groups[0]].append(bag)
+                        bags[bag_groups[0]].append((bag, int(bag_count)))
     return bags
 
 
