@@ -41,6 +41,13 @@ class TestParse(unittest.TestCase):
         self.assertEqual(expected, actual)
 
 
+class TestCount(unittest.TestCase):
+    def test_count(self):
+        bags = parse(example.splitlines())
+        actual = count('shiny gold', bags)
+        self.assertEqual(4, actual)
+
+
 def parse(file):
     no_bags = r'([a-z ]+) bags contain no other bags.'
     contains_bags = r'([a-z ]+) bags contain (.*)'
@@ -61,8 +68,17 @@ def parse(file):
     return bags
 
 
+def bfs(graph, root):
+    to_visit = graph[root]
+
+    while to_visit:
+        n = to_visit.pop()
+        yield n
+        to_visit.extend(graph[n])
+
+
 def count(color, bags):
-    return len(bags[color]) + sum(count(c, bags) for c in bags[color])
+    return len(set(bfs(bags, color)))
 
 
 def part1(bags):
