@@ -43,7 +43,8 @@ class TestParse(unittest.TestCase):
 
 def parse(file):
     no_bags = r'([a-z ]+) bags contain no other bags.'
-    contains_bags = r'([a-z ]+) bags contain (\d+) ([a-z ]+) bags?(, (\d+) ([a-z ]+) bags?)*\.'
+    contains_bags = r'([a-z ]+) bags contain (.*)'
+    color = r'(\d+) ([a-z ]+) bags?'
     bags = defaultdict(list)
     for line in file:
         no_bags_matches = re.fullmatch(no_bags, line.strip())
@@ -52,7 +53,9 @@ def parse(file):
         else:
             contains_bags_matches = re.fullmatch(contains_bags, line.strip())
             bag_groups = contains_bags_matches.groups()
-            for bag in bag_groups[2::3]:
+            for color_str in bag_groups[1].split(','):
+                color_match = re.search(color, color_str)
+                bag = color_match.group(2)
                 if bag:
                     bags[bag].append(bag_groups[0])
     return bags
