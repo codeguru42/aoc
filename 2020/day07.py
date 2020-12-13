@@ -30,6 +30,16 @@ class TestParse(unittest.TestCase):
         actual = parse(example.splitlines())
         self.assertEqual(expected, actual)
 
+    def test_parse2(self):
+        example = 'light salmon bags contain 5 dark brown bags, 2 dotted coral bags, 5 mirrored turquoise bags.'
+        expected = {
+            'dark brown': ['light salmon', ],
+            'dotted coral': ['light salmon', ],
+            'mirrored turquoise': ['light salmon', ],
+        }
+        actual = parse(example.splitlines())
+        self.assertEqual(expected, actual)
+
 
 def parse(file):
     no_bags = r'([a-z ]+) bags contain no other bags.'
