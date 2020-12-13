@@ -18,6 +18,21 @@ dotted black bags contain no other bags.
 class TestParse(unittest.TestCase):
     def test_parse(self):
         expected = {
+            'light red': ['bright white', 'muted yellow', ],
+            'dark orange': ['bright white', 'muted yellow', ],
+            'bright white': ['shiny gold', ],
+            'muted yellow': ['shiny gold', 'faded blue', ],
+            'shiny gold': ['dark olive', 'vibrant plum', ],
+            'dark olive': ['faded blue', 'dotted black', ],
+            'vibrant plum': ['faded blue', 'dotted black', ],
+        }
+        actual = parse(example.splitlines())
+        self.assertEqual(expected, actual)
+
+
+class TestParseReverse(unittest.TestCase):
+    def test_parse_reverse(self):
+        expected = {
             'bright white': ['light red', 'dark orange', ],
             'muted yellow': ['light red', 'dark orange', ],
             'shiny gold': ['bright white', 'muted yellow', ],
@@ -27,28 +42,45 @@ class TestParse(unittest.TestCase):
             'dotted black': ['dark olive', 'vibrant plum', ],
             None: ['faded blue', 'dotted black', ]
         }
-        actual = parse(example.splitlines())
+        actual = parse_reverse(example.splitlines())
         self.assertEqual(expected, actual)
 
-    def test_parse2(self):
+    def test_parse2_reverse(self):
         example = 'light salmon bags contain 5 dark brown bags, 2 dotted coral bags, 5 mirrored turquoise bags.'
         expected = {
             'dark brown': ['light salmon', ],
             'dotted coral': ['light salmon', ],
             'mirrored turquoise': ['light salmon', ],
         }
-        actual = parse(example.splitlines())
+        actual = parse_reverse(example.splitlines())
         self.assertEqual(expected, actual)
 
 
 class TestCount(unittest.TestCase):
     def test_count(self):
-        bags = parse(example.splitlines())
+        bags = parse_reverse(example.splitlines())
         actual = count('shiny gold', bags)
         self.assertEqual(4, actual)
 
 
 def parse(file):
+    contains_bags = r'([a-z ]+) bags contain (.*)'
+    color = r'(\d+) ([a-z ]+) bags?'
+    bags = defaultdict(list)
+    for line in file:
+        contains_bags_matches = re.fullmatch(contains_bags, line.strip())
+        if contains_bags_matches:
+            bag_groups = contains_bags_matches.groups()
+            if not 'no other bags' in bag_groups[1]:
+                for color_str in bag_groups[1].split(','):
+                    color_match = re.search(color, color_str)
+                    bag = color_match.group(2)
+                    if bag:
+                        bags[bag_groups[0]].append(bag)
+    return bags
+
+
+def parse_reverse(file):
     no_bags = r'([a-z ]+) bags contain no other bags.'
     contains_bags = r'([a-z ]+) bags contain (.*)'
     color = r'(\d+) ([a-z ]+) bags?'
@@ -91,7 +123,7 @@ def part2():
 
 def main():
     with open('day07.txt') as file:
-        bags = parse(file)
+        bags = parse_reverse(file)
     print(part1(bags))
     print(part2())
 
