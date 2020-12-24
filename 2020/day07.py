@@ -73,15 +73,35 @@ class TestCount(unittest.TestCase):
 
 
 class TestCountNested(unittest.TestCase):
-    def test_count_nested1(self):
+    def test_count_nested1a(self):
         bags = parse(example.splitlines())
         actual = count_nested('shiny gold', bags)
-        self.assertEqual(32, actual)
+        self.assertEqual(32, actual - 1)
+
+    def test_count_nested1b(self):
+        bags = parse(example.splitlines())
+        actual = count_nested('faded blue', bags)
+        self.assertEqual(0, actual - 1)
+
+    def test_count_nested1c(self):
+        bags = parse(example.splitlines())
+        actual = count_nested('dotted black', bags)
+        self.assertEqual(0, actual - 1)
+
+    def test_count_nested1d(self):
+        bags = parse(example.splitlines())
+        actual = count_nested('vibrant plum', bags)
+        self.assertEqual(11, actual - 1)
+
+    def test_count_nested1e(self):
+        bags = parse(example.splitlines())
+        actual = count_nested('dark olive', bags)
+        self.assertEqual(7, actual - 1)
 
     def test_count_nested2(self):
         bags = parse(example2.splitlines())
         actual = count_nested('shiny gold', bags)
-        self.assertEqual(126, actual)
+        self.assertEqual(126, actual -1)
 
 
 def parse(file):
@@ -136,7 +156,7 @@ def count(color, bags):
 
 
 def count_nested(color, bags):
-    return 32
+    return sum(n[1] * count_nested(n[0], bags) for n in bags[color]) + 1
 
 
 def part1(bags):
@@ -144,7 +164,7 @@ def part1(bags):
 
 
 def part2(bags):
-    return bags
+    return count_nested('shiny gold', bags) - 1
 
 
 def main():
