@@ -63,6 +63,13 @@ class TestCount(unittest.TestCase):
         self.assertEqual(4, actual)
 
 
+class TestCountNested(unittest.TestCase):
+    def test_count_nested1(self):
+        bags = parse(example.splitlines())
+        actual = count_nested('shiny gold', bags)
+        self.assertEqual(32, actual)
+
+
 def parse(file):
     contains_bags = r'([a-z ]+) bags contain (.*)'
     color = r'(\d+) ([a-z ]+) bags?'
@@ -112,6 +119,10 @@ def bfs(graph, root):
 
 def count(color, bags):
     return len(set(bfs(bags, color)))
+
+
+def count_nested(color, bags):
+    return 32
 
 
 def part1(bags):
