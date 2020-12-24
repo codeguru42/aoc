@@ -118,15 +118,17 @@ def part1(bags):
     return count('shiny gold', bags)
 
 
-def part2():
-    pass
+def part2(bags):
+    return bags
 
 
 def main():
     with open('day07.txt') as file:
         bags = parse_reverse(file)
-    print(part1(bags))
-    print(part2())
+        print(part1(bags))
+    with open('day07.txt') as file:
+        bags = parse(file)
+        print(part2(bags))
 
 
 if __name__ == '__main__':
