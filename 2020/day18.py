@@ -29,10 +29,48 @@ class TestParse(unittest.TestCase):
         self.assertEqual(13632, result)
 
 
+class TestParse2(unittest.TestCase):
+    def test1(self):
+        result = parse2('1 + 2 * 3 + 4 * 5 + 6')
+        self.assertEqual(231, result)
+
+    def test2(self):
+        result = parse2('1 + (2 * 3) + (4 * (5 + 6))')
+        self.assertEqual(51, result)
+
+    def test3(self):
+        result = parse2('2 * 3 + (4 * 5)')
+        self.assertEqual(46, result)
+
+    def test4(self):
+        result = parse2('5 + (8 * 3 + 9 + 3 * 4 * 3)')
+        self.assertEqual(1445, result)
+
+    def test5(self):
+        result = parse2('5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))')
+        self.assertEqual(669060, result)
+
+    def test6(self):
+        result = parse2('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2')
+        self.assertEqual(23340, result)
+
+
 def parse(line):
     integer = pyparsing.pyparsing_common.integer
     op = pyparsing.oneOf('+ *')
     expr = pyparsing.infixNotation(integer, [(op, 2, pyparsing.opAssoc.LEFT, evaluate)])
+    return expr.parseString(line)[0]
+
+
+def parse2(line):
+    integer = pyparsing.pyparsing_common.integer
+    expr = pyparsing.infixNotation(
+        integer,
+        [
+            ('+', 2, pyparsing.opAssoc.LEFT, evaluate),
+            ('*', 2, pyparsing.opAssoc.LEFT, evaluate),
+        ]
+    )
     return expr.parseString(line)[0]
 
 
@@ -62,7 +100,8 @@ def part1():
 
 
 def part2():
-    pass
+    with open('day18.txt') as file:
+        return sum(parse2(line) for line in file)
 
 
 def main():
