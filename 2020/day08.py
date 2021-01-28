@@ -1,5 +1,23 @@
-def part1():
-    pass
+def part1(instructions):
+    prog_counter = 0
+    acc = 0
+    executed = [False] * len(instructions)
+    while not executed[prog_counter]:
+        executed[prog_counter] = True
+        inst = instructions[prog_counter]
+        if inst[0] == 'acc':
+            acc += int(inst[1])
+            prog_counter += 1
+        elif inst[0] == 'jmp':
+            prog_counter += int(inst[1])
+        elif inst[0] == 'nop':
+            prog_counter += 1
+    return acc
+
+
+def parse():
+    with open('day08.txt') as file:
+        return [line.strip().split() for line in file]
 
 
 def part2():
@@ -7,7 +25,8 @@ def part2():
 
 
 def main():
-    print(part1())
+    instructions = parse()
+    print(part1(instructions))
     print(part2())
 
 
