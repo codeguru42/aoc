@@ -1,3 +1,6 @@
+import copy
+
+
 def parse():
     with open('day08.txt') as file:
         return [line.strip().split() for line in file]
@@ -7,7 +10,7 @@ def execute(instructions):
     prog_counter = 0
     acc = 0
     executed = [False] * len(instructions)
-    while not executed[prog_counter] or prog_counter >= len(instructions):
+    while prog_counter < len(instructions) and not executed[prog_counter]:
         executed[prog_counter] = True
         inst = instructions[prog_counter]
         if inst[0] == 'acc':
@@ -24,14 +27,22 @@ def part1(instructions):
     return execute(instructions)
 
 
-def part2():
-    pass
+def part2(instructions):
+    for i in range(len(instructions)):
+        clone = copy.deepcopy(instructions)
+        if clone[i][0] == 'jmp':
+            clone[i][0] = 'nop'
+        elif clone[i][0] == 'nop':
+            clone[i][0] = 'jump'
+        acc, counter = execute(clone)
+        if counter >= len(instructions):
+            return acc
 
 
 def main():
     instructions = parse()
     print(part1(instructions))
-    print(part2())
+    print(part2(instructions))
 
 
 if __name__ == '__main__':
