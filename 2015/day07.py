@@ -34,6 +34,10 @@ def parse(lines):
 
 
 def evaluate(values, wire):
+    try:
+        return int(wire)
+    except ValueError:
+        pass
     expr = values[wire]
     if type(expr) == int:
         return expr
