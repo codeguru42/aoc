@@ -38,7 +38,10 @@ def evaluate(values, wire):
     if type(expr) == int:
         return expr
     elif len(expr) == 1:
-        return int(expr[0])
+        try:
+            return int(expr[0])
+        except ValueError:
+            return int(evaluate(values, expr[0]))
     elif expr[0] == 'NOT':
         values[expr[1]] = evaluate(values, expr[1])
         return ~values[expr[1]] + (1 << 16)
