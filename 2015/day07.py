@@ -71,7 +71,11 @@ def part1():
 
 
 def part2():
-    pass
+    with open('day07.txt') as file:
+        wires = parse(file)
+        b = evaluate({**wires}, 'a')
+        wires['b'] = b
+        return evaluate(wires, 'a')
 
 
 def main():
