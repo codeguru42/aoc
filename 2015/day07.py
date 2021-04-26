@@ -41,7 +41,7 @@ def evaluate(values, wire):
         return int(expr[0])
     elif expr[0] == 'NOT':
         values[expr[1]] = evaluate(values, expr[1])
-        return ~values[expr[1]]
+        return ~values[expr[1]] + (1 << 16)
     else:
         lhs, op, rhs = expr
         values[lhs] = evaluate(values, lhs)
