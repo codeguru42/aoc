@@ -23,7 +23,7 @@ class TestRun(unittest.TestCase):
             'y': 456,
         }
         wires = parse(example1.split('\n'))
-        actual = {wire: run(wires, wire) for wire in expected}
+        actual = {wire: evaluate(wires, wire) for wire in expected}
         self.assertEqual(expected, actual)
 
 
@@ -33,21 +33,34 @@ def parse(lines):
     return wires
 
 
-def run(wires, out_wire):
-    values = evaluate({}, out_wire, wires[out_wire])
-    return values[out_wire]
-
-
-def evaluate(values, wire, expr):
-    if len(expr) == 1:
-        values[wire] = expr[0]
-        return values
+def evaluate(values, wire):
+    expr = values[wire]
+    if type(expr) == int:
+        return expr
+    elif len(expr) == 1:
+        return int(expr[0])
+    elif expr[0] == 'NOT':
+        values[expr[1]] = evaluate(values, expr[1])
+        return ~values[expr[1]]
+    else:
+        lhs, op, rhs = expr
+        values[lhs] = evaluate(values, lhs)
+        if op == 'AND':
+            values[rhs] = evaluate(values, rhs)
+            return values[lhs] & values[rhs]
+        elif op == 'OR':
+            values[rhs] = evaluate(values, rhs)
+            return values[lhs] | values[rhs]
+        elif op == 'LSHIFT':
+            return values[lhs] << int(rhs)
+        elif op == 'RSHIFT':
+            return values[lhs] >> int(rhs)
 
 
 def part1():
     with open('day07.txt') as file:
         wires = parse(file)
-        return run(wires, 'a')
+        return evaluate(wires, 'a')
 
 
 def part2():
