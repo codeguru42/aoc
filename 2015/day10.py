@@ -40,13 +40,16 @@ def part1(start):
     return len(result)
 
 
-def part2():
-    pass
+def part2(start):
+    result = start
+    for i in range(50):
+        result = look_and_say(result)
+    return len(result)
 
 
 def main():
     print(part1('3113322113'))
-    print(part2())
+    print(part2('3113322113'))
 
 
 if __name__ == '__main__':
