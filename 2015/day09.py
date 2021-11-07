@@ -7,8 +7,9 @@ def part1(graph):
     return min(path_length(graph, p) for p in paths)
 
 
-def part2():
-    pass
+def part2(graph):
+    paths = itertools.permutations(graph.keys())
+    return max(path_length(graph, p) for p in paths)
 
 
 def parse(file):
@@ -29,7 +30,7 @@ def main():
     with open('day09.txt') as file:
         graph = parse(file)
         print(part1(graph))
-        print(part2())
+        print(part2(graph))
 
 
 if __name__ == '__main__':
