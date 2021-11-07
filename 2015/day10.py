@@ -33,8 +33,11 @@ def look_and_say(digits):
     return result
 
 
-def part1():
-    pass
+def part1(start):
+    result = start
+    for i in range(40):
+        result = look_and_say(result)
+    return len(result)
 
 
 def part2():
@@ -42,7 +45,7 @@ def part2():
 
 
 def main():
-    print(part1())
+    print(part1('3113322113'))
     print(part2())
 
 
