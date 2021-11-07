@@ -18,6 +18,19 @@ class Day11Tests(unittest.TestCase):
     def testDoesNotContainNonOverlappingPairs(self):
         self.assertFalse(contains_non_overlapping_pairs('abbcegjk'))
 
+    def testValidPassword1(self):
+        self.assertFalse(valid_password('hijklmmn'))
+
+    def testValidPassword2(self):
+        self.assertFalse(valid_password('abbceffg'))
+
+    def testValidPassword3(self):
+        self.assertFalse(valid_password('abbcegjk'))
+
+
+def valid_password(password):
+    return has_straight(password) and not contains_illegal_letters(password) and contains_non_overlapping_pairs(password)
+
 
 def has_straight(password):
     count = 1
