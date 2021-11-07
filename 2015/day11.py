@@ -6,8 +6,17 @@ class Day11Tests(unittest.TestCase):
     def testHasStraight(self):
         self.assertTrue(has_straight('hijklmmn'))
 
+    def testDoesNotHaveStraight(self):
+        self.assertFalse(has_straight('abbceffg'))
+
     def testDoesNotContainIllegalLetters(self):
         self.assertFalse(contains_illegal_letters('hijklmmn'))
+
+    def testContainsNonOverlappingPairs(self):
+        self.assertTrue(contains_non_overlapping_pairs('abbceffg'))
+
+    def testDoesNotContainNonOverlappingPairs(self):
+        self.assertFalse(contains_non_overlapping_pairs('abbcegjk'))
 
 
 def has_straight(password):
@@ -24,6 +33,16 @@ def has_straight(password):
 
 def contains_illegal_letters(password):
     return 'i' not in password and 'o' not in password and 'l' not in password
+
+
+def contains_non_overlapping_pairs(password):
+    pairs = set()
+    for c, g in itertools.groupby(password):
+        count = len(list(g))
+        if count >= 2 and c not in pairs:
+            count += 1
+            pairs.add(c)
+    return len(pairs) >= 2
 
 
 def part1():
