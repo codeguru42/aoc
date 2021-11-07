@@ -1,8 +1,10 @@
+import itertools
 from collections import defaultdict
 
 
-def part1():
-    pass
+def part1(graph):
+    paths = itertools.permutations(graph.keys())
+    return min(path_length(graph, p) for p in paths)
 
 
 def part2():
@@ -19,11 +21,14 @@ def parse(file):
     return graph
 
 
+def path_length(graph, path):
+    return sum(graph[v1][v2] for v1, v2 in itertools.pairwise(path))
+
+
 def main():
     with open('day09.txt') as file:
         graph = parse(file)
-        print(graph)
-        print(part1())
+        print(part1(graph))
         print(part2())
 
 
