@@ -9,8 +9,8 @@ class Day11Tests(unittest.TestCase):
     def test_does_not_have_straight(self):
         self.assertFalse(has_straight('abbceffg'))
 
-    def test_does_not_contain_illegal_letters(self):
-        self.assertFalse(contains_illegal_letters('hijklmmn'))
+    def test_contains_illegal_letters(self):
+        self.assertTrue(contains_illegal_letters('hijklmmn'))
 
     def test_contains_non_overlapping_pairs(self):
         self.assertTrue(contains_non_overlapping_pairs('abbceffg'))
@@ -75,7 +75,7 @@ def has_straight(password):
 
 
 def contains_illegal_letters(password):
-    return 'i' not in password and 'o' not in password and 'l' not in password
+    return 'i' not in password or 'o' not in password or 'l' not in password
 
 
 def contains_non_overlapping_pairs(password):
