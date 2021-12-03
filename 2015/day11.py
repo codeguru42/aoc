@@ -45,6 +45,9 @@ class Day11Tests(unittest.TestCase):
     def test_string_to_base26_3(self):
         self.assertEqual([0] + list(range(25, 0, -1)), list(string_to_base26('abcdefghijklmnopqrstuvwxyz')))
 
+    def test_base26_to_string(self):
+        self.assertEqual('abcdefghijklmnopqrstuvwxyz', base26_to_string([0] + list(range(25, 0, -1))))
+
 
 def valid_password(password):
     return has_straight(password) and not contains_illegal_letters(password) and contains_non_overlapping_pairs(password)
@@ -90,6 +93,10 @@ def increment_base26(num):
 
 def string_to_base26(s):
     return reversed([(ord(c) - ord('a') + 1) % 26 for c in s])
+
+
+def base26_to_string(s):
+    return ''.join(reversed([chr(c + ord('a') - 1) if c > 0 else 'z' for c in s]))
 
 
 def part1():
