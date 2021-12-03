@@ -3,37 +3,37 @@ import unittest
 
 
 class Day11Tests(unittest.TestCase):
-    def testHasStraight(self):
+    def test_has_straight(self):
         self.assertTrue(has_straight('hijklmmn'))
 
-    def testDoesNotHaveStraight(self):
+    def test_does_not_have_straight(self):
         self.assertFalse(has_straight('abbceffg'))
 
-    def testDoesNotContainIllegalLetters(self):
+    def test_does_not_contain_illegal_letters(self):
         self.assertFalse(contains_illegal_letters('hijklmmn'))
 
-    def testContainsNonOverlappingPairs(self):
+    def test_contains_non_overlapping_pairs(self):
         self.assertTrue(contains_non_overlapping_pairs('abbceffg'))
 
-    def testDoesNotContainNonOverlappingPairs(self):
+    def test_does_not_contain_non_overlapping_pairs(self):
         self.assertFalse(contains_non_overlapping_pairs('abbcegjk'))
 
-    def testValidPassword1(self):
+    def test_valid_password1(self):
         self.assertFalse(valid_password('hijklmmn'))
 
-    def testValidPassword2(self):
+    def test_valid_password2(self):
         self.assertFalse(valid_password('abbceffg'))
 
-    def testValidPassword3(self):
+    def test_valid_password3(self):
         self.assertFalse(valid_password('abbcegjk'))
 
-    def testIncrementBase26_1(self):
+    def test_increment_base26_1(self):
         self.assertEqual([1], list(increment_base26((0, ))))
 
-    def testIncrementBase26_2(self):
+    def test_increment_base26_2(self):
         self.assertEqual([0, 1], list(increment_base26((25, ))))
 
-    def testIncrementBase26_3(self):
+    def test_increment_base26_3(self):
         self.assertEqual([1, 1], list(increment_base26((0, 1))))
 
 
