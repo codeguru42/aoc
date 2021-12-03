@@ -64,7 +64,11 @@ def get_co2_rating(bin_numbers):
 
 
 def part2():
-    pass
+    with open('day03.txt') as file:
+        bin_numbers = [line.strip() for line in file]
+        o2 = get_o2_rating(bin_numbers)
+        co2 = get_co2_rating(bin_numbers)
+        return o2 * co2
 
 
 def main():
