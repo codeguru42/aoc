@@ -27,6 +27,15 @@ class Day11Tests(unittest.TestCase):
     def testValidPassword3(self):
         self.assertFalse(valid_password('abbcegjk'))
 
+    def testIncrementBase26_1(self):
+        self.assertEqual([1], list(increment_base26((0, ))))
+
+    def testIncrementBase26_2(self):
+        self.assertEqual([0, 1], list(increment_base26((25, ))))
+
+    def testIncrementBase26_3(self):
+        self.assertEqual([1, 1], list(increment_base26((0, 1))))
+
 
 def valid_password(password):
     return has_straight(password) and not contains_illegal_letters(password) and contains_non_overlapping_pairs(password)
@@ -56,6 +65,18 @@ def contains_non_overlapping_pairs(password):
             count += 1
             pairs.add(c)
     return len(pairs) >= 2
+
+
+def increment_base26(num):
+    if len(num) == 0:
+        yield 1
+    else:
+        n = num[0] + 1
+        yield n % 26
+        if n // 26 > 0:
+            yield from increment_base26(num[1:])
+        else:
+            yield from reversed(num[1:])
 
 
 def part1():
