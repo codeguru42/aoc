@@ -36,6 +36,9 @@ class Day11Tests(unittest.TestCase):
     def test_increment_base26_3(self):
         self.assertEqual([1, 1], list(increment_base26((0, 1))))
 
+    def test_increment_base26_4(self):
+        self.assertEqual([20, 4, 14, 10, 24, 10, 17, 3], list(increment_base26([19, 4, 14, 10, 24, 10, 17, 3])))
+
     def test_string_to_base26_1(self):
         self.assertEqual([1, ], list(string_to_base26('a')))
 
@@ -45,7 +48,13 @@ class Day11Tests(unittest.TestCase):
     def test_string_to_base26_3(self):
         self.assertEqual([0] + list(range(25, 0, -1)), list(string_to_base26('abcdefghijklmnopqrstuvwxyz')))
 
-    def test_base26_to_string(self):
+    def test_string_to_base26_4(self):
+        self.assertEqual([19, 4, 14, 10, 24, 10, 17, 3], list(string_to_base26('cqjxjnds')))
+
+    def test_base26_to_string_1(self):
+        self.assertEqual('cqjxjndt', base26_to_string([20, 4, 14, 10, 24, 10, 17, 3]))
+
+    def test_base26_to_string_2(self):
         self.assertEqual('abcdefghijklmnopqrstuvwxyz', base26_to_string([0] + list(range(25, 0, -1))))
 
 
@@ -88,7 +97,7 @@ def increment_base26(num):
         if n // 26 > 0:
             yield from increment_base26(num[1:])
         else:
-            yield from reversed(num[1:])
+            yield from num[1:]
 
 
 def string_to_base26(s):
