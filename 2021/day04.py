@@ -56,8 +56,16 @@ def part1(numbers, bingo):
                 return board.score()
 
 
-def part2():
-    pass
+def part2(numbers, bingo):
+    winners = [False] * len(bingo)
+    for number in numbers:
+        for i, board in enumerate(bingo):
+            board.play(number)
+
+            if board.is_winner():
+                winners[i] = True
+                if sum(winners) == len(winners):
+                    return board.score()
 
 
 def main():
@@ -65,7 +73,7 @@ def main():
         numbers, bingo = parse(file)
 
     print(part1(numbers, bingo))
-    print(part2())
+    print(part2(numbers, bingo))
 
 
 if __name__ == '__main__':
