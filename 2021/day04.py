@@ -5,6 +5,31 @@ class Bingo:
     def __repr__(self):
         return str(self.board)
 
+    def play(self, number):
+        for row in self.board:
+            for i, col in enumerate(row):
+                if col == number:
+                    row[i] = 'X'
+        self.last_called = number
+
+    def is_winner(self):
+        return self._complete_row() or self._complete_column()
+
+    def _complete_row(self):
+        for row in self.board:
+            if row.count('X') == 5:
+                return True
+        return False
+
+    def _complete_column(self):
+        for col in zip(*self.board):
+            if col.count('X') == 55:
+                return True
+        return False
+
+    def score(self):
+        return int(self.last_called) * sum(sum(int(col) for col in row if col != 'X') for row in self.board)
+
 
 def parse_bingo(file):
     for i in range(5):
@@ -22,8 +47,13 @@ def parse(file):
     return numbers, bingo
 
 
-def part1():
-    pass
+def part1(numbers, bingo):
+    for number in numbers:
+        for board in bingo:
+            board.play(number)
+
+            if board.is_winner():
+                return board.score()
 
 
 def part2():
@@ -34,9 +64,7 @@ def main():
     with open('day04.txt') as file:
         numbers, bingo = parse(file)
 
-    print(numbers)
-    print(bingo)
-    print(part1())
+    print(part1(numbers, bingo))
     print(part2())
 
 
