@@ -26,10 +26,14 @@ def next_day(ages):
     yield from [8] * new_fish
 
 
-def part1(ages):
-    for _ in range(80):
+def spawn_fish(ages, days):
+    for _ in range(days):
         ages = next_day(ages)
     return len(list(ages))
+
+
+def part1(ages):
+    return spawn_fish(ages, 80)
 
 
 def part2():
