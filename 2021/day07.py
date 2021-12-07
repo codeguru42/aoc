@@ -1,13 +1,9 @@
-def calculate_total_fuel(positions, new_pos):
-    return sum(abs(x - new_pos) for x in positions)
+def calculate_total_fuel(positions, new_pos, f):
+    return sum(f(x - new_pos) for x in positions)
 
 
 def part1(positions):
-    return min(calculate_total_fuel(positions, i) for i in range(max(positions)))
-
-
-def calculate_total_fuel2(positions, new_pos):
-    return sum(calculate_fuel(abs(x - new_pos)) for x in positions)
+    return min(calculate_total_fuel(positions, i, lambda x: abs(x)) for i in range(max(positions)))
 
 
 def calculate_fuel(steps):
@@ -15,7 +11,7 @@ def calculate_fuel(steps):
 
 
 def part2(positions):
-    return min(calculate_total_fuel2(positions, i) for i in range(max(positions)))
+    return min(calculate_total_fuel(positions, i, lambda x: calculate_fuel(abs(x))) for i in range(max(positions)))
 
 
 def main():
