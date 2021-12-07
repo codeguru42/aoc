@@ -42,15 +42,15 @@ def part1(ages):
     return spawn_fish(ages, 80)
 
 
-def part2():
-    pass
+def part2(ages):
+    return spawn_fish(ages, 256)
 
 
 def main():
     with open('day06.txt') as file:
         ages = [int(a) for a in file.readline().strip().split(',')]
     print(part1(ages))
-    print(part2())
+    print(part2(ages))
 
 
 if __name__ == '__main__':
