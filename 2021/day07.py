@@ -7,7 +7,7 @@ def part1(positions):
 
 
 def calculate_fuel(steps):
-    return steps * (steps + 1) / 2
+    return steps * (steps + 1) // 2
 
 
 def part2(positions):
