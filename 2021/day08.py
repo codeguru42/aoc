@@ -7,16 +7,16 @@ class TestDay8(unittest.TestCase):
     def test_build_map(self):
         signal = 'acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab'.split()
         expected = {
-            8: set('acedgfb'),
-            5: set('cdfbe'),
-            2: set('gcdfa'),
-            3: set('fbcad'),
-            7: set('dab'),
-            9: set('cefabd'),
-            6: set('cdfgeb'),
-            4: set('eafb'),
-            0: set('cagedb'),
-            1: set('ab'),
+            ''.join(sorted('acedgfb')): 8,
+            ''.join(sorted('cdfbe')): 5,
+            ''.join(sorted('gcdfa')): 2,
+            ''.join(sorted('fbcad')): 3,
+            ''.join(sorted('dab')): 7,
+            ''.join(sorted('cefabd')): 9,
+            ''.join(sorted('cdfgeb')): 6,
+            ''.join(sorted('eafb')): 4,
+            ''.join(sorted('cagedb')): 0,
+            ''.join(sorted('ab')): 1,
         }
         self.assertEqual(expected, build_map(signal))
 
@@ -52,7 +52,7 @@ def build_map(signal: typing.Iterable[str]):
     seven_segment_map[0] = [set(x) for x in length_map[6] if set(x) not in [seven_segment_map[i] for i in (6, 9)]][0]
     seven_segment_map[2] = [set(x) for x in length_map[5] if set(x) not in [seven_segment_map[i] for i in (3, 5)]][0]
 
-    return seven_segment_map
+    return {''.join(sorted(value)): key for key, value in seven_segment_map.items()}
 
 
 def parse(file):
