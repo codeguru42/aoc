@@ -68,15 +68,22 @@ def part1(data):
     return count
 
 
-def part2():
-    pass
+def decode(signal, output):
+    seven_segment_map = build_map(signal)
+    for segs in output:
+        yield seven_segment_map[''.join(sorted(segs))]
+
+
+def part2(data):
+    decoded = [decode(signal, output) for signal, output in data]
+    return sum(int(''.join(str(digit) for digit in digits)) for digits in decoded)
 
 
 def main():
     with open('day08.txt') as file:
         data = list(parse(file))
     print(part1(data))
-    print(part2())
+    print(part2(data))
 
 
 if __name__ == '__main__':
