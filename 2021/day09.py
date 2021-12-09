@@ -1,3 +1,4 @@
+import queue
 import unittest
 
 
@@ -22,6 +23,20 @@ class TestDay09(unittest.TestCase):
 
     def test_is_low_point_true2(self):
         self.assertTrue(is_low_point(self.bump_map, 0, 9))
+
+    def test_flood_fill1(self):
+        expected = {(0, 0), (0, 1), (1, 0)}
+        actual = flood_fill(self.bump_map, 0, 0)
+        self.assertEqual(expected, actual)
+
+    def test_flood_fill2(self):
+        expected = {
+            (0, 5), (0, 6), (0, 7), (0, 8), (0, 9),
+            (1, 6), (1, 8), (1, 9),
+            (2, 9),
+        }
+        actual = flood_fill(self.bump_map, 1, 8)
+        self.assertEqual(expected, actual)
 
 
 def parse(file):
@@ -48,6 +63,26 @@ def part1(bump_map):
             if is_low_point(bump_map, i, j):
                 risk += 1 + bump_map[i][j]
     return risk
+
+
+def flood_fill(bump_map, i, j):
+    basin = set()
+    visited = set()
+    q = queue.Queue()
+    q.put((i, j))
+
+    while not q.empty():
+        x, y = q.get()
+        visited.add((x, y))
+        if bump_map[x][y] != 9:
+            basin.add((x, y))
+            for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                if not (dx == 0 and dy == 0):
+                    if 0 <= x + dx < len(bump_map):
+                        if 0 <= y + dy < len(bump_map[x]):
+                            if (x + dx, y + dy) not in visited:
+                                q.put((x + dx, y + dy))
+    return basin
 
 
 def part2():
