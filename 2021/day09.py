@@ -1,5 +1,7 @@
 import queue
 import unittest
+from functools import reduce
+from operator import mul
 
 
 class TestDay09(unittest.TestCase):
@@ -36,6 +38,18 @@ class TestDay09(unittest.TestCase):
             (2, 9),
         }
         actual = flood_fill(self.bump_map, 1, 8)
+        self.assertEqual(expected, actual)
+
+    def test_flood_fill3(self):
+        with open('day09.txt') as file:
+            bump_map = list(parse(file))
+        expected = {
+            (0, 1), (0, 2), (0, 3), (0, 4),
+            (1, 2), (1, 3),
+            (2, 3), (2, 4),
+            (3, 4),
+        }
+        actual = flood_fill(bump_map, 0, 1)
         self.assertEqual(expected, actual)
 
 
@@ -85,15 +99,25 @@ def flood_fill(bump_map, i, j):
     return basin
 
 
-def part2():
-    pass
+def part2(bump_map):
+    basins = []
+    visited = set()
+    for i in range(len(bump_map)):
+        for j in range(len(bump_map)):
+            if (i, j) not in visited:
+                basin = flood_fill(bump_map, i, j)
+                if basin:
+                    basins.append(basin)
+                    visited |= basin
+    basins.sort(key=lambda b: len(b))
+    return reduce(mul, (len(b) for b in basins[-3:]))
 
 
 def main():
     with open('day09.txt') as file:
         bump_map = list(parse(file))
     print(part1(bump_map))
-    print(part2())
+    print(part2(bump_map))
 
 
 if __name__ == '__main__':
