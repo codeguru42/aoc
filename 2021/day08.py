@@ -21,20 +21,6 @@ class TestDay8(unittest.TestCase):
         self.assertEqual(expected, build_map(signal))
 
 
-default_seven_segment_map = {
-    'abcefg': 0,
-    'cf': 1,
-    'acdeg': 2,
-    'acedfg': 3,
-    'bcdf': 4,
-    'abdfg': 5,
-    'abdefg': 6,
-    'acf': 7,
-    'abcdefg': 8,
-    'abcdfg': 9,
-}
-
-
 def build_map(signal: typing.Iterable[str]):
     length_map = dict((key, list(group)) for key, group in itertools.groupby(sorted(signal, key=len), key=len))
     seven_segment_map = {
