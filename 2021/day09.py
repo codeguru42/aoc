@@ -1,3 +1,4 @@
+import math
 import queue
 import unittest
 from functools import reduce
@@ -110,7 +111,7 @@ def part2(bump_map):
                     basins.append(basin)
                     visited |= basin
     basins.sort(key=lambda b: len(b))
-    return reduce(mul, (len(b) for b in basins[-3:]))
+    return math.prod(len(b) for b in basins[-3:])
 
 
 def main():
