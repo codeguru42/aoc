@@ -103,7 +103,7 @@ def part2(bump_map):
     basins = []
     visited = set()
     for i in range(len(bump_map)):
-        for j in range(len(bump_map)):
+        for j in range(len(bump_map[i])):
             if (i, j) not in visited:
                 basin = flood_fill(bump_map, i, j)
                 if basin:
