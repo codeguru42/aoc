@@ -71,15 +71,21 @@ def part1(energy_levels):
     return total
 
 
-def part2():
-    pass
+def part2(energy_levels):
+    octopus_count = len(energy_levels) * len(energy_levels[0])
+    step = 0
+    while True:
+        flashes = do_step(energy_levels)
+        if flashes == octopus_count:
+            return step
+        step += 1
 
 
 def main():
     with open('day11.txt') as file:
         starting_energy = list(parse(file))
     print(part1(starting_energy))
-    print(part2())
+    print(part2(starting_energy))
 
 
 if __name__ == '__main__':
