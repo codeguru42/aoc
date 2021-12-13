@@ -1,5 +1,5 @@
 import unittest
-from collections import defaultdict
+from collections import defaultdict, deque
 
 
 class TestDay12(unittest.TestCase):
@@ -32,8 +32,17 @@ def parse(file):
     return g
 
 
-def part1():
-    pass
+def part1(g):
+    d = deque()
+    paths = set()
+    visited = set()
+    d.append('start')
+    while d:
+        v = d.pop()
+        if v.islower():
+            visited.add(v)
+        pass
+    return len(paths)
 
 
 def part2():
