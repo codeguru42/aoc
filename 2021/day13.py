@@ -17,7 +17,6 @@ def parse(file):
 
 
 def fold(points, instruction):
-    new_points = set()
     axis, value = instruction
     for x, y in points:
         if axis == 'x':
@@ -39,15 +38,22 @@ def part1(points, instruction):
     return len(new_points)
 
 
-def part2():
-    pass
+def part2(points, instructions):
+    for instruction in instructions:
+        points = set(fold(points, instruction))
+    max_x = max(x for x, _ in points)
+    max_y = max(y for _, y in points)
+    grid = [[' '] * (max_x + 1) for _ in range(max_y + 1)]
+    for x, y in points:
+        grid[y][x] = '*'
+    return '\n'.join(''.join(row) for row in grid)
 
 
 def main():
     with open('day13.txt') as file:
         points, instructions = parse(file)
     print(part1(points, instructions[0]))
-    print(part2())
+    print(part2(points, instructions))
 
 
 if __name__ == '__main__':
