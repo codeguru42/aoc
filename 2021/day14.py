@@ -1,3 +1,4 @@
+import collections
 import unittest
 from io import StringIO
 
@@ -60,8 +61,12 @@ def step(polymer, rules):
     yield pair[1]
 
 
-def part1():
-    pass
+def part1(polymer, rules):
+    for _ in range(10):
+        polymer = step(polymer, rules)
+    counts = collections.Counter(polymer)
+    ordered = counts.most_common(26)
+    return ordered[0][1] - ordered[-1][1]
 
 
 def part2():
@@ -69,10 +74,12 @@ def part2():
 
 
 def main():
-    print(part1())
+    with open('day14.txt') as file:
+        polymer, rules = parse(file)
+    print(part1(polymer, rules))
     print(part2())
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(exit=False)
     main()
