@@ -1,10 +1,14 @@
 from aocd import get_data
 
-data = get_data(year=2022, day=1)
+
+def parse(data):
+    elves = data.split('\n\n')
+    for elf in elves:
+        yield [int(x) for x in elf.split()]
 
 
-def part1():
-    pass
+def part1(elves):
+    return max(sum(elf) for elf in elves)
 
 
 def part2():
@@ -12,7 +16,9 @@ def part2():
 
 
 def main():
-    pass
+    data = get_data(year=2022, day=1)
+    parsed = list(parse(data))
+    print(part1(parsed))
 
 
 if __name__ == '__main__':
