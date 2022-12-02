@@ -24,6 +24,24 @@ round_score = {
     },
 }
 
+move_map = {
+    'X': {
+        'A': 'Z',
+        'B': 'X',
+        'C': 'Y',
+    },
+    'Y': {
+        'A': 'X',
+        'B': 'Y',
+        'C': 'Z',
+    },
+    'Z': {
+        'A': 'Y',
+        'B': 'Z',
+        'C': 'X',
+    },
+}
+
 
 def parse(data):
     return [line.split() for line in data.split('\n')]
@@ -33,8 +51,8 @@ def part1(moves):
     return sum(score_my_move[me] + round_score[me][you] for you, me in moves)
 
 
-def part2():
-    pass
+def part2(moves):
+    return sum(score_my_move[move_map[me][you]] + round_score[move_map[me][you]][you] for you, me in moves)
 
 
 def main():
@@ -42,7 +60,7 @@ def main():
     moves = parse(data)
     answer1 = part1(moves)
     print(answer1)
-    answer2 = part2()
+    answer2 = part2(moves)
     print(answer2)
 
 
