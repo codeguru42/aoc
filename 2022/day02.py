@@ -1,44 +1,56 @@
 from aocd import get_data, submit
 
+opponent_map = {
+    'A': 'R',
+    'B': 'P',
+    'C': 'S',
+}
+
+player_map = {
+    'X': 'R',
+    'Y': 'P',
+    'Z': 'S',
+}
+
 score_my_move = {
-    'X': 1,
-    'Y': 2,
-    'Z': 3,
+    'R': 1,
+    'P': 2,
+    'S': 3,
 }
 
 round_score = {
-    'X': {
-        'A': 3,
-        'B': 0,
-        'C': 6,
+    'R': {
+        'R': 3,
+        'P': 0,
+        'S': 6,
     },
-    'Y': {
-        'A': 6,
-        'B': 3,
-        'C': 0,
+    'P': {
+        'R': 6,
+        'P': 3,
+        'S': 0,
     },
-    'Z': {
-        'A': 0,
-        'B': 6,
-        'C': 3,
+    'S': {
+        'R': 0,
+        'P': 6,
+        'S': 3,
     },
 }
 
 move_map = {
     'X': {
-        'A': 'Z',
-        'B': 'X',
-        'C': 'Y',
+        'R': 'S',
+        'P': 'R',
+        'S': 'P',
     },
     'Y': {
-        'A': 'X',
-        'B': 'Y',
-        'C': 'Z',
+        'R': 'R',
+        'P': 'P',
+        'S': 'S',
     },
     'Z': {
-        'A': 'Y',
-        'B': 'Z',
-        'C': 'X',
+        'R': 'P',
+        'P': 'S',
+        'S': 'R',
     },
 }
 
@@ -48,11 +60,13 @@ def parse(data):
 
 
 def part1(moves):
+    moves = [(opponent_map[you], player_map[me]) for you, me in moves]
     return sum(score_my_move[me] + round_score[me][you] for you, me in moves)
 
 
 def part2(moves):
-    return sum(score_my_move[move_map[me][you]] + round_score[move_map[me][you]][you] for you, me in moves)
+    moves = [(opponent_map[you], move_map[me][opponent_map[you]]) for you, me in moves]
+    return sum(score_my_move[me] + round_score[me][you] for you, me in moves)
 
 
 def main():
