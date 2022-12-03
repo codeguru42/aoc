@@ -5,6 +5,13 @@ def parse(data):
     return data.split()
 
 
+def priority(item):
+    p = ord(item.lower()) - ord('a') + 1
+    if item.isupper():
+        p += 26
+    return p
+
+
 def part1(sacks):
     total = 0
     for sack in sacks:
@@ -13,9 +20,7 @@ def part1(sacks):
         c2 = set(sack[int(n/2):])
         both = c1 & c2
         for item in both:
-            total += ord(item.lower()) - ord('a') + 1
-            if item.isupper():
-                total += 26
+            total += priority(item)
     return total
 
 
