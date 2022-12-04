@@ -35,8 +35,14 @@ def part1(ranges):
     return count
 
 
-def part2():
-    pass
+def part2(ranges):
+    count = 0
+    for r1, r2 in ranges:
+        x1, x2 = r1
+        y1, y2 = r2
+        if (y1 <= x1 <= y2) or (y1 <= x2 <= y2) or (x1 <= y1 <= x2) or (x1 <= y2 <= x2):
+            count += 1
+    return count
 
 
 def main():
@@ -44,7 +50,7 @@ def main():
     ranges = list(parse(data))
     answer1 = part1(ranges)
     print(answer1)
-    answer2 = part2()
+    answer2 = part2(ranges)
     print(answer2)
 
 
