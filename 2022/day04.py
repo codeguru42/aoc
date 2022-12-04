@@ -1,6 +1,12 @@
 from aocd import get_data
 
 
+def parse(data):
+    for line in data.split('\n'):
+        ranges = line.split(',')
+        yield [[int(x) for x in r.split('-')] for r in ranges]
+
+
 def part1():
     pass
 
@@ -11,6 +17,7 @@ def part2():
 
 def main():
     data = get_data(year=2022, day=4)
+    ranges = list(parse(data))
     answer1 = part1()
     print(answer1)
     answer2 = part2()
