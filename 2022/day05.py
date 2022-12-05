@@ -62,8 +62,19 @@ def part1(stacks, inst):
     return ''.join(stack[-1] for stack in stacks)
 
 
-def part2():
-    pass
+class TestPart2(unittest.TestCase):
+    def test_part2(self):
+        stacks, inst = parse(example)
+        result = part2(stacks, inst)
+        self.assertEqual('MCD', result)
+
+
+def part2(stacks, inst):
+    for count, stack_from, stack_to in inst:
+        stacks[stack_to - 1] += stacks[stack_from - 1][-count:]
+        stacks[stack_from - 1] = stacks[stack_from - 1][:-count]
+
+    return ''.join(stack[-1] for stack in stacks)
 
 
 def main():
@@ -71,7 +82,7 @@ def main():
     stacks, inst = parse(data)
     answer1 = part1(stacks, inst)
     print(answer1)
-    answer2 = part2()
+    answer2 = part2(stacks, inst)
     print(answer2)
 
 
