@@ -56,7 +56,7 @@ class TestPart1(unittest.TestCase):
 
 def part1(stacks, inst):
     for count, stack_from, stack_to in inst:
-        stacks[stack_to - 1] += reversed(stacks[stack_from - 1][-count:])
+        stacks[stack_to - 1] += stacks[stack_from - 1][:-count-1:-1]
         stacks[stack_from - 1] = stacks[stack_from - 1][:-count]
 
     return ''.join(stack[-1] for stack in stacks)
