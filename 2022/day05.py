@@ -80,9 +80,9 @@ def part2(stacks, inst):
 def main():
     data = get_data(year=2022, day=5)
     stacks, inst = parse(data)
-    answer1 = part1(stacks, inst)
+    answer1 = part1(stacks.copy(), inst)
     print(answer1)
-    answer2 = part2(stacks, inst)
+    answer2 = part2(stacks.copy(), inst)
     print(answer2)
 
 
