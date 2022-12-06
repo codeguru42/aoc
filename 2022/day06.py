@@ -34,10 +34,15 @@ class TestPart1(unittest.TestCase):
         self.assertEqual(11, part1(signal))
 
 
-def part1(signal):
-    for i, packet in enumerate(sliding_window(signal, 4)):
+def find_unique(signal, n):
+    for i, packet in enumerate(sliding_window(signal, n)):
         if len(set(packet)) == len(packet):
             return i + len(packet)
+
+
+def part1(signal):
+    n = 4
+    return find_unique(signal, n)
 
 
 class TestPart2(unittest.TestCase):
@@ -63,9 +68,7 @@ class TestPart2(unittest.TestCase):
 
 
 def part2(signal):
-    for i, packet in enumerate(sliding_window(signal, 14)):
-        if len(set(packet)) == len(packet):
-            return i + len(packet)
+    return find_unique(signal, 14)
 
 
 def main():
