@@ -40,15 +40,39 @@ def part1(signal):
             return i + len(packet)
 
 
-def part2():
-    pass
+class TestPart2(unittest.TestCase):
+    def test1(self):
+        signal = 'mjqjpqmgbljsphdztnvjfqwrcgsmlb'
+        self.assertEqual(19, part2(signal))
+
+    def test2(self):
+        signal = 'bvwbjplbgvbhsrlpgdmjqwftvncz'
+        self.assertEqual(23, part2(signal))
+
+    def test3(self):
+        signal = 'nppdvjthqldpwncqszvftbrmjlhg'
+        self.assertEqual(23, part2(signal))
+
+    def test4(self):
+        signal = 'nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg'
+        self.assertEqual(29, part2(signal))
+
+    def test5(self):
+        signal = 'zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw'
+        self.assertEqual(26, part2(signal))
+
+
+def part2(signal):
+    for i, packet in enumerate(sliding_window(signal, 14)):
+        if len(set(packet)) == len(packet):
+            return i + len(packet)
 
 
 def main():
     data = get_data(year=2022, day=6)
     answer1 = part1(data)
     print(answer1)
-    answer2 = part2()
+    answer2 = part2(data)
     print(answer2)
 
 
