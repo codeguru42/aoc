@@ -51,10 +51,22 @@ def sum_dirs(fs):
     return sum, sizes
 
 
+def sum_smalls(sizes):
+    sum = 0
+    for name, value in sizes.items():
+        if name == '..':
+            pass
+        else:
+            size, sub_dir = value
+            sum += sum_smalls(sub_dir)
+            if size < 100000:
+                sum += size
+    return sum
+
+
 def part1(fs):
     total, sizes = sum_dirs(fs)
-    print(total)
-    print(sizes)
+    return sum_smalls(sizes)
 
 
 def part2():
