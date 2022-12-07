@@ -15,7 +15,7 @@ def populate_dir(current_dir, commands):
         if size == 'dir':
             current_dir[name] = {'..': current_dir}
         else:
-            current_dir[name] = size
+            current_dir[name] = int(size)
         file_spec = next(commands, None)
     return file_spec
 
@@ -37,8 +37,24 @@ def build_fs(commands, root_dir, current_dir):
             command = next(commands, None)
 
 
-def part1():
-    pass
+def sum_dirs(fs):
+    sizes = {}
+    sum = 0
+    for name, value in fs.items():
+        if name == '..':
+            pass
+        elif type(value) == dict:
+            sizes[name] = sum_dirs(value)
+            sum += sizes[name][0]
+        else:
+            sum += value
+    return sum, sizes
+
+
+def part1(fs):
+    total, sizes = sum_dirs(fs)
+    print(total)
+    print(sizes)
 
 
 def part2():
@@ -47,8 +63,7 @@ def part2():
 def main():
     data = get_data(year=2022, day=7)
     fs = parse(data)
-    print(fs)
-    answer1 = part1()
+    answer1 = part1(fs)
     print(answer1)
     answer2 = part2()
     print(answer2)
