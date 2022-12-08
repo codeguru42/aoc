@@ -69,15 +69,27 @@ def part1(fs):
     return sum_smalls(sizes)
 
 
-def part2():
-    pass
+def delete_dir(total, sizes):
+    x = []
+    for name, value in sizes.items():
+        size, sub_dir = value
+        best = delete_dir(total, sub_dir)
+        if best + total > 30000000:
+            x.append(best)
+    return min(best, *x) if x else 30000000
+
+
+def part2(fs):
+    total, sizes = sum_dirs(fs)
+    return delete_dir(total, sizes)
+
 
 def main():
     data = get_data(year=2022, day=7)
     fs = parse(data)
     answer1 = part1(fs)
     print(answer1)
-    answer2 = part2()
+    answer2 = part2(fs)
     print(answer2)
 
 
