@@ -10,7 +10,14 @@ example = '''30373
 '''
 
 
+def parse(data):
+    return data.split('\n')
+
+
 class TestPart1(unittest.TestCase):
+    def test1(self):
+        self.assertEqual(21, part1(example.split('\n')))
+
     def test_increasing_subsequence1(self):
         row = example.split('\n')[1]
         expected = [(0, '2'), (1, '5')]
@@ -35,8 +42,23 @@ def increasing_subsequence(row):
             yield i, height
 
 
-def part1():
-    pass
+def get_visible(forest, transposed=False):
+    for j, row in enumerate(forest):
+        sub = increasing_subsequence(row)
+        for i, height in sub:
+            if transposed:
+                yield (j, i), height
+            else:
+                yield (i, j), height
+
+
+def part1(forest):
+    visible = set(get_visible(forest))
+    visible |= set(get_visible(reversed(row) for row in forest))
+    transposed = list(zip(*forest))
+    visible |= set(get_visible(transposed, transposed=True))
+    visible |= set(get_visible((reversed(row) for row in transposed), transposed=True))
+    return len(visible)
 
 
 def part2():
@@ -45,7 +67,8 @@ def part2():
 
 def main():
     data = get_data(year=2022, day=8)
-    answer1 = part1()
+    forest = parse(data)
+    answer1 = part1(forest)
     print(answer1)
     answer2 = part2()
     print(answer2)
