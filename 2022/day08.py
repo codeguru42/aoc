@@ -11,12 +11,12 @@ example = '''30373
 
 
 def parse(data):
-    return data.split('\n')
+    return data.strip().split('\n')
 
 
 class TestPart1(unittest.TestCase):
     def test1(self):
-        self.assertEqual(21, part1(example.strip().split('\n')))
+        self.assertEqual(21, part1(parse(example)))
 
     def test_increasing_subsequence1(self):
         row = example.split('\n')[1]
@@ -34,7 +34,7 @@ class TestPart1(unittest.TestCase):
         self.assertEqual(expected, list(increasing_subsequence(row)))
 
     def test_get_visible_rows(self):
-        forest = example.split('\n')
+        forest = parse(example)
         expected = [
             ((0, 0), '3'),
             ((0, 3), '7'),
@@ -51,7 +51,7 @@ class TestPart1(unittest.TestCase):
         self.assertEqual(expected, list(get_visible(forest)))
 
     def test_get_visible_rows_reversed(self):
-        forest = [reversed(row) for row in example.split('\n')]
+        forest = [reversed(row) for row in parse(example)]
         expected = [
             ((0, 4), '3'),
             ((0, 3), '7'),
@@ -68,7 +68,7 @@ class TestPart1(unittest.TestCase):
         self.assertEqual(expected, list(get_visible(forest, reversed=True)))
 
     def test_get_visible_rows_transposed(self):
-        forest = zip(*example.strip().split('\n'))
+        forest = zip(*parse(example))
         expected = [
             ((0, 0), '3'),
             ((2, 0), '6'),
