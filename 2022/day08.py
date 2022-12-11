@@ -106,10 +106,14 @@ def get_visible(forest, reversed=False, transposed=False):
                 yield (i, j), height
 
 
+def transpose(array):
+    return zip(*array)
+
+
 def part1(forest):
     visible = set(get_visible(forest))
     visible |= set(get_visible((reversed(row) for row in forest), reversed=True))
-    transposed = list(zip(*forest))
+    transposed = list(transpose(forest))
     visible |= set(get_visible(transposed, transposed=True))
     visible |= set(get_visible((reversed(row) for row in transposed), reversed=True, transposed=True))
     return len(visible)
