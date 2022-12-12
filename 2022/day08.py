@@ -119,6 +119,31 @@ def part1(forest):
     return len(visible)
 
 
+class TestPart2(unittest.TestCase):
+    def test_scenic_score1(self):
+        forest = parse(example)
+        self.assertEqual(4, scenic_score(forest, 1, 2))
+
+
+def take_while(seq, f):
+    for item in seq:
+        if f(item):
+            yield item
+
+
+def less_than(y):
+    return lambda x: x < y
+
+
+def scenic_score(forest, i, j):
+    left = list(take_while((-int(t) for t in forest[i][j::-1]), less_than(forest[i][j])))
+    right = list(take_while((-int(t) for t in forest[i][j:]), less_than(forest[i][j])))
+    transposed = list(transpose(forest))
+    up = list(take_while((-int(t) for t in transposed[j][i::-1]), less_than(forest[i][j])))
+    down = list(take_while((-int(t) for t in transposed[j][i:]), less_than(forest[i][j])))
+    return len(left) * len(right) * len(up) * len(down)
+
+
 def part2():
     pass
 
