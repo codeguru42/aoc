@@ -1,4 +1,5 @@
 import unittest
+from itertools import islice
 
 from aocd import get_data
 
@@ -28,18 +29,18 @@ def evaluate(instructions):
     for inst in instructions:
         match inst:
             case 'noop', :
-                yield clock * x
+                yield clock, x
                 clock += 1
             case 'addx', amt:
-                yield clock * x
+                yield clock, x
                 clock += 1
-                yield clock * x
+                yield clock, x
                 x += int(amt)
                 clock += 1
 
 
 def part1(instructions):
-    return sum(list(evaluate(instructions))[19:220:40])
+    return sum(islice((clock * x for clock, x in evaluate(instructions)), 19, 220, 40))
 
 
 def part2():
