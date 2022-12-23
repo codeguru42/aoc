@@ -24,8 +24,13 @@ class TestPart1(unittest.TestCase):
     def test_evaluate(self):
         inst = parse(example)
         result = evaluate(inst)
-        expected = [1, 2, 3, 16, 20]
+        expected = [(1, 1), (2, 1), (3, 1), (4, 4), (5, 4)]
         self.assertEqual(expected, list(result))
+
+    def test_part1(self):
+        inst = parse(example2)
+        result = part1(inst)
+        self.assertEqual(13140, result)
 
 
 def evaluate(instructions):
