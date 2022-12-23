@@ -45,16 +45,14 @@ def parse(data):
 
 def is_in_order(p1, p2):
     match p1, p2:
-        case [x1, *rest1], [x2, *rest2]:
-            match x1, x2:
-                case [int(), int()]:
-                    return x1 < x2 or x1 == x2 and is_in_order(rest1, rest2)
-                case [list(), list()]:
-                    return is_in_order(x1, x2) and is_in_order(rest1, rest2)
-                case [int(), list()]:
-                    return is_in_order([x1], x2) and is_in_order(rest1, rest2)
-                case [list(), int()]:
-                    return is_in_order(x1, [x2]) and is_in_order(rest1, rest2)
+        case [int(x1), *rest1], [int(x2), *rest2]:
+            return x1 < x2 or x1 == x2 and is_in_order(rest1, rest2)
+        case[list(x1), *rest1], [list(x2), *rest2]:
+            return is_in_order(x1, x2) and is_in_order(rest1, rest2)
+        case[int(x1), *rest1], [list(x2), *rest2]:
+            return is_in_order([x1], x2) and is_in_order(rest1, rest2)
+        case[list(x1), *rest1], [int(x2), *rest2]:
+            return is_in_order(x1, [x2]) and is_in_order(rest1, rest2)
 
 
 def get_indexes(packets):
