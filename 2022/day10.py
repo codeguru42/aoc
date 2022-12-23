@@ -55,7 +55,8 @@ def part1(instructions):
 
 def scan_line(seq):
     for clock, x in seq:
-        if (clock - 1) % 40 <= x <= (clock + 1) % 40:
+        ray_x = clock - 1
+        if (ray_x - 1) % 40 <= x <= (ray_x + 1) % 40:
             yield '#'
         else:
             yield '.'
