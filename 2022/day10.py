@@ -55,8 +55,8 @@ def part1(instructions):
 
 def scan_line(seq):
     for clock, x in seq:
-        ray_x = clock - 1
-        if (ray_x - 1) % 40 <= x <= (ray_x + 1) % 40:
+        ray_x = (clock - 1) % 40
+        if ray_x - 1 <= x <= ray_x + 1:
             yield '#'
         else:
             yield '.'
@@ -223,7 +223,7 @@ class TestPart2(unittest.TestCase):
     def test_part2(self):
         inst = parse(example2)
         result = part2(inst)
-        self.assertEqual(expected_scanline, result)
+        self.assertEqual(expected_scanline.strip(), result)
 
 
 def part2(instructions):
