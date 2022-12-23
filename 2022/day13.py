@@ -12,22 +12,30 @@ class TestPart1(unittest.TestCase):
         self.assertTrue(is_in_order([[1], [2, 3, 4]], [[1], 4]))
 
     def test_is_in_order3(self):
-        self.assertFalse(is_in_order([9], [[8, 7, 6]]))
+        result = is_in_order([9], [[8, 7, 6]])
+        self.assertFalse(result)
+        self.assertIsNotNone(result)
 
     def test_is_in_order4(self):
         self.assertTrue(is_in_order([[4, 4], 4, 4], [[4, 4], 4, 4, 4]))
 
     def test_is_in_order5(self):
-        self.assertFalse(is_in_order([7, 7, 7, 7], [7, 7, 7]))
+        result = is_in_order([7, 7, 7, 7], [7, 7, 7])
+        self.assertFalse(result)
+        self.assertIsNotNone(result)
 
     def test_is_in_order6(self):
         self.assertTrue(is_in_order([], [3]))
 
     def test_is_in_order7(self):
-        self.assertFalse(is_in_order([[[]]], [[]]))
+        result = is_in_order([[[]]], [[]])
+        self.assertFalse(result)
+        self.assertIsNotNone(result)
 
     def test_is_in_order8(self):
-        self.assertFalse(is_in_order([1, [2, [3, [4, [5, 6, 7]]]], 8, 9], [1, [2, [3, [4, [5, 6, 0]]]], 8, 9]))
+        result = is_in_order([1, [2, [3, [4, [5, 6, 7]]]], 8, 9], [1, [2, [3, [4, [5, 6, 0]]]], 8, 9])
+        self.assertFalse(result)
+        self.assertIsNotNone(result)
 
 
 def parse(data):
