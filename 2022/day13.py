@@ -3,6 +3,30 @@ import unittest
 
 from aocd import get_data
 
+example = '''[1,1,3,1,1]
+[1,1,5,1,1]
+
+[[1],[2,3,4]]
+[[1],4]
+
+[9]
+[[8,7,6]]
+
+[[4,4],4,4]
+[[4,4],4,4,4]
+
+[7,7,7,7]
+[7,7,7]
+
+[]
+[3]
+
+[[[]]]
+[[]]
+
+[1,[2,[3,[4,[5,6,7]]]],8,9]
+[1,[2,[3,[4,[5,6,0]]]],8,9]'''
+
 
 class TestPart1(unittest.TestCase):
     def test_is_in_order1(self):
@@ -37,6 +61,10 @@ class TestPart1(unittest.TestCase):
         self.assertFalse(result)
         self.assertIsNotNone(result)
 
+    def test_part1(self):
+        packets = parse(example)
+        self.assertEqual(part1(packets), 13)
+
 
 def parse(data):
     for pair in data.strip().split('\n\n'):
@@ -45,7 +73,7 @@ def parse(data):
 
 def is_in_order(p1, p2):
     match p1, p2:
-        case [[], []]:
+        case [[], _]:
             return True
         case [int(x1), *rest1], [int(x2), *rest2]:
             return x1 < x2 or x1 == x2 and is_in_order(rest1, rest2)
@@ -61,7 +89,7 @@ def is_in_order(p1, p2):
 def get_indexes(packets):
     for i, p in enumerate(packets):
         if is_in_order(*p):
-            yield i
+            yield i + 1
 
 
 def part1(packets):
