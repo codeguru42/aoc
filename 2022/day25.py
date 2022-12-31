@@ -214,7 +214,8 @@ def parse(data):
 
 
 def part1(snafus):
-    return sum(snafu_to_int(snafu) for snafu in snafus)
+    s = sum(snafu_to_int(snafu) for snafu in snafus)
+    return int_to_snafu(s)
 
 
 def part2():
