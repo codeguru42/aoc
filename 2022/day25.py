@@ -109,8 +109,12 @@ def snafu_to_int(snafu):
     return sum(d*5**i for i, d in digits())
 
 
-def part1():
-    pass
+def parse(data):
+    return data.split('\n')
+
+
+def part1(snafus):
+    return sum(snafu_to_int(snafu) for snafu in snafus)
 
 
 def part2():
@@ -119,8 +123,8 @@ def part2():
 
 def main():
     data = get_data(year=2022, day=25)
-    print(data)
-    answer1 = part1()
+    snafus = parse(data)
+    answer1 = part1(snafus)
     print(answer1)
     answer2 = part2()
     print(answer2)
