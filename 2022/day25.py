@@ -88,6 +88,90 @@ class TestPart1(unittest.TestCase):
     def test_snafu_to_int28(self):
         self.assertEqual(snafu_to_int('122'), 37)
 
+    def test_int_to_snafu1(self):
+        self.assertEqual(int_to_snafu(1), '1')
+
+    def test_int_to_snafu2(self):
+        self.assertEqual(int_to_snafu(2), '2')
+
+    def test_int_to_snafu3(self):
+        self.assertEqual(int_to_snafu(3), '1=')
+
+    def test_int_to_snafu4(self):
+        self.assertEqual(int_to_snafu(4), '1-')
+
+    def test_int_to_snafu5(self):
+        self.assertEqual(int_to_snafu(5), '10')
+
+    def test_int_to_snafu6(self):
+        self.assertEqual(int_to_snafu(6), '11')
+
+    def test_int_to_snafu7(self):
+        self.assertEqual(int_to_snafu(7), '12')
+
+    def test_int_to_snafu8(self):
+        self.assertEqual(int_to_snafu(8), '2=')
+
+    def test_int_to_snafu9(self):
+        self.assertEqual(int_to_snafu(9), '2-')
+
+    def test_int_to_snafu10(self):
+        self.assertEqual(int_to_snafu(10), '20')
+
+    def test_int_to_snafu11(self):
+        self.assertEqual(int_to_snafu(15), '1=0')
+
+    def test_int_to_snafu12(self):
+        self.assertEqual(int_to_snafu(20), '1-0')
+
+    def test_int_to_snafu13(self):
+        self.assertEqual(int_to_snafu(2022), '1=11-2')
+
+    def test_int_to_snafu14(self):
+        self.assertEqual(int_to_snafu(12345), '1-0---0')
+
+    def test_int_to_snafu15(self):
+        self.assertEqual(int_to_snafu(314159265), '1121-1110-1=0')
+
+    def test_int_to_snafu16(self):
+        self.assertEqual(int_to_snafu(1747), '1=-0-2')
+
+    def test_int_to_snafu17(self):
+        self.assertEqual(int_to_snafu(906), '12111')
+
+    def test_int_to_snafu18(self):
+        self.assertEqual(int_to_snafu(198), '2=0=')
+
+    def test_int_to_snafu19(self):
+        self.assertEqual(int_to_snafu(11), '21')
+
+    def test_int_to_snafu20(self):
+        self.assertEqual(int_to_snafu(201), '2=01')
+
+    def test_int_to_snafu21(self):
+        self.assertEqual(int_to_snafu(31), '111')
+
+    def test_int_to_snafu22(self):
+        self.assertEqual(int_to_snafu(1257), '20012')
+
+    def test_int_to_snafu23(self):
+        self.assertEqual(int_to_snafu(32), '112')
+
+    def test_int_to_snafu24(self):
+        self.assertEqual(int_to_snafu(353), '1=-1=')
+
+    def test_int_to_snafu25(self):
+        self.assertEqual(int_to_snafu(107), '1-12')
+
+    def test_int_to_snafu26(self):
+        self.assertEqual(int_to_snafu(7), '12')
+
+    def test_int_to_snafu27(self):
+        self.assertEqual(int_to_snafu(3), '1=')
+
+    def test_int_to_snafu28(self):
+        self.assertEqual(int_to_snafu(37), '122')
+
 
 def snafu_to_int(snafu):
     def digits():
@@ -104,6 +188,25 @@ def snafu_to_int(snafu):
                 case '=':
                     yield i, -2
     return sum(d*5**i for i, d in digits())
+
+
+def int_to_snafu(val):
+    def snafus(val):
+        while val > 1:
+            if val % 5 <= 2:
+                yield str(val % 5)
+            else:
+                if val % 5 == 3:
+                    yield '='
+                elif val % 5 == 4:
+                    yield '-'
+                else:
+                    raise Exception(f'invalid val: {val}')
+                val += 5
+            val //= 5
+        if val != 0:
+            yield str(val)
+    return ''.join(reversed(list(snafus(val))))
 
 
 def parse(data):
