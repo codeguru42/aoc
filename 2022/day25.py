@@ -8,87 +8,84 @@ class TestPart1(unittest.TestCase):
         self.assertEqual(snafu_to_int('1'), 1)
 
     def test_snafu_to_int2(self):
-        self.assertEqual(snafu_to_int('1'), 1)
-
-    def test_snafu_to_int3(self):
         self.assertEqual(snafu_to_int('2'), 2)
 
-    def test_snafu_to_int4(self):
+    def test_snafu_to_int3(self):
         self.assertEqual(snafu_to_int('1='), 3)
 
-    def test_snafu_to_int5(self):
+    def test_snafu_to_int4(self):
         self.assertEqual(snafu_to_int('1-'), 4)
 
-    def test_snafu_to_int6(self):
+    def test_snafu_to_int5(self):
         self.assertEqual(snafu_to_int('10'), 5)
 
-    def test_snafu_to_int7(self):
+    def test_snafu_to_int6(self):
         self.assertEqual(snafu_to_int('11'), 6)
 
-    def test_snafu_to_int8(self):
+    def test_snafu_to_int7(self):
         self.assertEqual(snafu_to_int('12'), 7)
 
-    def test_snafu_to_int9(self):
+    def test_snafu_to_int8(self):
         self.assertEqual(snafu_to_int('2='), 8)
 
-    def test_snafu_to_int10(self):
+    def test_snafu_to_int9(self):
         self.assertEqual(snafu_to_int('2-'), 9)
 
-    def test_snafu_to_int11(self):
+    def test_snafu_to_int10(self):
         self.assertEqual(snafu_to_int('20'), 10)
 
-    def test_snafu_to_int12(self):
+    def test_snafu_to_int11(self):
         self.assertEqual(snafu_to_int('1=0'), 15)
 
-    def test_snafu_to_int13(self):
+    def test_snafu_to_int12(self):
         self.assertEqual(snafu_to_int('1-0'), 20)
 
-    def test_snafu_to_int14(self):
+    def test_snafu_to_int13(self):
         self.assertEqual(snafu_to_int('1=11-2'), 2022)
 
-    def test_snafu_to_int15(self):
+    def test_snafu_to_int14(self):
         self.assertEqual(snafu_to_int('1-0---0'), 12345)
 
-    def test_snafu_to_int16(self):
+    def test_snafu_to_int15(self):
         self.assertEqual(snafu_to_int('1121-1110-1=0'), 314159265)
 
-    def test_snafu_to_int17(self):
+    def test_snafu_to_int16(self):
         self.assertEqual(snafu_to_int('1=-0-2'), 1747)
 
-    def test_snafu_to_int18(self):
+    def test_snafu_to_int17(self):
         self.assertEqual(snafu_to_int('12111'), 906)
 
-    def test_snafu_to_int19(self):
+    def test_snafu_to_int18(self):
         self.assertEqual(snafu_to_int('2=0='), 198)
 
-    def test_snafu_to_int20(self):
+    def test_snafu_to_int19(self):
         self.assertEqual(snafu_to_int('21'), 11)
 
-    def test_snafu_to_int21(self):
+    def test_snafu_to_int20(self):
         self.assertEqual(snafu_to_int('2=01'), 201)
 
-    def test_snafu_to_int22(self):
+    def test_snafu_to_int21(self):
         self.assertEqual(snafu_to_int('111'), 31)
 
-    def test_snafu_to_int23(self):
+    def test_snafu_to_int22(self):
         self.assertEqual(snafu_to_int('20012'), 1257)
 
-    def test_snafu_to_int24(self):
+    def test_snafu_to_int23(self):
         self.assertEqual(snafu_to_int('112'), 32)
 
-    def test_snafu_to_int25(self):
+    def test_snafu_to_int24(self):
         self.assertEqual(snafu_to_int('1=-1='), 353)
 
-    def test_snafu_to_int26(self):
+    def test_snafu_to_int25(self):
         self.assertEqual(snafu_to_int('1-12'), 107)
 
-    def test_snafu_to_int27(self):
+    def test_snafu_to_int26(self):
         self.assertEqual(snafu_to_int('12'), 7)
 
-    def test_snafu_to_int28(self):
+    def test_snafu_to_int27(self):
         self.assertEqual(snafu_to_int('1='), 3)
 
-    def test_snafu_to_int29(self):
+    def test_snafu_to_int28(self):
         self.assertEqual(snafu_to_int('122'), 37)
 
 
