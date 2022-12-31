@@ -61,6 +61,9 @@ class TestPart1(unittest.TestCase):
         self.assertFalse(result)
         self.assertIsNotNone(result)
 
+    def test_is_in_order9(self):
+        self.assertTrue(is_in_order([[1], 3], [[2], 2]))
+
     def test_part1(self):
         packets = parse(example)
         self.assertEqual(part1(packets), 13)
@@ -78,7 +81,7 @@ def is_in_order(p1, p2):
         case [int(x1), *rest1], [int(x2), *rest2]:
             return x1 < x2 or x1 == x2 and is_in_order(rest1, rest2)
         case[list(x1), *rest1], [list(x2), *rest2]:
-            return is_in_order(x1, x2) and is_in_order(rest1, rest2)
+            return is_in_order(x1, x2) or x1 == x2 and is_in_order(rest1, rest2)
         case[int(x1), *rest1], [list(x2), *rest2]:
             return is_in_order([x1], x2) and is_in_order(rest1, rest2)
         case[list(x1), *rest1], [int(x2), *rest2]:
