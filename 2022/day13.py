@@ -101,16 +101,32 @@ def part1(packets):
     return sum(get_indexes(packets))
 
 
-def part2():
-    pass
+class TestPart2(unittest.TestCase):
+    def test_part2(self):
+        packets = parse(example)
+        self.assertEqual(140, part2(packets))
+
+
+class PacketKey:
+    def __init__(self, packet):
+        self.packet = packet
+
+    def __lt__(self, other):
+        return is_in_order(self.packet, other.packet)
+
+
+def part2(packet_pairs):
+    packets = [i for sub in packet_pairs for i in sub] + [[[2]], [[6]]]
+    packets.sort(key=PacketKey)
+    return (packets.index([[2]]) + 1) * (packets.index([[6]]) + 1)
 
 
 def main():
     data = get_data(year=2022, day=13)
-    packets = parse(data)
+    packets = list(parse(data))
     answer1 = part1(packets)
     print(answer1)
-    answer2 = part2()
+    answer2 = part2(packets)
     print(answer2)
 
 
