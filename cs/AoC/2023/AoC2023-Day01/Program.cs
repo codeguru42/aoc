@@ -21,6 +21,6 @@ int Part1(IEnumerable<IEnumerable<int>> elves)
 
 int Part2(IEnumerable<IEnumerable<int>> elves)
 {
-    var calories = elves.Select(elf => elf.Sum()).OrderByDescending(c => c).ToArray();
-    return calories[..3].Sum();
+    var calories = elves.Select(elf => elf.Sum());
+    return calories.OrderByDescending(c => c).Take(3).Sum();
 }
