@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-var input = File.ReadAllText("input.txt");
+﻿var input = File.ReadAllText("input.txt");
 var elves = Parse(input);
 var answer1 = Part1(elves);
 Console.WriteLine(answer1);
