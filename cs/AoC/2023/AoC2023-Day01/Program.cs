@@ -1,3 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-Console.WriteLine("Hello, World!");
+var input = System.IO.File.ReadAllText("input.txt");
+Console.WriteLine(input);
