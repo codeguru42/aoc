@@ -1,12 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using static System.Int32;
-
 var input = File.ReadAllText("input.txt");
-var elves = input.Split("\n\n");
-var calories = elves.Select(elf =>
+var elves = Parse(input);
+var answer = Part1(elves);
+Console.WriteLine(answer);
+
+IEnumerable<IEnumerable<int>> Parse(string input)
 {
-    var calories = elf.Trim().Split('\n').Select(Parse);
-    return calories.Sum();
-});
-Console.WriteLine(calories.Max());
+    var elves = input.Split("\n\n");
+    return elves.Select(elf => elf.Trim().Split('\n').Select(int.Parse));
+}
+
+int Part1(IEnumerable<IEnumerable<int>> elves)
+{
+    var calories = elves.Select(elf => elf.Sum());
+    return calories.Max();
+}
