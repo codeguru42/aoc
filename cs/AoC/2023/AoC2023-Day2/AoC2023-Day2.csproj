@@ -8,4 +8,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="cp input.txt $(ProjectDir)$(OutDir)" />
+    </Target>
+
 </Project>
