@@ -64,6 +64,12 @@ class TestPart1(unittest.TestCase):
     def test_is_in_order9(self):
         self.assertTrue(is_in_order([[1], 3], [[2], 2]))
 
+    def test_is_in_order10(self):
+        l1 = [[8, [[2, 6, 8, 4], 1]], [[], [], [[8, 3, 0, 8], 6], [3, [1, 3], 8]], [1, 10, [2, 2, [0, 5, 2, 9], [4, 10, 4, 8]]], [[8, 9, 6], [[], [4]]]]
+        l2 = [[[[8]], 3, [1, 7, 5]], [[[3, 1, 2, 8], [4, 5], [1, 0, 4, 2, 9], 1, []], 8, 5, [5, [], [9, 4, 7, 3, 9], [0, 10, 10, 6, 0], [7, 5, 5, 3]], 6]]
+        result = is_in_order(l1, l2)
+        self.assertTrue(result)
+
     def test_part1(self):
         packets = parse(example)
         self.assertEqual(part1(packets), 13)
