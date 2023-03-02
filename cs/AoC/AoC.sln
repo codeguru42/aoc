@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AoC2023-Day01", "2023\AoC2023-Day01\AoC2023-Day01.csproj", "{06E3316F-1712-474F-A949-D7C1611F55D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AoC2023-Day2", "2023\AoC2023-Day2\AoC2023-Day2.csproj", "{08CE1F5C-1D80-4DAE-B6F4-592F89D62F67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AoC2023-Day02", "2023\AoC2023-Day02\AoC2023-Day02.csproj", "{08CE1F5C-1D80-4DAE-B6F4-592F89D62F67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
