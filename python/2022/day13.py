@@ -83,7 +83,7 @@ def parse(data):
 def is_in_order(p1, p2):
     match p1, p2:
         case [[], []]:
-            return False
+            return True
         case [[], _]:
             return True
         case [int(x1), *rest1], [int(x2), *rest2]:
