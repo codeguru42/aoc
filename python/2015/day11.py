@@ -115,8 +115,16 @@ def next_password(password):
     return base26_to_string(increment_base26(list(string_to_base26(password))))
 
 
-def part1():
-    pass
+def generate_passwords(password):
+    while True:
+        password = next_password(password)
+        yield password
+
+
+def part1(password):
+    for pp in generate_passwords(password):
+        if valid_password(pp):
+            return pp
 
 
 def part2():
@@ -124,7 +132,8 @@ def part2():
 
 
 def main():
-    print(part1())
+    password = 'cqjxjnds'
+    print(part1(password))
     print(part2())
 
 
