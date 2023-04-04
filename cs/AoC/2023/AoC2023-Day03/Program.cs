@@ -1,12 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using static System.Char;
 
 var input = File.ReadAllText("input.txt");
 var data = Parse(input);
 
-foreach (var rucksack in data)
-{
-    Console.WriteLine($"{rucksack[0]} {rucksack[1]}");
-}
+var answer1 = Part1(data);
+Console.WriteLine(answer1);
 
 IEnumerable<string[]> Parse(string input)
 {
@@ -20,4 +18,18 @@ IEnumerable<string[]> Parse(string input)
                 line[half..]
             };
         });
+}
+
+int Part1(IEnumerable<string[]> rucksacks)
+{
+    var priorities = rucksacks.Select(rucksack =>
+    {
+        var common = rucksack[0].Intersect(rucksack[1]).First();
+        if (IsLower(common))
+        {
+            return common - 'a' + 1;
+        }
+        return common - 'A' + 27;
+    });
+    return priorities.Sum();
 }
