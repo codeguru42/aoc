@@ -7,9 +7,10 @@ Console.WriteLine(answer1);
 var answer2 = Part2(data);
 Console.WriteLine(answer2);
 
-object Parse(string s)
+IEnumerable<IEnumerable<IEnumerable<int>>> Parse(string input)
 {
-    throw new NotImplementedException();
+    return input.Trim().Split('\n')
+        .Select(line => { return line.Split(',').Select(range => range.Split('-').Select(Int32.Parse)); });
 }
 
 bool Part1(object o)
