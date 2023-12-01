@@ -8,6 +8,7 @@ authors = ["Code-Apprentice <codeguru42@gmail.com>"]
 python = "^3.11"
 advent-of-code-data = "^1.2.2"
 browser-cookie3 = "^0.16.2"
+pytest = "^7.4.3"
 
 [tool.poetry.dev-dependencies]
 
