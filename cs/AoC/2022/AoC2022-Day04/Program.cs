@@ -10,10 +10,10 @@ Console.WriteLine(answer2);
 IEnumerable<IEnumerable<IEnumerable<int>>> Parse(string input)
 {
     return input.Trim().Split('\n')
-        .Select(line => { return line.Split(',').Select(range => range.Split('-').Select(Int32.Parse)); });
+        .Select(line => line.Split(',').Select(range => range.Split('-').Select(Int32.Parse)));
 }
 
-bool Part1(object o)
+int Part1(IEnumerable<IEnumerable<IEnumerable<int>>> data)
 {
     throw new NotImplementedException();
 }
