@@ -9,6 +9,9 @@ class GameSet:
     blue: int = 0
     green: int = 0
 
+    def power(self):
+        return self.red * self.blue * self.green
+
 
 @dataclass
 class Game:
@@ -53,13 +56,21 @@ def part1(games: list[Game]):
     return sum(get_possible(games))
 
 
-def part2(games):
-    pass
+def min_cubes(game: Game):
+    min_red = max(s.red for s in game.game_sets)
+    min_blue = max(s.blue for s in game.game_sets)
+    min_green = max(s.green for s in game.game_sets)
+    return GameSet(red=min_red, blue=min_blue, green=min_green)
+
+
+def part2(games: list[Game]):
+    mins = [min_cubes(g) for g in games]
+    return sum(m.power() for m in mins)
 
 
 def main():
     data = get_data(year=2023, day=2)
-    parsed = parse(data)
+    parsed = list(parse(data))
     print(part1(parsed))
     print(part2(parsed))
 
