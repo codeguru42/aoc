@@ -1,9 +1,11 @@
+from collections import defaultdict
+
 from aocd import get_data
 
 
 def parse_sets(sets):
     for s in sets:
-        d = {}
+        d = {"red": 0, "green": 0, "blue": 0}
         cubes = s.split(",")
         for cube in cubes:
             count, color = cube.strip().split(" ")
@@ -24,18 +26,27 @@ def parse(data):
         yield parse_line(line)
 
 
-def part1(lines):
-    pass
+def get_possible(games):
+    for game_id, sets in games:
+        possible = True
+        for s in sets:
+            if s["red"] > 12 or s["green"] > 13 or s["blue"] > 14:
+                possible = False
+        if possible:
+            yield game_id
 
 
-def part2(lines):
+def part1(games):
+    return sum(get_possible(games))
+
+
+def part2(games):
     pass
 
 
 def main():
     data = get_data(year=2023, day=2)
     parsed = parse(data)
-    print(list(parsed))
     print(part1(parsed))
     print(part2(parsed))
 
