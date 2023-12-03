@@ -77,6 +77,8 @@ def parse_part_numbers(schematic) -> list[PartNumber]:
             elif part_number != 0:
                 yield PartNumber(part_number=part_number, position=position)
                 part_number = 0
+        if part_number != 0:
+            yield PartNumber(part_number=part_number, position=position)
 
 
 def is_pn(pn: PartNumber, schematic: list[str]):
