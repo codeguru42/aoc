@@ -1,5 +1,7 @@
+import math
 from dataclasses import dataclass
 
+import pytest
 from aocd import get_data
 
 example_schematic = """467..114..
@@ -15,8 +17,13 @@ example_schematic = """467..114..
 """
 
 
-def test_parse_part_numbers():
-    pns = parse_part_numbers(example_schematic.split("\n"))
+@pytest.fixture
+def schematic():
+    return parse(example_schematic)
+
+
+def test_parse_part_numbers(schematic):
+    pns = parse_part_numbers(schematic)
     expected = [
         PartNumber(part_number=467, position=(0, 0)),
         PartNumber(part_number=114, position=(0, 5)),
@@ -32,6 +39,22 @@ def test_parse_part_numbers():
     assert list(pns) == expected
 
 
+def test_is_pn(schematic):
+    pn = PartNumber(part_number=467, position=(0, 0))
+    assert is_pn(pn, schematic)
+
+
+def test_is_not_pn(schematic):
+    pn = PartNumber(part_number=114, position=(0, 5))
+    assert not is_pn(pn, schematic)
+
+
+def test_part1(schematic):
+    result = part1(schematic)
+    expected = 4361
+    assert result == expected
+
+
 @dataclass
 class PartNumber:
     part_number: int
@@ -39,7 +62,7 @@ class PartNumber:
 
 
 def parse(data) -> list[str]:
-    return data.split("\n")
+    return data.strip().split("\n")
 
 
 def parse_part_numbers(schematic) -> list[PartNumber]:
@@ -56,8 +79,29 @@ def parse_part_numbers(schematic) -> list[PartNumber]:
                 part_number = 0
 
 
-def part1(games: list[str]):
-    pass
+def is_pn(pn: PartNumber, schematic: list[str]):
+    print(pn)
+    h = len(schematic)
+    w = len(schematic[0])
+    r, c = pn.position
+    l = math.ceil(math.log(pn.part_number, 10))
+    result = False
+    for i in range(r - 1, r + 2):
+        for j in range(c - 1, c + l + 1):
+            if i == r and c - 1 < j < c + l:
+                continue
+            if 0 <= i < h and 0 <= j < w:
+                print(i, j)
+                sym = schematic[i][j]
+                if not sym.isdigit() and sym != ".":
+                    result = True
+    print(result)
+    return result
+
+
+def part1(schematic: list[str]):
+    part_numbers = parse_part_numbers(schematic)
+    return sum(pn.part_number for pn in part_numbers if is_pn(pn, schematic))
 
 
 def part2(games: list[str]):
