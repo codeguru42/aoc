@@ -1,3 +1,4 @@
+from collections import Counter
 from dataclasses import dataclass
 
 import pytest
@@ -37,15 +38,15 @@ def test_count_winners(cards, expected_scores, i):
     assert score(cards[i]) == expected_scores[i]
 
 
-@dataclass
+@dataclass(frozen=True)
 class Card:
     card_id: int
-    winning: list[int]
-    numbers: list[int]
+    winning: tuple[int]
+    numbers: tuple[int]
 
 
-def parse_numbers(numbers: str):
-    return [int(n) for n in numbers.strip().split()]
+def parse_numbers(numbers: str) -> tuple[int]:
+    return tuple(int(n) for n in numbers.strip().split())
 
 
 def parse(data: str) -> list[Card]:
@@ -55,7 +56,7 @@ def parse(data: str) -> list[Card]:
         card_id = card.split(" ")[-1]
         winning, numbers = card_data.split("|")
         yield Card(
-            card_id=card_id,
+            card_id=int(card_id),
             winning=parse_numbers(winning),
             numbers=parse_numbers(numbers),
         )
@@ -74,8 +75,13 @@ def part1(cards: list[Card]) -> int:
     return sum(score(c) for c in cards)
 
 
-def part2(lines):
-    pass
+def part2(cards):
+    counts = Counter(cards)
+    for card in cards:
+        winner_count = count_winners(card)
+        for i in range(winner_count):
+            counts[cards[card.card_id + i]] += counts[card]
+    return sum(counts.values())
 
 
 def main():
