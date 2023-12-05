@@ -90,6 +90,11 @@ def parse(data):
     return parse_seeds(maps[0]), list(parse_maps(maps[1:]))
 
 
+def sort_maps(maps):
+    for map in maps:
+        map.sort(key=lambda m: m.source)
+
+
 def get_next(curr: int, map: list[Map]) -> int:
     for m in map:
         if m.source <= curr < m.source + m.len:
@@ -115,6 +120,7 @@ def part2(seeds, maps):
 def main():
     data = get_data(year=2023, day=5)
     seeds, maps = parse(data)
+    sort_maps(maps)
     print(part1(seeds, maps))
     print(part2(seeds, maps))
 
