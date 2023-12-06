@@ -1,5 +1,6 @@
 import math
 import re
+import timeit
 from dataclasses import dataclass
 
 from aocd import get_data
@@ -50,6 +51,8 @@ def main():
     parsed = list(parse(data))
     print(part1(parsed))
     print(part2(parsed))
+    print("Part 1:", timeit.timeit(lambda: part1(parsed), number=1))
+    print("Part 2:", timeit.timeit(lambda: part2(parsed), number=1))
 
 
 if __name__ == "__main__":
