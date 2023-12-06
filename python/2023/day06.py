@@ -32,10 +32,7 @@ def part1(races):
 
 
 def combine(nums):
-    s = ""
-    for n in nums:
-        s += str(n)
-    return int(s)
+    return int("".join(str(n) for n in nums))
 
 
 def combine_races(races):
