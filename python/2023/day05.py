@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from itertools import zip_longest
 
 import pytest
 from aocd import get_data
@@ -113,8 +114,55 @@ def part1(seeds: list[int], maps: list[list[Map]]):
     return min(get_location(seed, maps) for seed in seeds)
 
 
+def grouper(iterable, n, *, incomplete="fill", fillvalue=None):
+    "Collect data into non-overlapping fixed-length chunks or blocks"
+    # grouper('ABCDEFG', 3, fillvalue='x') --> ABC DEF Gxx
+    # grouper('ABCDEFG', 3, incomplete='strict') --> ABC DEF ValueError
+    # grouper('ABCDEFG', 3, incomplete='ignore') --> ABC DEF
+    args = [iter(iterable)] * n
+    if incomplete == "fill":
+        return zip_longest(*args, fillvalue=fillvalue)
+    if incomplete == "strict":
+        return zip(*args, strict=True)
+    if incomplete == "ignore":
+        return zip(*args)
+    else:
+        raise ValueError("Expected fill, strict, or ignore")
+
+
+def get_next2(end_points, map):
+    ep_iter = iter(end_points)
+    ep = next(ep_iter)
+    for m in map:
+        start, end = ep
+        src_start, src_end = m.source, m.source + m.len
+        if src_start <= start < end < src_end:
+            yield m.dest + start - src_start, m.dest + end - src_start
+            ep = next(ep_iter)
+        if start < end < src_start <= src_end:
+            ep = next(ep_iter)
+        if start < src_start < end < src_end:
+            yield m.dest, m.dest + end - src_start
+            ep = next(ep_iter)
+        if src_start <= start < src_end < end:
+            yield m.dest + start - src_start, m.dest + src_end - src_start
+            ep = (src_end, end)
+
+
+def get_location2(seed_range, maps):
+    seed_start, seed_length = seed_range
+    end_points = [(seed_start, seed_start + seed_length)]
+    for map in maps:
+        end_points = get_next2(end_points, map)
+    yield from end_points
+
+
 def part2(seeds, maps):
-    pass
+    return min(
+        loc
+        for seed_range in grouper(seeds, 2)
+        for loc in get_location2(seed_range, maps)
+    )
 
 
 def main():
