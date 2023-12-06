@@ -49,7 +49,6 @@ def part2(races):
 def main():
     data = get_data(year=2023, day=6)
     parsed = list(parse(data))
-    print(parsed)
     print(part1(parsed))
     print(part2(parsed))
 
