@@ -1,4 +1,6 @@
+import math
 import re
+from collections.abc import Generator
 from dataclasses import dataclass
 
 from aocd import get_data
@@ -17,11 +19,19 @@ def parse(data):
         yield Race(time=int(t), distance=int(d))
 
 
-def part1(lines):
-    pass
+def count_wins(race: Race) -> int:
+    count = 0
+    for a in range(race.time + 1):
+        if a * (race.time - a) >= race.distance:
+            count += 1
+    return count
 
 
-def part2(lines):
+def part1(races):
+    return math.prod(count_wins(race) for race in races)
+
+
+def part2(races):
     pass
 
 
