@@ -1,6 +1,5 @@
 import math
 import re
-from collections.abc import Generator
 from dataclasses import dataclass
 
 from aocd import get_data
