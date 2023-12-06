@@ -31,8 +31,22 @@ def part1(races):
     return math.prod(count_wins(race) for race in races)
 
 
+def combine(nums):
+    s = ""
+    for n in nums:
+        s += str(n)
+    return int(s)
+
+
+def combine_races(races):
+    t = combine(r.time for r in races)
+    d = combine(r.distance for r in races)
+    return Race(time=t, distance=d)
+
+
 def part2(races):
-    pass
+    race = combine_races(races)
+    return count_wins(race)
 
 
 def main():
