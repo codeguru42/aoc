@@ -9,6 +9,12 @@ class Node:
     name: str
     links: tuple
 
+    def right(self):
+        return self.links[0]
+
+    def left(self):
+        return self.links[1]
+
 
 def parse_network(lines):
     for line in lines:
