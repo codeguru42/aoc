@@ -95,13 +95,17 @@ def parse(data):
         yield cards, int(bid)
 
 
-def part1(hands):
+def score(hands):
     sorted_hands = sorted(hands, key=lambda x: key(x[0]))
     return sum(bid * rank for rank, (_, bid) in enumerate(sorted_hands, start=1))
 
 
-def part2(lines):
-    pass
+def part1(hands):
+    return score(hands)
+
+
+def part2(hands):
+    return score(hands)
 
 
 def main():
