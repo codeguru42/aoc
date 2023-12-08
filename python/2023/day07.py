@@ -50,10 +50,10 @@ expected_keys = [
 
 def test_key(hand):
     print("\n", hand)
-    print(key(hand[0]))
+    print(key1(hand[0]))
 
 
-def order(card):
+def order1(card):
     match card:
         case c if "2" <= c <= "9":
             return int(c)
@@ -69,23 +69,81 @@ def order(card):
             return 14
 
 
-def key(cards):
+def rank1(cards):
     counts = Counter(cards)
     counts_of_counts = Counter(counts.values())
-    card_order = [order(card) for card in cards]
     if counts_of_counts[5] == 1:
-        return Rank.FIVE_OF_A_KIND, card_order
+        return Rank.FIVE_OF_A_KIND
     if counts_of_counts[4] == 1:
-        return Rank.FOUR_OF_A_KIND, card_order
+        return Rank.FOUR_OF_A_KIND
     if counts_of_counts[3] == 1 and counts_of_counts[2] == 1:
-        return Rank.FULL_HOUSE, card_order
+        return Rank.FULL_HOUSE
     if counts_of_counts[3] == 1:
-        return Rank.THREE_OF_A_KIND, card_order
+        return Rank.THREE_OF_A_KIND
     if counts_of_counts[2] == 2:
-        return Rank.TWO_PAIR, card_order
+        return Rank.TWO_PAIR
     if counts_of_counts[2] == 1:
-        return Rank.ONE_PAIR, card_order
-    return Rank.HIGH_CARD, card_order
+        return Rank.ONE_PAIR
+    return Rank.HIGH_CARD
+
+
+def key1(cards):
+    card_order = [order1(card) for card in cards]
+    rank = rank1(cards)
+    return rank, card_order
+
+
+def order2(card):
+    match card:
+        case c if "2" <= c <= "9":
+            return int(c)
+        case "T":
+            return 10
+        case "J":
+            return 1
+        case "Q":
+            return 12
+        case "K":
+            return 13
+        case "A":
+            return 14
+
+
+def rank2(cards):
+    rank = rank1(cards)
+    counts = Counter(cards)
+    if rank == Rank.FOUR_OF_A_KIND and counts["J"] >= 1:
+        return Rank.FIVE_OF_A_KIND
+    if rank == Rank.FULL_HOUSE:
+        if counts["J"] >= 2:
+            return Rank.FIVE_OF_A_KIND
+    if rank == Rank.THREE_OF_A_KIND:
+        if counts["J"] == 3:
+            return Rank.FOUR_OF_A_KIND
+        if counts["J"] == 2:
+            return Rank.FIVE_OF_A_KIND
+        if counts["J"] == 1:
+            return Rank.FOUR_OF_A_KIND
+    if rank == Rank.TWO_PAIR:
+        if counts["J"] == 1:
+            return Rank.FULL_HOUSE
+        if counts["J"] == 2:
+            return Rank.FOUR_OF_A_KIND
+    if rank == Rank.ONE_PAIR:
+        if counts["J"] == 1:
+            return Rank.THREE_OF_A_KIND
+        if counts["J"] == 2:
+            return Rank.THREE_OF_A_KIND
+    if rank == Rank.HIGH_CARD:
+        if counts["J"] == 1:
+            return Rank.ONE_PAIR
+    return rank
+
+
+def key2(cards):
+    card_order = [order2(card) for card in cards]
+    rank = rank2(cards)
+    return rank, card_order
 
 
 def parse(data):
@@ -95,17 +153,17 @@ def parse(data):
         yield cards, int(bid)
 
 
-def score(hands):
+def score(hands, key):
     sorted_hands = sorted(hands, key=lambda x: key(x[0]))
     return sum(bid * rank for rank, (_, bid) in enumerate(sorted_hands, start=1))
 
 
 def part1(hands):
-    return score(hands)
+    return score(hands, key1)
 
 
 def part2(hands):
-    return score(hands)
+    return score(hands, key2)
 
 
 def main():
