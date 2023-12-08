@@ -112,31 +112,33 @@ def order2(card):
 def rank2(cards):
     rank = rank1(cards)
     counts = Counter(cards)
-    if rank == Rank.FOUR_OF_A_KIND and counts["J"] >= 1:
-        return Rank.FIVE_OF_A_KIND
-    if rank == Rank.FULL_HOUSE:
-        if counts["J"] >= 2:
-            return Rank.FIVE_OF_A_KIND
-    if rank == Rank.THREE_OF_A_KIND:
-        if counts["J"] == 3:
-            return Rank.FOUR_OF_A_KIND
-        if counts["J"] == 2:
-            return Rank.FIVE_OF_A_KIND
-        if counts["J"] == 1:
-            return Rank.FOUR_OF_A_KIND
-    if rank == Rank.TWO_PAIR:
-        if counts["J"] == 1:
-            return Rank.FULL_HOUSE
-        if counts["J"] == 2:
-            return Rank.FOUR_OF_A_KIND
-    if rank == Rank.ONE_PAIR:
-        if counts["J"] == 1:
-            return Rank.THREE_OF_A_KIND
-        if counts["J"] == 2:
-            return Rank.THREE_OF_A_KIND
-    if rank == Rank.HIGH_CARD:
-        if counts["J"] == 1:
-            return Rank.ONE_PAIR
+    match rank:
+        case Rank.FOUR_OF_A_KIND:
+            if counts["J"] >= 1:
+                return Rank.FIVE_OF_A_KIND
+        case Rank.FULL_HOUSE:
+            if counts["J"] >= 2:
+                return Rank.FIVE_OF_A_KIND
+        case Rank.THREE_OF_A_KIND:
+            if counts["J"] == 3:
+                return Rank.FOUR_OF_A_KIND
+            if counts["J"] == 2:
+                return Rank.FIVE_OF_A_KIND
+            if counts["J"] == 1:
+                return Rank.FOUR_OF_A_KIND
+        case Rank.TWO_PAIR:
+            if counts["J"] == 1:
+                return Rank.FULL_HOUSE
+            if counts["J"] == 2:
+                return Rank.FOUR_OF_A_KIND
+        case Rank.ONE_PAIR:
+            if counts["J"] == 1:
+                return Rank.THREE_OF_A_KIND
+            if counts["J"] == 2:
+                return Rank.THREE_OF_A_KIND
+        case Rank.HIGH_CARD:
+            if counts["J"] == 1:
+                return Rank.ONE_PAIR
     return rank
 
 
