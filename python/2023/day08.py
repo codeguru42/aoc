@@ -35,14 +35,19 @@ def part1(instructions, nodes):
     node = nodes["AAA"]
     steps = 0
     for i in itertools.cycle(instructions):
-        match i:
-            case "L":
-                node = nodes[node.left()]
-            case "R":
-                node = nodes[node.right()]
+        node = nodes[next_node(i, node)]
         steps += 1
         if node.name == "ZZZ":
             return steps
+
+
+def next_node(dir, node):
+    match dir:
+        case "L":
+            node = node.left()
+        case "R":
+            node = node.right()
+    return node
 
 
 def part2(lines):
