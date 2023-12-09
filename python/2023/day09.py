@@ -5,6 +5,11 @@ from itertools import islice
 from aocd import get_data
 
 
+def test_predict_previous():
+    history = [int(x) for x in "10  13  16  21  30  45".split("  ")]
+    assert predict_previous(history) == 5
+
+
 def parse(data):
     lines = data.split("\n")
     for line in lines:
@@ -41,8 +46,16 @@ def part1(histories):
     return sum(predict_next(history) for history in histories)
 
 
-def part2(lines):
-    pass
+def predict_previous(history):
+    ds = reversed(list(all_diffs(history)))
+    prev = 0
+    for d in ds:
+        prev = d[0] - prev
+    return prev
+
+
+def part2(histories):
+    return sum(predict_previous(history) for history in histories)
 
 
 def main():
