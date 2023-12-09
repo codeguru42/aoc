@@ -1,4 +1,5 @@
 import itertools
+import math
 import timeit
 from dataclasses import dataclass
 
@@ -48,14 +49,20 @@ def parse(data):
     return lines[0], parse_network(lines[2:])
 
 
-def part1(instructions, nodes):
-    node = nodes["AAA"]
+def count_steps(instructions, nodes, start, end):
+    node = start
     steps = 0
     for i in itertools.cycle(instructions):
         node = nodes[next_node(i, node)]
         steps += 1
-        if node.name == "ZZZ":
+        if end(node):
             return steps
+
+
+def part1(instructions, nodes):
+    return count_steps(
+        instructions, nodes, nodes["AAA"], lambda node: node.name == "ZZZ"
+    )
 
 
 def next_node(dir, node):
@@ -68,13 +75,10 @@ def next_node(dir, node):
 
 
 def part2(instructions, nodes):
-    curr_nodes = [node for name, node in nodes.items() if node.name.endswith("A")]
-    steps = 0
-    for i in itertools.cycle(instructions):
-        curr_nodes = [nodes[next_node(i, node)] for node in curr_nodes]
-        steps += 1
-        if all(node.name.endswith("Z") for node in curr_nodes):
-            return steps
+    start_nodes = [node for name, node in nodes.items() if node.name.endswith("A")]
+    end = lambda node: node.name.endswith("Z")
+    counts = [count_steps(instructions, nodes, start, end) for start in start_nodes]
+    return math.lcm(*counts)
 
 
 def main():
