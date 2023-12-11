@@ -1,6 +1,28 @@
 import timeit
 
+import pytest
 from aocd import get_data
+
+example = """...#......
+.......#..
+#.........
+..........
+......#...
+.#........
+.........#
+..........
+.......#..
+#...#....."""
+
+
+@pytest.fixture
+def universe():
+    parsed = parse(example)
+    return expand(parsed)
+
+
+def test_part1(universe):
+    assert part1(universe) == 374
 
 
 def parse(data):
