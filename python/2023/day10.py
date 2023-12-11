@@ -3,6 +3,29 @@ import timeit
 import networkx as nx
 from aocd import get_data
 
+example1 = """.....
+.S-7.
+.|.|.
+.L-J.
+.....
+"""
+
+example2 = """..F7.
+.FJ|.
+SJ.L7
+|F--J
+LJ..."""
+
+
+def test_part1_example1():
+    s, g = parse(example1)
+    assert part1(s, g) == 4
+
+
+def test_part2_example1():
+    s, g = parse(example1)
+    assert part1(s, g) == 8
+
 
 def parse(data):
     lines = data.split("\n")
@@ -11,8 +34,8 @@ def parse(data):
 
     start = None
     g = nx.Graph()
-    for j, line in enumerate(lines):
-        for i, pipe in enumerate(line):
+    for i, line in enumerate(lines):
+        for j, pipe in enumerate(line):
             match pipe:
                 case "|":
                     if i - 1 >= 0:
@@ -60,7 +83,8 @@ def parse(data):
 
 
 def part1(start, g):
-    pass
+    cycles = nx.cycle_basis(g)
+    return len(cycles[0]) // 2
 
 
 def part2(start, g):
@@ -70,8 +94,6 @@ def part2(start, g):
 def main():
     data = get_data(year=2023, day=10)
     start, g = parse(data)
-    print(start)
-    print(g)
     print(part1(start, g))
     print(part2(start, g))
     print("Part 1:", timeit.timeit(lambda: part1(start, g), number=1))
