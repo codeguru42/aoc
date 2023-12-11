@@ -24,8 +24,20 @@ def expand(universe):
     return expand_columns(universe)
 
 
+def get_galaxy_coords(universe):
+    for i, row in enumerate(universe):
+        for j, col in enumerate(row):
+            if col == "#":
+                yield i, j
+
+
+def dist(x, y):
+    return abs(x[0] - y[0]) + abs(x[1] - y[1])
+
+
 def part1(universe):
-    pass
+    coords = list(get_galaxy_coords(universe))
+    return sum(dist(x, y) for x in coords for y in coords) // 2
 
 
 def part2(universe):
@@ -36,8 +48,6 @@ def main():
     data = get_data(year=2023, day=11)
     parsed = parse(data)
     universe = list(expand(parsed))
-    for row in universe:
-        print(row)
     print(part1(universe))
     print(part2(universe))
     print("Part 1:", timeit.timeit(lambda: part1(parsed), number=1))
