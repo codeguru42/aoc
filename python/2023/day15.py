@@ -32,11 +32,11 @@ def elf_hash(step):
 
 
 def parse(data):
-    return data.split("\n")
+    return data.split(",")
 
 
-def part1(lines):
-    pass
+def part1(steps):
+    return sum(elf_hash(step) for step in steps)
 
 
 def part2(lines):
