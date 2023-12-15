@@ -1,6 +1,34 @@
 import timeit
 
+import pytest
 from aocd import get_data
+
+
+@pytest.mark.parametrize(
+    "step,expected",
+    [
+        ("rn=1", 30),
+        ("cm-", 253),
+        ("qp=3", 97),
+        ("cm=2", 47),
+        ("qp-", 14),
+        ("pc=4", 180),
+        ("ot=9", 9),
+        ("ab=5", 197),
+        ("pc-", 48),
+        ("pc=6", 214),
+        ("ot=7", 231),
+    ],
+)
+def test_elf_hash(step, expected):
+    assert elf_hash(step) == expected
+
+
+def elf_hash(step):
+    result = 0
+    for c in step:
+        result = (result + ord(c)) * 17 % 256
+    return result
 
 
 def parse(data):
