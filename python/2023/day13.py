@@ -2,13 +2,23 @@ import timeit
 
 from aocd import get_data
 
+import aoc
+
 
 def parse(data):
-    return data.split("\n")
+    valley = data.split("\n\n")
+    return [v.split("\n") for v in valley]
 
 
-def part1(lines):
-    pass
+def find_horizontal_mirror(mountain):
+    for i, (line, next_line) in enumerate(aoc.sliding_window(mountain, n=2)):
+        if line == next_line:
+            yield i
+
+
+def part1(mountains):
+    for mountain in mountains:
+        print(list(find_horizontal_mirror(mountain)))
 
 
 def part2(lines):
