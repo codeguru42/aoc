@@ -13,6 +13,11 @@ O.#..O.#.#
 """
 
 
+def test_part1():
+  data = parse(example)
+  assert part1(data) == 136
+
+
 def calc_group(group, start):
   counts = Counter(group)
   return sum(range(start - counts["O"] + 1, start + 1))
@@ -30,10 +35,8 @@ def calc_weight(column):
   height = len(column)
   groups = "".join(column).split("#")
   starts = list(get_starts(groups, height))
-  weight = 0
-  for group, start in zip(groups, starts):
-    weight += calc_group(group, start)
-  return weight
+
+  return sum(calc_group(group, start) for group, start in zip(groups, starts))
 
 
 def parse(data):
@@ -45,6 +48,5 @@ def part1(lines):
 
 
 if __name__ == '__main__':
-  print(part1(parse(example)))
   with open("input.txt") as file:
     print(part1(file.readlines()))
