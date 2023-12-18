@@ -1,5 +1,6 @@
 import queue
 import timeit
+from collections import Counter
 
 from aocd import get_data
 
@@ -30,10 +31,8 @@ def calc_dimensions(instructions):
 def part1(instructions):
     trenches = make_trench(instructions)
     flood_fill(trenches)
-    with open("out.txt", "w") as file:
-        for line in trenches:
-            file.write("".join(line))
-            file.write("\n")
+    count = Counter("".join("".join(t) for t in trenches))
+    return count["#"]
 
 
 def make_trench(instructions):
