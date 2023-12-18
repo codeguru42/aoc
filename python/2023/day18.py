@@ -1,3 +1,4 @@
+import queue
 import timeit
 
 from aocd import get_data
@@ -28,6 +29,7 @@ def calc_dimensions(instructions):
 
 def part1(instructions):
     trenches = make_trench(instructions)
+    flood_fill(trenches)
     with open("out.txt", "w") as file:
         for line in trenches:
             file.write("".join(line))
@@ -58,6 +60,23 @@ def make_trench(instructions):
         y_min = min(y_min, y)
         y_max = max(y_max, y)
     return [t[x_min : x_max + 1] for t in trenches[y_min : y_max + 1]]
+
+
+def flood_fill(trenches):
+    w = len(trenches[0])
+    h = len(trenches)
+    start_x = len(trenches[0]) // 2
+    start_y = len(trenches) // 2
+    q = queue.Queue()
+    q.put((start_x, start_y))
+    while not q.empty():
+        x, y = q.get()
+        if 0 <= x < w and 0 <= y < h and trenches[y][x] == ".":
+            trenches[y][x] = "#"
+            q.put((x, y + 1))
+            q.put((x, y - 1))
+            q.put((x + 1, y))
+            q.put((x - 1, y))
 
 
 def part2(lines):
