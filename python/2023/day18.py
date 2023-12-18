@@ -15,11 +15,11 @@ def sum_dir(instructions, direction):
 
 
 def calc_width(instructions):
-    return (sum_dir(instructions, "L") + sum_dir(instructions, "R")) // 2
+    return sum_dir(instructions, "L") + sum_dir(instructions, "R")
 
 
 def calc_height(instructions):
-    return (sum_dir(instructions, "U") + sum_dir(instructions, "D")) // 2
+    return sum_dir(instructions, "U") + sum_dir(instructions, "D")
 
 
 def calc_dimensions(instructions):
@@ -27,8 +27,18 @@ def calc_dimensions(instructions):
 
 
 def part1(instructions):
+    trenches = make_trench(instructions)
+    with open("out.txt", "w") as file:
+        for line in trenches:
+            file.write("".join(line))
+            file.write("\n")
+
+
+def make_trench(instructions):
     w, h = calc_dimensions(instructions)
     x, y = w // 2, h // 2
+    x_min = x_max = x
+    y_min = y_max = y
     trenches = [["."] * w for _ in range(h)]
     trenches[y][x] = "#"
     for d, n, c in instructions:
@@ -43,10 +53,11 @@ def part1(instructions):
                 case "R":
                     x += 1
             trenches[y][x] = "#"
-    with open("out.txt", "w") as file:
-        for line in trenches:
-            file.write("".join(line))
-            file.write("\n")
+        x_min = min(x_min, x)
+        x_max = max(x_max, x)
+        y_min = min(y_min, y)
+        y_max = max(y_max, y)
+    return [t[x_min : x_max + 1] for t in trenches[y_min : y_max + 1]]
 
 
 def part2(lines):
