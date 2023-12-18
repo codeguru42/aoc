@@ -4,7 +4,10 @@ from aocd import get_data
 
 
 def parse(data):
-    return data.split("\n")
+    lines = data.splitlines()
+    for line in lines:
+        d, n, c = line.split()
+        yield d, n, c[1:-1]
 
 
 def part1(lines):
@@ -17,7 +20,8 @@ def part2(lines):
 
 def main():
     data = get_data(year=2023, day=18)
-    parsed = parse(data)
+    parsed = list(parse(data))
+    print(parsed)
     print(part1(parsed))
     print(part2(parsed))
     print("Part 1:", timeit.timeit(lambda: part1(parsed), number=1))
