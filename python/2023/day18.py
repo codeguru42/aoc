@@ -7,11 +7,46 @@ def parse(data):
     lines = data.splitlines()
     for line in lines:
         d, n, c = line.split()
-        yield d, n, c[1:-1]
+        yield d, int(n), c[1:-1]
 
 
-def part1(lines):
-    pass
+def sum_dir(instructions, direction):
+    return sum(n for d, n, _ in instructions if d == direction)
+
+
+def calc_width(instructions):
+    return (sum_dir(instructions, "L") + sum_dir(instructions, "R")) // 2
+
+
+def calc_height(instructions):
+    return (sum_dir(instructions, "U") + sum_dir(instructions, "D")) // 2
+
+
+def calc_dimensions(instructions):
+    return calc_width(instructions), calc_height(instructions)
+
+
+def part1(instructions):
+    w, h = calc_dimensions(instructions)
+    x, y = w // 2, h // 2
+    trenches = [["."] * w for _ in range(h)]
+    trenches[y][x] = "#"
+    for d, n, c in instructions:
+        for i in range(n):
+            match d:
+                case "U":
+                    y -= 1
+                case "D":
+                    y += 1
+                case "L":
+                    x -= 1
+                case "R":
+                    x += 1
+            trenches[y][x] = "#"
+    with open("out.txt", "w") as file:
+        for line in trenches:
+            file.write("".join(line))
+            file.write("\n")
 
 
 def part2(lines):
@@ -21,7 +56,6 @@ def part2(lines):
 def main():
     data = get_data(year=2023, day=18)
     parsed = list(parse(data))
-    print(parsed)
     print(part1(parsed))
     print(part2(parsed))
     print("Part 1:", timeit.timeit(lambda: part1(parsed), number=1))
