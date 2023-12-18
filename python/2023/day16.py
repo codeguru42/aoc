@@ -18,18 +18,27 @@ def parse(data):
             right = i, j + 1
             match c:
                 case "|":
-                    if i - 1 >= 0:
-                        g.add_edge(curr, up)
-                    if i + 1 < height:
-                        g.add_edge(curr, down)
+                    if i - 1 >= 0 and j - 1 >= 0:
+                        g.add_edge(left, up, through=curr)
+                    if i + 1 < height and j - 1 >= 0:
+                        g.add_edge(left, down, through=curr)
+                    if i - 1 >= 0 and j + 1 < width:
+                        g.add_edge(right, up, through=curr)
+                    if i + 1 < height and j + 1 < width:
+                        g.add_edge(right, down, through=curr)
                 case "-":
-                    if j - 1 >= 0:
-                        g.add_edge(curr, left)
-                    if j + 1 < width:
-                        g.add_edge(curr, right)
+                    if j - 1 >= 0 and i - 1 >= 0:
+                        g.add_edge(up, left, through=curr)
+                    if j + 1 < width and i - 1 >= 0:
+                        g.add_edge(up, right, through=curr)
+                    if j - 1 >= 0 and i + 1 < height:
+                        g.add_edge(down, left, through=curr)
+                    if j + 1 < width and i + 1 < height:
+                        g.add_edge(down, right, through=curr)
                 case "\\":
-                    if j - 1 >= 0:
-                        g.add_edge(curr, left)
+                    if j - 1 >= 0 and i + 1 < height:
+                        g.add_edge(down, left, through=curr)
+                        g.add_edge(left, down, through=curr)
                     if i + 1 < height:
                         g.add_edge(curr, down)
                 case "/":
@@ -38,7 +47,14 @@ def parse(data):
                     if i + 1 < height:
                         g.add_edge(curr, down)
                 case ".":
-                    pass
+                    g.add_edge(curr, up)
+                    g.add_edge(up, curr)
+                    g.add_edge(curr, down)
+                    g.add_edge(down, curr)
+                    g.add_edge(left, curr)
+                    g.add_edge(curr, left)
+                    g.add_edge(right, curr)
+                    g.add_edge(curr, right)
     return lines
 
 
