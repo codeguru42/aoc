@@ -31,9 +31,15 @@ def parse_rules(rules):
         yield name, conditions.split(",")
 
 
+def parse_part_attributes(attributes):
+    for attribute in attributes:
+        name, value = attribute.split("=")
+        yield name, int(value)
+
+
 def parse_parts(parts):
     for part in parts:
-        yield dict(x.split("=") for x in part[1:-1].split(","))
+        yield dict(parse_part_attributes(part[1:-1].split(",")))
 
 
 def parse(data):
