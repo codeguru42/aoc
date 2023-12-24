@@ -10,6 +10,7 @@ advent-of-code-data = "^2.0.1"
 browser-cookie3 = "^0.19.1"
 pytest = "^7.4.3"
 black = "^23.11.0"
+numpy = "^1.26.2"
 
 [tool.poetry.dev-dependencies]
 
