@@ -5,10 +5,11 @@ from aocd import get_data
 
 
 def neighbors(i, j):
-    deltas = (-1, 0, 1)
+    deltas = (-1, 1)
     for dr in deltas:
-        for dc in deltas:
-            yield i + dr, j + dc
+        yield i + dr, j
+    for dc in deltas:
+        yield i, j + dc
 
 
 def parse(data):
