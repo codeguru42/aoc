@@ -1,22 +1,24 @@
 import timeit
 from dataclasses import dataclass
 
+import numpy.typing
+import numpy as np
 from aocd import get_data
 
 
 @dataclass
 class Line:
-    point: tuple[int, int, int]
-    vector: tuple[int, int, int]
+    point: numpy.typing.ArrayLike
+    vector: numpy.typing.ArrayLike
 
 
 def parse(data):
     lines = data.splitlines()
     for line in lines:
-        p, v = line.split("@")
+        p, v = line.strip().split("@")
         point = tuple(int(x.strip()) for x in p.strip().split(","))
         vector = tuple(int(x.strip()) for x in v.strip().split(","))
-        yield Line(point=point, vector=vector)
+        yield Line(point=np.array(point), vector=np.array(vector))
 
 
 def part1(lines):
