@@ -1,3 +1,4 @@
+import math
 import timeit
 
 import networkx as nx
@@ -36,8 +37,11 @@ def parse(data):
     return g
 
 
-def part1(lines):
-    pass
+def part1(g):
+    cut = nx.minimum_edge_cut(g)
+    for edge in cut:
+        g.remove_edge(*edge)
+    return math.prod(len(component) for component in nx.connected_components(g))
 
 
 def part2(lines):
@@ -47,9 +51,6 @@ def part2(lines):
 def main():
     data = get_data(year=2023, day=25)
     parsed = parse(data)
-    nx.draw(parsed, with_labels=True)
-    plt.show()
-    print(parsed)
     print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
     print("Part 2:", timeit.timeit(lambda: print(part2(parsed)), number=1))
 
