@@ -69,25 +69,21 @@ def intersection(l1: Line, l2: Line):
 
 
 def intersections(lines):
-    for l1 in lines:
-        for l2 in lines:
-            try:
-                yield intersection(l1, l2)
-            except:
-                pass
+    for l1, l2 in itertools.combinations(lines, 2):
+        try:
+            yield intersection(l1, l2)
+        except:
+            pass
 
 
 def part1(lines, lbound, ubound):
     in_bounds = bounds(lbound, ubound)
-    return (
-        len(
-            [
-                (x, y)
-                for t, s, (x, y, z) in intersections(lines)
-                if in_bounds(x) and in_bounds(y) and t > 0 and s > 0
-            ]
-        )
-        // 2
+    return len(
+        [
+            (x, y)
+            for t, s, (x, y, z) in intersections(lines)
+            if in_bounds(x) and in_bounds(y) and t > 0 and s > 0
+        ]
     )
 
 
