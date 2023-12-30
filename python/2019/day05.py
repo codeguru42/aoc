@@ -1,12 +1,12 @@
 from int_code import parse
 
 
-def part1(program):
-    run_program(list(program))
+def part1(program, inp):
+    return run_program(list(program), inp)
 
 
-def part2(program):
-    run_program(list(program))
+def part2(program, inp):
+    return run_program(list(program), inp)
 
 
 def digits(n):
@@ -44,7 +44,8 @@ def parse_inst(memory, inst_ptr):
     return opcode, args
 
 
-def run_program(memory):
+def run_program(memory, user_input):
+    output = 0
     inst_ptr = 0
     opcode, args = parse_inst(memory, inst_ptr)
     while opcode != 99:
@@ -55,11 +56,10 @@ def run_program(memory):
             memory[args[2]] = args[0] * args[1]
             jump = 4
         elif opcode == 3:
-            user_input = input("Enter a value: ")
-            memory[args[0]] = int(user_input)
+            memory[args[0]] = user_input
             jump = 2
         elif opcode == 4:
-            print(args[0])
+            output = args[0]
             jump = 2
         elif opcode == 5:
             if args[0] != 0:
@@ -83,13 +83,14 @@ def run_program(memory):
             raise Exception(f"Invalid opcode {opcode} at address {inst_ptr}")
         inst_ptr += jump
         opcode, args = parse_inst(memory, inst_ptr)
+    return output
 
 
 def main():
     with open("day05.txt") as file:
         int_codes = parse(file.readline())
-        part1(int_codes)
-        part2(int_codes)
+        print(part1(int_codes, 1))
+        print(part2(int_codes, 5))
 
 
 if __name__ == "__main__":
