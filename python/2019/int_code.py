@@ -61,6 +61,7 @@ def run_program(program):
     inst_ptr = 0
     rel_base = 0
     opcode, args = parse_inst(memory, inst_ptr, rel_base)
+    inp = yield
     while opcode != 99:
         if opcode == 1:
             memory[args[2]] = args[0] + args[1]
@@ -69,12 +70,12 @@ def run_program(program):
             memory[args[2]] = args[0] * args[1]
             jump = 4
         elif opcode == 3:
-            memory[args[0]] = yield
+            memory[args[0]] = inp
             print(f"Input: {memory[args[0]]}")
             jump = 2
         elif opcode == 4:
             print(f"Output: {args[0]}")
-            yield args[0]
+            inp = yield args[0]
             jump = 2
         elif opcode == 5:
             if args[0] != 0:
