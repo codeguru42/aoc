@@ -1,6 +1,6 @@
 from itertools import permutations
 
-from int_code import run_program
+from int_code import run_program, parse
 
 
 def part1(program, inp):
@@ -52,7 +52,7 @@ def part2(program, inp):
 
 def main():
     with open("day07.txt") as file:
-        int_codes = [int(x) for x in file.readline().split(",")]
+        int_codes = parse(file.readline())
         print(part1(int_codes, 0))
         print(part2(int_codes, 0))
 

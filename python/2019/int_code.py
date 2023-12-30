@@ -1,6 +1,10 @@
 from collections import defaultdict
 
 
+def parse(data):
+    return [int(x) for x in data.split(",")]
+
+
 def digits(n):
     count = 0
     while n > 0 or count < 3:
