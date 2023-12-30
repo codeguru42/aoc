@@ -18,20 +18,24 @@ def parse_inst(memory, inst_ptr):
     opcode = memory[inst_ptr] % 100
     modes = memory[inst_ptr] // 100
     if opcode in (1, 2, 7, 8):
-        inst = memory[inst_ptr+1:inst_ptr+4]
-        args = [arg if mode == 1 else memory[arg] for arg, mode in zip(inst, digits(modes))]
+        inst = memory[inst_ptr + 1 : inst_ptr + 4]
+        args = [
+            arg if mode == 1 else memory[arg] for arg, mode in zip(inst, digits(modes))
+        ]
         # Last argument is an lvalue
         args[-1] = inst[-1]
     elif opcode == 3:
-        inst = memory[inst_ptr+1:inst_ptr+2]
+        inst = memory[inst_ptr + 1 : inst_ptr + 2]
         args = [inst[0]]
     elif opcode == 4:
         mode = modes % 10
-        inst = memory[inst_ptr+1:inst_ptr+2]
+        inst = memory[inst_ptr + 1 : inst_ptr + 2]
         args = [inst[0] if mode else memory[inst[0]]]
     elif opcode in (5, 6):
-        inst = memory[inst_ptr+1:inst_ptr+3]
-        args = [arg if mode == 1 else memory[arg] for arg, mode in zip(inst, digits(modes))]
+        inst = memory[inst_ptr + 1 : inst_ptr + 3]
+        args = [
+            arg if mode == 1 else memory[arg] for arg, mode in zip(inst, digits(modes))
+        ]
     else:
         args = []
     return opcode, args
@@ -48,7 +52,7 @@ def run_program(memory):
             memory[args[2]] = args[0] * args[1]
             jump = 4
         elif opcode == 3:
-            user_input = input('Enter a value: ')
+            user_input = input("Enter a value: ")
             memory[args[0]] = int(user_input)
             jump = 2
         elif opcode == 4:
@@ -73,17 +77,17 @@ def run_program(memory):
             memory[args[2]] = int(args[0] == args[1])
             jump = 4
         else:
-            raise Exception(f'Invalid opcode {opcode} at address {inst_ptr}')
+            raise Exception(f"Invalid opcode {opcode} at address {inst_ptr}")
         inst_ptr += jump
         opcode, args = parse_inst(memory, inst_ptr)
 
 
 def main():
-    with open('day05.txt') as file:
-        int_codes = [int(x) for x in file.readline().split(',')]
+    with open("day05.txt") as file:
+        int_codes = [int(x) for x in file.readline().split(",")]
         part1(int_codes)
         part2(int_codes)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
