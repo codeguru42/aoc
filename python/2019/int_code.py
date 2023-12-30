@@ -36,27 +36,39 @@ def digits(n):
 def parse_inst(memory, inst_ptr, rel_base):
     opcode = OpCode(memory[inst_ptr] % 100)
     modes = memory[inst_ptr] // 100
-    if opcode in (OpCode.ADD, OpCode.MUL, OpCode.LT, OpCode.EQ):
-        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 4))
-        args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
-        # Last argument is an lvalue
-        mode = modes // 100
-        args[-1] = inst[-1] if mode == 0 else rel_base + inst[-1] if mode == 2 else None
-    elif opcode == OpCode.IN:
-        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
-        mode = modes % 10
-        args = [inst[0] if mode == 0 else rel_base + inst[0] if mode == 2 else None]
-    elif opcode == OpCode.OUT:
-        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
-        args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
-    elif opcode in (OpCode.JT, OpCode.JF):
-        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 3))
-        args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
-    elif opcode == OpCode.ADD_BASE:
-        inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
-        args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
-    else:
-        args = []
+    args = []
+    match opcode:
+        case OpCode.ADD | OpCode.MUL | OpCode.LT | OpCode.EQ:
+            inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 4))
+            args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
+            # Last argument is an lvalue
+            mode = modes // 100
+            args[-1] = (
+                inst[-1]
+                if mode == ParamMode.POSITION_MODE
+                else rel_base + inst[-1]
+                if mode == ParamMode.RELATIVE_MODE
+                else None
+            )
+        case OpCode.IN:
+            inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
+            mode = modes % 10
+            args = [
+                inst[0]
+                if mode == ParamMode.POSITION_MODE
+                else rel_base + inst[0]
+                if mode == ParamMode.RELATIVE_MODE
+                else None
+            ]
+        case OpCode.OUT:
+            inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
+            args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
+        case OpCode.JT | OpCode.JF:
+            inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 3))
+            args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
+        case OpCode.ADD_BASE:
+            inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
+            args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
     return opcode, args
 
 
@@ -68,16 +80,13 @@ def get_args(memory, opcode, inst, inst_ptr, modes, rel_base):
 
 
 def get_arg(memory, opcode, arg, inst_ptr, rel_base, mode):
-    if mode == ParamMode.POSITION_MODE:
-        return memory[arg]
-    elif mode == ParamMode.IMMEDIATE_MODE:
-        return arg
-    elif mode == ParamMode.RELATIVE_MODE:
-        return memory[rel_base + arg]
-    else:
-        raise Exception(
-            f"Invalid mode {mode} in instruction {opcode} at address {inst_ptr}"
-        )
+    match mode:
+        case ParamMode.POSITION_MODE:
+            return memory[arg]
+        case ParamMode.IMMEDIATE_MODE:
+            return arg
+        case ParamMode.RELATIVE_MODE:
+            return memory[rel_base + arg]
 
 
 def run_program(program):
@@ -87,43 +96,42 @@ def run_program(program):
     opcode, args = parse_inst(memory, inst_ptr, rel_base)
     inp = None
     while opcode != OpCode.HALT:
-        if opcode == OpCode.ADD:
-            memory[args[2]] = args[0] + args[1]
-            jump = 4
-        elif opcode == OpCode.MUL:
-            memory[args[2]] = args[0] * args[1]
-            jump = 4
-        elif opcode == OpCode.IN:
-            if inp is None:
-                inp = yield
-            memory[args[0]] = inp
-            inp = None
-            jump = 2
-        elif opcode == OpCode.OUT:
-            inp = yield args[0]
-            jump = 2
-        elif opcode == OpCode.JT:
-            if args[0] != 0:
-                inst_ptr = args[1]
-                jump = 0
-            else:
-                jump = 3
-        elif opcode == OpCode.JF:
-            if args[0] == 0:
-                inst_ptr = args[1]
-                jump = 0
-            else:
-                jump = 3
-        elif opcode == OpCode.LT:
-            memory[args[2]] = int(args[0] < args[1])
-            jump = 4
-        elif opcode == OpCode.EQ:
-            memory[args[2]] = int(args[0] == args[1])
-            jump = 4
-        elif opcode == OpCode.ADD_BASE:
-            rel_base += args[0]
-            jump = 2
-        else:
-            raise Exception(f"Invalid opcode {opcode} at address {inst_ptr}")
+        match opcode:
+            case OpCode.ADD:
+                memory[args[2]] = args[0] + args[1]
+                jump = 4
+            case OpCode.MUL:
+                memory[args[2]] = args[0] * args[1]
+                jump = 4
+            case OpCode.IN:
+                if inp is None:
+                    inp = yield
+                memory[args[0]] = inp
+                inp = None
+                jump = 2
+            case OpCode.OUT:
+                inp = yield args[0]
+                jump = 2
+            case OpCode.JT:
+                if args[0] != 0:
+                    inst_ptr = args[1]
+                    jump = 0
+                else:
+                    jump = 3
+            case OpCode.JF:
+                if args[0] == 0:
+                    inst_ptr = args[1]
+                    jump = 0
+                else:
+                    jump = 3
+            case OpCode.LT:
+                memory[args[2]] = int(args[0] < args[1])
+                jump = 4
+            case OpCode.EQ:
+                memory[args[2]] = int(args[0] == args[1])
+                jump = 4
+            case OpCode.ADD_BASE:
+                rel_base += args[0]
+                jump = 2
         inst_ptr += jump
         opcode, args = parse_inst(memory, inst_ptr, rel_base)
