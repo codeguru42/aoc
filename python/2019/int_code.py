@@ -40,7 +40,7 @@ def parse_inst(memory, inst_ptr, rel_base):
     match opcode:
         case OpCode.ADD | OpCode.MUL | OpCode.LT | OpCode.EQ:
             inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 4))
-            args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
+            args = get_args(memory, inst, modes, rel_base)
             # Last argument is an lvalue
             mode = modes // 100
             args[-1] = (
@@ -62,24 +62,24 @@ def parse_inst(memory, inst_ptr, rel_base):
             ]
         case OpCode.OUT:
             inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
-            args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
+            args = get_args(memory, inst, modes, rel_base)
         case OpCode.JT | OpCode.JF:
             inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 3))
-            args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
+            args = get_args(memory, inst, modes, rel_base)
         case OpCode.ADD_BASE:
             inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 2))
-            args = get_args(memory, opcode, inst, inst_ptr, modes, rel_base)
+            args = get_args(memory, inst, modes, rel_base)
     return opcode, args
 
 
-def get_args(memory, opcode, inst, inst_ptr, modes, rel_base):
+def get_args(memory, inst, modes, rel_base):
     return [
-        get_arg(memory, opcode, arg, inst_ptr, rel_base, ParamMode(mode))
+        get_arg(memory, arg, rel_base, ParamMode(mode))
         for arg, mode in zip(inst, digits(modes))
     ]
 
 
-def get_arg(memory, opcode, arg, inst_ptr, rel_base, mode):
+def get_arg(memory, arg, rel_base, mode):
     match mode:
         case ParamMode.POSITION_MODE:
             return memory[arg]
