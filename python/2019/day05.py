@@ -1,3 +1,6 @@
+from int_code import parse
+
+
 def part1(program):
     run_program(list(program))
 
@@ -84,7 +87,7 @@ def run_program(memory):
 
 def main():
     with open("day05.txt") as file:
-        int_codes = [int(x) for x in file.readline().split(",")]
+        int_codes = parse(file.readline())
         part1(int_codes)
         part2(int_codes)
 
