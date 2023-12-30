@@ -36,6 +36,7 @@ def part2(program, inp):
         stop_count = 0
         while True:
             try:
+                inp = 0
                 for i, amp in enumerate(amps):
                     print(f"Running amp {i}")
                     inp = amp.send(inp)
