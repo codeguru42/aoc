@@ -42,7 +42,7 @@ def parse_inst(memory, inst_ptr, rel_base):
             inst = list(memory[i] for i in range(inst_ptr + 1, inst_ptr + 4))
             args = get_args(memory, inst, modes, rel_base)
             # Last argument is an lvalue
-            mode = modes // 100
+            mode = ParamMode(modes // 100)
             args[-1] = (
                 inst[-1]
                 if mode == ParamMode.POSITION_MODE
