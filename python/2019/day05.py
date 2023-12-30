@@ -1,89 +1,26 @@
-from int_code import parse
+from int_code import parse, run_program
 
 
 def part1(program, inp):
-    return run_program(list(program), inp)
+    machine = run_program(list(program))
+    next(machine)
+    outp = machine.send(inp)
+    try:
+        while True:
+            outp = next(machine)
+    finally:
+        return outp
 
 
 def part2(program, inp):
-    return run_program(list(program), inp)
-
-
-def digits(n):
-    count = 0
-    while n > 0 or count < 3:
-        yield n % 10
-        n //= 10
-        count += 1
-
-
-def parse_inst(memory, inst_ptr):
-    opcode = memory[inst_ptr] % 100
-    modes = memory[inst_ptr] // 100
-    if opcode in (1, 2, 7, 8):
-        inst = memory[inst_ptr + 1 : inst_ptr + 4]
-        args = [
-            arg if mode == 1 else memory[arg] for arg, mode in zip(inst, digits(modes))
-        ]
-        # Last argument is an lvalue
-        args[-1] = inst[-1]
-    elif opcode == 3:
-        inst = memory[inst_ptr + 1 : inst_ptr + 2]
-        args = [inst[0]]
-    elif opcode == 4:
-        mode = modes % 10
-        inst = memory[inst_ptr + 1 : inst_ptr + 2]
-        args = [inst[0] if mode else memory[inst[0]]]
-    elif opcode in (5, 6):
-        inst = memory[inst_ptr + 1 : inst_ptr + 3]
-        args = [
-            arg if mode == 1 else memory[arg] for arg, mode in zip(inst, digits(modes))
-        ]
-    else:
-        args = []
-    return opcode, args
-
-
-def run_program(memory, user_input):
-    output = 0
-    inst_ptr = 0
-    opcode, args = parse_inst(memory, inst_ptr)
-    while opcode != 99:
-        if opcode == 1:
-            memory[args[2]] = args[0] + args[1]
-            jump = 4
-        elif opcode == 2:
-            memory[args[2]] = args[0] * args[1]
-            jump = 4
-        elif opcode == 3:
-            memory[args[0]] = user_input
-            jump = 2
-        elif opcode == 4:
-            output = args[0]
-            jump = 2
-        elif opcode == 5:
-            if args[0] != 0:
-                inst_ptr = args[1]
-                jump = 0
-            else:
-                jump = 3
-        elif opcode == 6:
-            if args[0] == 0:
-                inst_ptr = args[1]
-                jump = 0
-            else:
-                jump = 3
-        elif opcode == 7:
-            memory[args[2]] = int(args[0] < args[1])
-            jump = 4
-        elif opcode == 8:
-            memory[args[2]] = int(args[0] == args[1])
-            jump = 4
-        else:
-            raise Exception(f"Invalid opcode {opcode} at address {inst_ptr}")
-        inst_ptr += jump
-        opcode, args = parse_inst(memory, inst_ptr)
-    return output
+    machine = run_program(list(program))
+    next(machine)
+    outp = machine.send(inp)
+    try:
+        while True:
+            outp = next(machine)
+    finally:
+        return outp
 
 
 def main():
