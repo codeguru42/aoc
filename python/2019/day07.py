@@ -27,7 +27,8 @@ def part2(program, inp):
     phases = range(5, 10)
     for phase in permutations(phases):
         amps = []
-        for p in phase:
+        for i, p in enumerate(phase):
+            print(f"Running amp {i}")
             amp = run_program(program)
             next(amp)
             amp.send(p)
@@ -35,7 +36,8 @@ def part2(program, inp):
         stop_count = 0
         while True:
             try:
-                for amp in amps:
+                for i, amp in enumerate(amps):
+                    print(f"Running amp {i}")
                     inp = amp.send(inp)
             except StopIteration:
                 stop_count += 1
@@ -48,11 +50,11 @@ def part2(program, inp):
 
 
 def main():
-    with open('day07.txt') as file:
-        int_codes = [int(x) for x in file.readline().split(',')]
+    with open("day07.txt") as file:
+        int_codes = [int(x) for x in file.readline().split(",")]
         print(part1(int_codes, 0))
         print(part2(int_codes, 0))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

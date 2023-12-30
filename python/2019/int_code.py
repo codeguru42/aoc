@@ -52,7 +52,8 @@ def get_arg(memory, opcode, arg, inst_ptr, rel_base, mode):
         return memory[rel_base + arg]
     else:
         raise Exception(
-            f'Invalid mode {mode} in instruction {opcode} at address {inst_ptr}')
+            f"Invalid mode {mode} in instruction {opcode} at address {inst_ptr}"
+        )
 
 
 def run_program(program):
@@ -69,8 +70,10 @@ def run_program(program):
             jump = 4
         elif opcode == 3:
             memory[args[0]] = yield
+            print(f"Input: {memory[args[0]]}")
             jump = 2
         elif opcode == 4:
+            print(f"Output: {args[0]}")
             yield args[0]
             jump = 2
         elif opcode == 5:
@@ -95,6 +98,6 @@ def run_program(program):
             rel_base += args[0]
             jump = 2
         else:
-            raise Exception(f'Invalid opcode {opcode} at address {inst_ptr}')
+            raise Exception(f"Invalid opcode {opcode} at address {inst_ptr}")
         inst_ptr += jump
         opcode, args = parse_inst(memory, inst_ptr, rel_base)
