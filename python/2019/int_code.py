@@ -78,10 +78,8 @@ def run_program(program):
                 inp = yield
             memory[args[0]] = inp
             inp = None
-            print(f"Input: {memory[args[0]]}")
             jump = 2
         elif opcode == 4:
-            print(f"Output: {args[0]}")
             inp = yield args[0]
             jump = 2
         elif opcode == 5:
