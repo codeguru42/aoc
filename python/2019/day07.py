@@ -34,14 +34,14 @@ def part2(program, inp):
             amp.send(p)
             amps.append(amp)
         stop_count = 0
+        inp = 0
         while True:
-            try:
-                inp = 0
-                for i, amp in enumerate(amps):
+            for i, amp in enumerate(amps):
+                try:
                     print(f"Running amp {i}")
                     inp = amp.send(inp)
-            except StopIteration:
-                stop_count += 1
+                except StopIteration:
+                    stop_count += 1
             if stop_count == 5:
                 break
         if inp > max_outp:
