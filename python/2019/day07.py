@@ -1,5 +1,7 @@
 from itertools import permutations
 
+from aocd import get_data
+
 from int_code import run_program, parse
 
 
@@ -49,10 +51,10 @@ def part2(program, inp):
 
 
 def main():
-    with open("day07.txt") as file:
-        int_codes = parse(file.readline())
-        print(part1(int_codes, 0))
-        print(part2(int_codes, 0))
+    data = get_data(year=2019, day=7)
+    int_codes = parse(data)
+    print(part1(int_codes, 0))
+    print(part2(int_codes, 0))
 
 
 if __name__ == "__main__":
