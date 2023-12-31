@@ -1,4 +1,4 @@
-from int_code import run_program
+from int_code import run_program, parse
 
 
 def part1(program):
@@ -14,11 +14,11 @@ def part2(program):
 
 
 def main():
-    with open('day09.txt') as file:
-        int_codes = [int(x) for x in file.readline().split(',')]
+    with open("day09.txt") as file:
+        int_codes = parse(file.readline())
         print(part1(int_codes))
         print(part2(int_codes))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
