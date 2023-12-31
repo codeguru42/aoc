@@ -20,37 +20,39 @@ class Direction(IntEnum):
     DOWN = 3
 
 
-def part1(instructions):
-    deltas = {
-        Direction.LEFT: np.array((-1, 0)),
-        Direction.RIGHT: np.array((1, 0)),
-        Direction.UP: np.array((0, 1)),
-        Direction.DOWN: np.array((0, -1)),
-    }
-    turns = {
-        Direction.LEFT: {
-            Direction.LEFT: Direction.DOWN,
-            Direction.RIGHT: Direction.UP,
-        },
-        Direction.RIGHT: {
-            Direction.LEFT: Direction.UP,
-            Direction.RIGHT: Direction.DOWN,
-        },
-        Direction.UP: {
-            Direction.LEFT: Direction.LEFT,
-            Direction.RIGHT: Direction.RIGHT,
-        },
-        Direction.DOWN: {
-            Direction.LEFT: Direction.RIGHT,
-            Direction.RIGHT: Direction.LEFT,
-        },
-    }
+deltas = {
+    Direction.LEFT: np.array((-1, 0)),
+    Direction.RIGHT: np.array((1, 0)),
+    Direction.UP: np.array((0, 1)),
+    Direction.DOWN: np.array((0, -1)),
+}
+
+turns = {
+    Direction.LEFT: {
+        Direction.LEFT: Direction.DOWN,
+        Direction.RIGHT: Direction.UP,
+    },
+    Direction.RIGHT: {
+        Direction.LEFT: Direction.UP,
+        Direction.RIGHT: Direction.DOWN,
+    },
+    Direction.UP: {
+        Direction.LEFT: Direction.LEFT,
+        Direction.RIGHT: Direction.RIGHT,
+    },
+    Direction.DOWN: {
+        Direction.LEFT: Direction.RIGHT,
+        Direction.RIGHT: Direction.LEFT,
+    },
+}
+
+
+def paint_hull(instructions):
     program = run_program(instructions)
     grid = defaultdict(lambda: Color.BLACK)
     painted = set()
     loc = np.array((0, 0))
     facing = Direction.UP
-
     try:
         next(program)
         while True:
@@ -64,6 +66,10 @@ def part1(instructions):
         pass
     finally:
         return len(painted)
+
+
+def part1(instructions):
+    return paint_hull(instructions)
 
 
 def part2(instructions):
