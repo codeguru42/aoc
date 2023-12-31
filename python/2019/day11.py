@@ -47,11 +47,12 @@ turns = {
 }
 
 
-def paint_hull(instructions):
+def paint_hull(instructions, initial_color):
     program = run_program(instructions)
     grid = defaultdict(lambda: Color.BLACK)
     painted = set()
     loc = np.array((0, 0))
+    grid[tuple(loc)] = initial_color
     facing = Direction.UP
     try:
         next(program)
@@ -65,21 +66,36 @@ def paint_hull(instructions):
     except StopIteration:
         pass
     finally:
-        return len(painted)
+        return len(painted), grid
 
 
 def part1(instructions):
-    return paint_hull(instructions)
+    count, _ = paint_hull(instructions, initial_color=Color.BLACK)
+    return count
+
+
+def draw(grid):
+    coords = grid.keys()
+    min_x = min(x for x, y in coords)
+    max_x = max(x for x, y in coords)
+    min_y = min(y for x, y in coords)
+    max_y = max(y for x, y in coords)
+    reg_id = [["." for _ in range(min_x, max_x + 1)] for __ in range(min_y, max_y + 1)]
+    for (x, y), color in grid.items():
+        if color == Color.WHITE:
+            reg_id[y - min_y][x - min_x] = "#"
+    for row in reversed(reg_id):
+        print("".join(row))
 
 
 def part2(instructions):
-    pass
+    _, grid = paint_hull(instructions, initial_color=Color.WHITE)
+    draw(grid)
 
 
 def main():
     data = get_data(year=2019, day=11)
     parsed = parse(data)
-    print(parsed)
     print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
     print("Part 2:", timeit.timeit(lambda: print(part2(parsed)), number=1))
 
