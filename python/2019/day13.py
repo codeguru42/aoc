@@ -12,8 +12,23 @@ def part1(program):
     return counts[2]
 
 
-def part2(program):
-    pass
+def part2(instructions):
+    score = 0
+    add_quarters = [3, 0]
+    program = run_program(add_quarters + instructions)
+    next(program)
+    x = program.send(2)
+    try:
+        while True:
+            y = next(program)
+            if (x, y) == (-1, 0):
+                score = next(program)
+            else:
+                tile = next(program)
+    except StopIteration:
+        pass
+    finally:
+        return score
 
 
 def main():
