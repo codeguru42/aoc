@@ -28,7 +28,6 @@ def part2(program, inp):
     for phase in permutations(phases):
         amps = []
         for i, p in enumerate(phase):
-            print(f"Running amp {i}")
             amp = run_program(program)
             next(amp)
             amp.send(p)
@@ -38,7 +37,6 @@ def part2(program, inp):
         while True:
             for i, amp in enumerate(amps):
                 try:
-                    print(f"Running amp {i}")
                     inp = amp.send(inp)
                 except StopIteration:
                     stop_count += 1
