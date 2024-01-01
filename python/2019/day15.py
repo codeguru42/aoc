@@ -1,10 +1,7 @@
 import timeit
 
 from aocd import get_data
-
-
-def parse(data):
-    return data.splitlines()
+from int_code import parse
 
 
 def part1(lines):
@@ -17,8 +14,8 @@ def part2(lines):
 
 def main():
     data = get_data(year=2019, day=15)
-    print(data)
     parsed = parse(data)
+    print(parsed)
     print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
     print("Part 2:", timeit.timeit(lambda: print(part2(parsed)), number=1))
 
