@@ -1,7 +1,22 @@
 import timeit
+from enum import IntEnum
 
 from aocd import get_data
+
 from int_code import parse
+
+
+class Movement(IntEnum):
+    NORTH = 1
+    SOUTH = 2
+    WEST = 3
+    EAST = 4
+
+
+class Station(IntEnum):
+    WALL = 0
+    MOVED = 1
+    OXYGEN = 2
 
 
 def part1(lines):
