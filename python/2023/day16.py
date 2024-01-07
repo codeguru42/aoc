@@ -33,8 +33,8 @@ class Direction(IntEnum):
 deltas = {
     Direction.LEFT: np.array((-1, 0)),
     Direction.RIGHT: np.array((1, 0)),
-    Direction.UP: np.array((0, 1)),
-    Direction.DOWN: np.array((0, -1)),
+    Direction.UP: np.array((0, -1)),
+    Direction.DOWN: np.array((0, 1)),
 }
 
 opposites = {
@@ -61,8 +61,8 @@ def parse(data):
     g = nx.DiGraph()
     height = len(lines)
     width = len(lines[0])
-    for i, line in enumerate(lines):
-        for j, c in enumerate(line):
+    for j, line in enumerate(lines):
+        for i, c in enumerate(line):
             curr = i, j
             match c:
                 case "|":
