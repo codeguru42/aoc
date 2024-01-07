@@ -84,7 +84,6 @@ def is_pn(part: Part, schematic: list[str]):
     w = len(schematic[0])
     r, c = part.position
     l = 1 + math.floor(math.log(part.part_number, 10))
-    result = False
     for i in range(r - 1, r + 2):
         for j in range(c - 1, c + l + 1):
             if i == r and c - 1 < j < c + l:
@@ -92,8 +91,8 @@ def is_pn(part: Part, schematic: list[str]):
             if 0 <= i < h and 0 <= j < w:
                 sym = schematic[i][j]
                 if not sym.isdigit() and sym != ".":
-                    result = True
-    return result
+                    return True
+    return False
 
 
 def part1(schematic: list[str], parts: list[Part]):
