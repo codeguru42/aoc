@@ -2,18 +2,33 @@ import timeit
 
 from aocd import get_data
 
-import aoc
+example1 = """#...##..#
+#....#..#
+..##..###
+#####.##.
+#####.##.
+..##..###
+#....#..#
+"""
+
+
+def test_find_horizontal_mirror():
+    (mountain,) = parse(example1)
+    assert list(find_horizontal_mirror(mountain)) == [4]
 
 
 def parse(data):
-    valley = data.split("\n\n")
-    return [v.split("\n") for v in valley]
+    valley = data.strip().split("\n\n")
+    return [v.strip().split("\n") for v in valley]
 
 
 def find_horizontal_mirror(mountain):
-    for i, (line, next_line) in enumerate(aoc.sliding_window(mountain, n=2)):
-        if line == next_line:
-            yield i
+    height = len(mountain)
+    for i in range(height - 1):
+        top = mountain[i::-1]
+        bottom = mountain[i + 1 :]
+        if all(x == y for x, y in zip(top, bottom)):
+            yield i + 1
 
 
 def part1(mountains):
