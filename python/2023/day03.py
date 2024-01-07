@@ -86,7 +86,7 @@ def is_pn(pn: PartNumber, schematic: list[str]):
     h = len(schematic)
     w = len(schematic[0])
     r, c = pn.position
-    l = math.ceil(math.log(pn.part_number, 10))
+    l = 1 + math.floor(math.log(pn.part_number, 10))
     result = False
     for i in range(r - 1, r + 2):
         for j in range(c - 1, c + l + 1):
