@@ -1,7 +1,61 @@
 import timeit
+from enum import IntEnum
 
 import networkx as nx
+import numpy as np
 from aocd import get_data
+from matplotlib import pyplot as plt
+
+example = r""".|...\....
+|.-.\.....
+.....|-...
+........|.
+..........
+.........\
+..../.\\..
+.-.-/..|..
+.|....-|.\
+..//.|....
+"""
+
+
+def test_parse():
+    g = parse(example)
+    nx.draw(g)
+    plt.show()
+
+
+class Direction(IntEnum):
+    LEFT = 0
+    RIGHT = 1
+    UP = 2
+    DOWN = 3
+
+
+deltas = {
+    Direction.LEFT: np.array((-1, 0)),
+    Direction.RIGHT: np.array((1, 0)),
+    Direction.UP: np.array((0, 1)),
+    Direction.DOWN: np.array((0, -1)),
+}
+
+opposites = {
+    Direction.LEFT: Direction.RIGHT,
+    Direction.RIGHT: Direction.LEFT,
+    Direction.UP: Direction.DOWN,
+    Direction.DOWN: Direction.UP,
+}
+
+
+def is_in_bounds(x, y, width, height):
+    return 0 <= x < width and 0 <= y < height
+
+
+def neighbors(p, width, height):
+    for d in Direction:
+        n = np.array(p) + deltas[d]
+        if is_in_bounds(*n, width, height):
+            yield tuple(n), d
 
 
 def parse(data):
@@ -12,50 +66,39 @@ def parse(data):
     for i, line in enumerate(lines):
         for j, c in enumerate(line):
             curr = i, j
-            up = i - 1, j
-            down = i + 1, j
-            left = i, j - 1
-            right = i, j + 1
             match c:
                 case "|":
-                    if i - 1 >= 0 and j - 1 >= 0:
-                        g.add_edge(left, up, through=curr)
-                    if i + 1 < height and j - 1 >= 0:
-                        g.add_edge(left, down, through=curr)
-                    if i - 1 >= 0 and j + 1 < width:
-                        g.add_edge(right, up, through=curr)
-                    if i + 1 < height and j + 1 < width:
-                        g.add_edge(right, down, through=curr)
+                    g.add_edge((curr, Direction.LEFT), (curr, Direction.DOWN))
+                    g.add_edge((curr, Direction.LEFT), (curr, Direction.RIGHT))
+                    g.add_edge((curr, Direction.RIGHT), (curr, Direction.DOWN))
+                    g.add_edge((curr, Direction.RIGHT), (curr, Direction.RIGHT))
+                    g.add_edge((curr, Direction.UP), (curr, Direction.DOWN))
+                    g.add_edge((curr, Direction.DOWN), (curr, Direction.UP))
                 case "-":
-                    if j - 1 >= 0 and i - 1 >= 0:
-                        g.add_edge(up, left, through=curr)
-                    if j + 1 < width and i - 1 >= 0:
-                        g.add_edge(up, right, through=curr)
-                    if j - 1 >= 0 and i + 1 < height:
-                        g.add_edge(down, left, through=curr)
-                    if j + 1 < width and i + 1 < height:
-                        g.add_edge(down, right, through=curr)
+                    g.add_edge((curr, Direction.UP), (curr, Direction.LEFT))
+                    g.add_edge((curr, Direction.UP), (curr, Direction.RIGHT))
+                    g.add_edge((curr, Direction.DOWN), (curr, Direction.LEFT))
+                    g.add_edge((curr, Direction.DOWN), (curr, Direction.RIGHT))
+                    g.add_edge((curr, Direction.LEFT), (curr, Direction.RIGHT))
+                    g.add_edge((curr, Direction.RIGHT), (curr, Direction.LEFT))
                 case "\\":
-                    if j - 1 >= 0 and i + 1 < height:
-                        g.add_edge(down, left, through=curr)
-                        g.add_edge(left, down, through=curr)
-                    if i + 1 < height:
-                        g.add_edge(curr, down)
+                    g.add_edge((curr, Direction.LEFT), (curr, Direction.DOWN))
+                    g.add_edge((curr, Direction.DOWN), (curr, Direction.LEFT))
+                    g.add_edge((curr, Direction.RIGHT), (curr, Direction.UP))
+                    g.add_edge((curr, Direction.UP), (curr, Direction.DOWN))
                 case "/":
-                    if j + 1 < width:
-                        g.add_edge(curr, right)
-                    if i + 1 < height:
-                        g.add_edge(curr, down)
+                    g.add_edge((curr, Direction.LEFT), (curr, Direction.UP))
+                    g.add_edge((curr, Direction.UP), (curr, Direction.LEFT))
+                    g.add_edge((curr, Direction.RIGHT), (curr, Direction.DOWN))
+                    g.add_edge((curr, Direction.DOWN), (curr, Direction.RIGHT))
                 case ".":
-                    g.add_edge(curr, up)
-                    g.add_edge(up, curr)
-                    g.add_edge(curr, down)
-                    g.add_edge(down, curr)
-                    g.add_edge(left, curr)
-                    g.add_edge(curr, left)
-                    g.add_edge(right, curr)
-                    g.add_edge(curr, right)
-    return lines
+                    g.add_edge((curr, Direction.UP), (curr, Direction.DOWN))
+                    g.add_edge((curr, Direction.DOWN), (curr, Direction.UP))
+                    g.add_edge((curr, Direction.LEFT), (curr, Direction.RIGHT))
+                    g.add_edge((curr, Direction.RIGHT), (curr, Direction.LEFT))
+            for n, d in neighbors(curr, width, height):
+                g.add_edge((curr, d), (n, opposites[d]))
+    return g
 
 
 def part1(lines):
