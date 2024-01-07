@@ -67,9 +67,9 @@ def parse(data):
             match c:
                 case "|":
                     g.add_edge((curr, Direction.LEFT), (curr, Direction.DOWN))
-                    g.add_edge((curr, Direction.LEFT), (curr, Direction.RIGHT))
+                    g.add_edge((curr, Direction.LEFT), (curr, Direction.UP))
                     g.add_edge((curr, Direction.RIGHT), (curr, Direction.DOWN))
-                    g.add_edge((curr, Direction.RIGHT), (curr, Direction.RIGHT))
+                    g.add_edge((curr, Direction.RIGHT), (curr, Direction.UP))
                     g.add_edge((curr, Direction.UP), (curr, Direction.DOWN))
                     g.add_edge((curr, Direction.DOWN), (curr, Direction.UP))
                 case "-":
