@@ -4,7 +4,6 @@ from enum import IntEnum
 import networkx as nx
 import numpy as np
 from aocd import get_data
-from matplotlib import pyplot as plt
 
 example = r""".|...\....
 |.-.\.....
@@ -21,8 +20,7 @@ example = r""".|...\....
 
 def test_parse():
     g = parse(example)
-    nx.draw(g)
-    plt.show()
+    assert part1(g) == 46
 
 
 class Direction(IntEnum):
@@ -101,8 +99,11 @@ def parse(data):
     return g
 
 
-def part1(lines):
-    pass
+def part1(g):
+    start = ((0, 0), Direction.LEFT)
+    nodes = nx.descendants(g, start)
+    energized = set(coords for coords, _ in nodes)
+    return len(energized)
 
 
 def part2(lines):
