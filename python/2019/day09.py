@@ -1,4 +1,6 @@
-from int_code import run_program
+from aocd import get_data
+
+from int_code import run_program, parse
 
 
 def part1(program):
@@ -14,11 +16,11 @@ def part2(program):
 
 
 def main():
-    with open('day09.txt') as file:
-        int_codes = [int(x) for x in file.readline().split(',')]
-        print(part1(int_codes))
-        print(part2(int_codes))
+    data = get_data(year=2019, day=9)
+    int_codes = parse(data)
+    print(part1(int_codes))
+    print(part2(int_codes))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
