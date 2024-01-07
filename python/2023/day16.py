@@ -99,11 +99,15 @@ def parse(data):
     return g
 
 
-def part1(g):
-    start = ((0, 0), Direction.LEFT)
+def get_energized(g, start):
     nodes = nx.descendants(g, start)
     energized = set(coords for coords, _ in nodes)
     return len(energized)
+
+
+def part1(g):
+    start = ((0, 0), Direction.LEFT)
+    return get_energized(g, start)
 
 
 def part2(lines):
