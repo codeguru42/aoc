@@ -1,10 +1,17 @@
 import timeit
 
+import networkx as nx
 from aocd import get_data
 
 
 def parse(data):
-    return data.splitlines()
+    lines = data.splitlines()
+    g = nx.DiGraph
+    for line in lines:
+        reactants, product = line.split("=>")
+        for reactant in reactants.strip().split(","):
+            pass
+    return g
 
 
 def part1(lines):
