@@ -3,6 +3,7 @@ from enum import IntEnum
 
 import networkx as nx
 import numpy as np
+import pytest
 from aocd import get_data
 
 example = r""".|...\....
@@ -19,8 +20,13 @@ example = r""".|...\....
 
 
 def test_part1():
-    g = parse(example)
+    g, _, _ = parse(example)
     assert part1(g) == 46
+
+
+def test_part2():
+    g, width, height = parse(example)
+    assert part2(g, width, height) == 51
 
 
 class Direction(IntEnum):
@@ -96,7 +102,7 @@ def parse(data):
                     g.add_edge((curr, Direction.RIGHT), (curr, Direction.LEFT))
             for n, d in neighbors(curr, width, height):
                 g.add_edge((curr, d), (n, opposites[d]))
-    return g
+    return g, width, height
 
 
 def get_energized(g, start):
@@ -110,17 +116,45 @@ def part1(g):
     return get_energized(g, start)
 
 
-def part2(lines):
-    pass
+def get_top_row(width):
+    for i in range(width):
+        yield i, 0
+
+
+def get_bottom_row(width, height):
+    for i in range(width):
+        yield i, height - 1
+
+
+def get_left_column(height):
+    for j in range(height):
+        yield 0, j
+
+
+def get_right_column(width, height):
+    for j in range(height):
+        yield width - 1, j
+
+
+def part2(g, width, height):
+    max_top = max(get_energized(g, (v, Direction.UP)) for v in get_top_row(width))
+    max_bottom = max(
+        get_energized(g, (v, Direction.DOWN)) for v in get_bottom_row(width, height)
+    )
+    max_left = max(
+        get_energized(g, (v, Direction.LEFT)) for v in get_left_column(height)
+    )
+    max_right = max(
+        get_energized(g, (v, Direction.RIGHT)) for v in get_right_column(width, height)
+    )
+    return max(max_top, max_bottom, max_left, max_right)
 
 
 def main():
     data = get_data(year=2023, day=16)
-    parsed = parse(data)
-    print(part1(parsed))
-    print(part2(parsed))
-    print("Part 1:", timeit.timeit(lambda: part1(parsed), number=1))
-    print("Part 2:", timeit.timeit(lambda: part2(parsed), number=1))
+    g, width, height = parse(data)
+    print("Part 1:", timeit.timeit(lambda: print(part1(g)), number=1))
+    print("Part 2:", timeit.timeit(lambda: print(part2(g, width, height)), number=1))
 
 
 if __name__ == "__main__":
