@@ -83,7 +83,7 @@ def parse(data):
                     g.add_edge((curr, Direction.LEFT), (curr, Direction.DOWN))
                     g.add_edge((curr, Direction.DOWN), (curr, Direction.LEFT))
                     g.add_edge((curr, Direction.RIGHT), (curr, Direction.UP))
-                    g.add_edge((curr, Direction.UP), (curr, Direction.DOWN))
+                    g.add_edge((curr, Direction.UP), (curr, Direction.RIGHT))
                 case "/":
                     g.add_edge((curr, Direction.LEFT), (curr, Direction.UP))
                     g.add_edge((curr, Direction.UP), (curr, Direction.LEFT))
