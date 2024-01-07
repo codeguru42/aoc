@@ -80,7 +80,6 @@ def parse_part_numbers(schematic) -> list[Part]:
 
 
 def is_pn(part: Part, schematic: list[str]):
-    print(part)
     h = len(schematic)
     w = len(schematic[0])
     r, c = part.position
@@ -91,11 +90,9 @@ def is_pn(part: Part, schematic: list[str]):
             if i == r and c - 1 < j < c + l:
                 continue
             if 0 <= i < h and 0 <= j < w:
-                print(i, j)
                 sym = schematic[i][j]
                 if not sym.isdigit() and sym != ".":
                     result = True
-    print(result)
     return result
 
 
