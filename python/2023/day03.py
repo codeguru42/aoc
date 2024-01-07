@@ -1,4 +1,5 @@
 import math
+import timeit
 from dataclasses import dataclass
 
 from aocd import get_data
@@ -106,8 +107,8 @@ def part2(schematic: list[str], parts: list[Part]):
 def main():
     data = get_data(year=2023, day=3)
     schematic, parts = list(parse(data))
-    print(part1(schematic, parts))
-    print(part2(schematic, parts))
+    print("Part 1:", timeit.timeit(lambda: print(part1(schematic, parts)), number=1))
+    print("Part 2:", timeit.timeit(lambda: print(part2(schematic, parts)), number=1))
 
 
 if __name__ == "__main__":
