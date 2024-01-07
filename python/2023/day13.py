@@ -22,12 +22,17 @@ example = """#.##..##.
 
 def test_find_horizontal_mirror():
     (_, mountain) = parse(example)
-    assert list(find_horizontal_mirror(mountain)) == [4]
+    assert find_horizontal_mirror(mountain) == 4
 
 
 def test_find_vertical_mirror():
     (mountain, _) = parse(example)
-    assert list(find_vertical_mirror(mountain)) == [5]
+    assert find_vertical_mirror(mountain) == 5
+
+
+def test_part1():
+    mountains = parse(example)
+    assert part1(mountains) == 405
 
 
 def parse(data):
@@ -41,16 +46,18 @@ def find_horizontal_mirror(mountain):
         top = mountain[i::-1]
         bottom = mountain[i + 1 :]
         if all(x == y for x, y in zip(top, bottom)):
-            yield i + 1
+            return i + 1
+    return 0
 
 
 def find_vertical_mirror(mountain):
-    yield from find_horizontal_mirror(list(zip(*mountain)))
+    return find_horizontal_mirror(list(zip(*mountain)))
 
 
 def part1(mountains):
-    for mountain in mountains:
-        print(list(find_horizontal_mirror(mountain)))
+    return 100 * sum(find_horizontal_mirror(mountain) for mountain in mountains) + sum(
+        find_vertical_mirror(mountain) for mountain in mountains
+    )
 
 
 def part2(lines):
