@@ -23,8 +23,8 @@ class Direction(IntEnum):
 deltas = {
     Direction.LEFT: np.array((-1, 0)),
     Direction.RIGHT: np.array((1, 0)),
-    Direction.UP: np.array((0, 1)),
-    Direction.DOWN: np.array((0, -1)),
+    Direction.UP: np.array((0, -1)),
+    Direction.DOWN: np.array((0, 1)),
 }
 
 turns = {
@@ -84,7 +84,7 @@ def draw(grid):
     for (x, y), color in grid.items():
         if color == Color.WHITE:
             reg_id[y - min_y][x - min_x] = "#"
-    for row in reversed(reg_id):
+    for row in reg_id:
         print("".join(row))
 
 
@@ -97,7 +97,7 @@ def main():
     data = get_data(year=2019, day=11)
     parsed = parse(data)
     print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
-    print("Part 2:", timeit.timeit(lambda: print(part2(parsed)), number=1))
+    print("Part 2:", timeit.timeit(lambda: part2(parsed), number=1))
 
 
 if __name__ == "__main__":
