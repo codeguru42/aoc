@@ -58,6 +58,19 @@ class Part:
     part_number: int
     position: tuple[int, int]
 
+    def digit_count(self):
+        return 1 + math.floor(math.log(self.part_number, 10))
+
+    def neighbors(self):
+        l = self.digit_count()
+        r, c = self.position
+        return [
+            (x, y)
+            for x in range(c - 1, c + l + 1)
+            for y in range(r - 1, r + 2)
+            if not (y == r and c - 1 < x < c + l)
+        ]
+
 
 def parse(data) -> tuple[list[str], list[Part]]:
     lines = data.strip().split("\n")
@@ -83,16 +96,11 @@ def parse_part_numbers(schematic) -> list[Part]:
 def is_pn(part: Part, schematic: list[str]):
     h = len(schematic)
     w = len(schematic[0])
-    r, c = part.position
-    l = 1 + math.floor(math.log(part.part_number, 10))
-    for i in range(r - 1, r + 2):
-        for j in range(c - 1, c + l + 1):
-            if i == r and c - 1 < j < c + l:
-                continue
-            if 0 <= i < h and 0 <= j < w:
-                sym = schematic[i][j]
-                if not sym.isdigit() and sym != ".":
-                    return True
+    for j, i in part.neighbors():
+        if 0 <= i < h and 0 <= j < w:
+            sym = schematic[i][j]
+            if not sym.isdigit() and sym != ".":
+                return True
     return False
 
 
@@ -101,7 +109,10 @@ def part1(schematic: list[str], parts: list[Part]):
 
 
 def part2(schematic: list[str], parts: list[Part]):
-    pass
+    for line in schematic:
+        for c in line:
+            if c == "*":
+                pass
 
 
 def main():
