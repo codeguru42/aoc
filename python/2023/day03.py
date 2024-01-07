@@ -79,12 +79,12 @@ def parse_part_numbers(schematic) -> list[Part]:
             yield Part(part_number=part_number, position=position)
 
 
-def is_pn(pn: Part, schematic: list[str]):
-    print(pn)
+def is_pn(part: Part, schematic: list[str]):
+    print(part)
     h = len(schematic)
     w = len(schematic[0])
-    r, c = pn.position
-    l = 1 + math.floor(math.log(pn.part_number, 10))
+    r, c = part.position
+    l = 1 + math.floor(math.log(part.part_number, 10))
     result = False
     for i in range(r - 1, r + 2):
         for j in range(c - 1, c + l + 1):
