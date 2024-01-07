@@ -18,7 +18,7 @@ example = r""".|...\....
 """
 
 
-def test_parse():
+def test_part1():
     g = parse(example)
     assert part1(g) == 46
 
