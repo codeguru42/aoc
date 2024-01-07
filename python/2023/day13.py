@@ -2,7 +2,15 @@ import timeit
 
 from aocd import get_data
 
-example1 = """#...##..#
+example = """#.##..##.
+..#.##.#.
+##......#
+##......#
+..#.##.#.
+..##..##.
+#.#.##.#.
+
+#...##..#
 #....#..#
 ..##..###
 #####.##.
@@ -13,8 +21,13 @@ example1 = """#...##..#
 
 
 def test_find_horizontal_mirror():
-    (mountain,) = parse(example1)
+    (_, mountain) = parse(example)
     assert list(find_horizontal_mirror(mountain)) == [4]
+
+
+def test_find_vertical_mirror():
+    (mountain, _) = parse(example)
+    assert list(find_vertical_mirror(mountain)) == [5]
 
 
 def parse(data):
@@ -29,6 +42,10 @@ def find_horizontal_mirror(mountain):
         bottom = mountain[i + 1 :]
         if all(x == y for x, y in zip(top, bottom)):
             yield i + 1
+
+
+def find_vertical_mirror(mountain):
+    yield from find_horizontal_mirror(list(zip(*mountain)))
 
 
 def part1(mountains):
