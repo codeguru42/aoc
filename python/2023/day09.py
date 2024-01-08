@@ -1,8 +1,8 @@
-import collections
 import timeit
-from itertools import islice
 
 from aocd import get_data
+
+from aoc import sliding_window
 
 
 def test_predict_previous():
@@ -14,15 +14,6 @@ def parse(data):
     lines = data.split("\n")
     for line in lines:
         yield [int(n) for n in line.split()]
-
-
-def sliding_window(iterable, n):
-    # sliding_window('ABCDEFG', 4) --> ABCD BCDE CDEF DEFG
-    it = iter(iterable)
-    window = collections.deque(islice(it, n - 1), maxlen=n)
-    for x in it:
-        window.append(x)
-        yield tuple(window)
 
 
 def diffs(history):
