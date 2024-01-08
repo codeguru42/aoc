@@ -1,16 +1,19 @@
 import timeit
 
+import matplotlib.pyplot as plt
 import networkx as nx
 from aocd import get_data
 
 
 def parse(data):
     lines = data.splitlines()
-    g = nx.DiGraph
+    g = nx.DiGraph()
     for line in lines:
         reactants, product = line.split("=>")
+        prod_amt, prod_name = product.strip().split()
         for reactant in reactants.strip().split(","):
-            pass
+            react_amt, react_name = reactant.strip().split()
+            g.add_edge(prod_name, react_name)
     return g
 
 
@@ -24,10 +27,11 @@ def part2(lines):
 
 def main():
     data = get_data(year=2019, day=14)
-    print(data)
-    parsed = parse(data)
-    print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
-    print("Part 2:", timeit.timeit(lambda: print(part2(parsed)), number=1))
+    g = parse(data)
+    nx.draw(g)
+    plt.show()
+    print("Part 1:", timeit.timeit(lambda: print(part1(g)), number=1))
+    print("Part 2:", timeit.timeit(lambda: print(part2(g)), number=1))
 
 
 if __name__ == "__main__":
