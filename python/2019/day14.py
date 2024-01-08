@@ -6,7 +6,6 @@ import networkx as nx
 import pytest
 from aocd import get_data
 
-
 example_1 = """10 ORE => 10 A
 1 ORE => 1 B
 7 A, 1 B => 1 C
@@ -95,7 +94,9 @@ def parse(data):
         prod_amt, prod_name = product.strip().split()
         for reactant in reactants.strip().split(","):
             react_amt, react_name = reactant.strip().split()
-            g.add_edge(prod_name, react_name, prod_amt=prod_amt, react_amt=react_amt)
+            g.add_edge(
+                prod_name, react_name, prod_amt=int(prod_amt), react_amt=int(react_amt)
+            )
     return g
 
 
