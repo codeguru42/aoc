@@ -1,5 +1,7 @@
 import itertools
+import math
 import timeit
+from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -81,8 +83,6 @@ example_5 = """171 ORE => 8 CNZTR
 )
 def test_part1(example, expected):
     g = parse(example)
-    nx.draw(g, with_labels=True)
-    plt.show()
     assert part1(g) == expected
 
 
@@ -101,7 +101,15 @@ def parse(data):
 
 
 def part1(g):
-    pass
+    products = defaultdict(int)
+    products["FUEL"] = 1
+    for edge in nx.edge_bfs(g, source="FUEL"):
+        prod, react = edge
+        amt = g.edges[edge]
+        products[react] += math.ceil(
+            products[prod] * amt["react_amt"] / amt["prod_amt"]
+        )
+    return products["ORE"]
 
 
 def part2(g):
