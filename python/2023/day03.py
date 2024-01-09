@@ -53,6 +53,13 @@ def test_part1():
     assert result == expected
 
 
+def test_part2():
+    schematic, parts = parse(example_schematic)
+    result = part2(schematic, parts)
+    expected = 467835
+    assert result == expected
+
+
 @dataclass
 class Part:
     part_number: int
@@ -70,6 +77,9 @@ class Part:
             for y in range(r - 1, r + 2)
             if not (y == r and c - 1 < x < c + l)
         ]
+
+    def is_next_to(self, x, y):
+        return x, y in self.neighbors()
 
 
 def parse(data) -> tuple[list[str], list[Part]]:
@@ -108,11 +118,17 @@ def part1(schematic: list[str], parts: list[Part]):
     return sum(part.part_number for part in parts if is_pn(part, schematic))
 
 
-def part2(schematic: list[str], parts: list[Part]):
-    for line in schematic:
-        for c in line:
+def gear_ratios(schematic: list[str], parts: list[Part]):
+    for j, line in enumerate(schematic):
+        for i, c in enumerate(line):
             if c == "*":
-                pass
+                yield math.prod(
+                    part.part_number for part in parts if part.is_next_to(i, j)
+                )
+
+
+def part2(schematic: list[str], parts: list[Part]):
+    return sum(gear_ratios(schematic, parts))
 
 
 def main():
