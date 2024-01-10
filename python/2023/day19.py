@@ -28,7 +28,17 @@ def parse_rules(rules):
     for rule in rules:
         match = re.match(r"(\w+)\{([^}]*)}", rule)
         name, conditions = match.groups()
-        yield name, conditions.split(",")
+        rules = conditions.split(",")
+        yield name, [parse_rule(rule) for rule in rules[:-1]] + [rules[-1]]
+
+
+def parse_rule(rule):
+    match = re.match(r"(\w+)([><])(\w+)", rule)
+    return {
+        "attribute": match.group(1),
+        "operator": match.group(2),
+        "value": int(match.group(3)),
+    }
 
 
 def parse_part_attributes(attributes):
@@ -43,7 +53,7 @@ def parse_parts(parts):
 
 
 def parse(data):
-    rules, parts = data.split("\n\n")
+    rules, parts = data.strip().split("\n\n")
     return dict(parse_rules(rules.splitlines())), list(parse_parts(parts.splitlines()))
 
 
