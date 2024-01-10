@@ -124,19 +124,15 @@ def part1(workflows, parts):
     return sum(rating(part) for part in parts if is_accepted(part, workflows))
 
 
-def part2(rules, parts):
+def part2(workflows):
     pass
 
 
 def main():
     data = get_data(year=2023, day=19)
     workflows, parts = parse(data)
-    print(workflows)
-    print(parts)
-    print(part1(workflows, parts))
-    print(part2(workflows, parts))
-    print("Part 1:", timeit.timeit(lambda: part1(workflows, parts), number=1))
-    print("Part 2:", timeit.timeit(lambda: part2(workflows, parts), number=1))
+    print("Part 1:", timeit.timeit(lambda: print(part1(workflows, parts)), number=1))
+    print("Part 2:", timeit.timeit(lambda: print(part2(workflows)), number=1))
 
 
 if __name__ == "__main__":
