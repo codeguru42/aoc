@@ -24,15 +24,15 @@ hdj{m>838:A,pv}
 """
 
 
-def parse_rules(rules):
+def parse_workflows(rules):
     for rule in rules:
         match = re.match(r"(\w+)\{([^}]*)}", rule)
         name, conditions = match.groups()
         rules = conditions.split(",")
-        yield name, [parse_rule(rule) for rule in rules[:-1]] + [rules[-1]]
+        yield name, [parse_workflow(rule) for rule in rules[:-1]] + [rules[-1]]
 
 
-def parse_rule(rule):
+def parse_workflow(rule):
     match = re.match(r"(\w+)([><])(\w+)", rule)
     return {
         "attribute": match.group(1),
@@ -53,8 +53,10 @@ def parse_parts(parts):
 
 
 def parse(data):
-    rules, parts = data.strip().split("\n\n")
-    return dict(parse_rules(rules.splitlines())), list(parse_parts(parts.splitlines()))
+    workflows, parts = data.strip().split("\n\n")
+    return dict(parse_workflows(workflows.splitlines())), list(
+        parse_parts(parts.splitlines())
+    )
 
 
 def part1(rules, parts):
@@ -67,13 +69,13 @@ def part2(rules, parts):
 
 def main():
     data = get_data(year=2023, day=19)
-    rules, parts = parse(data)
-    print(rules)
+    workflows, parts = parse(data)
+    print(workflows)
     print(parts)
-    print(part1(rules, parts))
-    print(part2(rules, parts))
-    print("Part 1:", timeit.timeit(lambda: part1(rules, parts), number=1))
-    print("Part 2:", timeit.timeit(lambda: part2(rules, parts), number=1))
+    print(part1(workflows, parts))
+    print(part2(workflows, parts))
+    print("Part 1:", timeit.timeit(lambda: part1(workflows, parts), number=1))
+    print("Part 2:", timeit.timeit(lambda: part2(workflows, parts), number=1))
 
 
 if __name__ == "__main__":
