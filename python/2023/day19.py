@@ -1,6 +1,7 @@
 import re
 import timeit
 
+import pytest
 from aocd import get_data
 
 
@@ -24,20 +25,49 @@ hdj{m>838:A,pv}
 """
 
 
+@pytest.fixture
+def parsed():
+    return parse(example)
+
+
+@pytest.fixture
+def workflows(parsed):
+    return parsed[0]
+
+
+@pytest.fixture
+def parts(parsed):
+    return parsed[1]
+
+
+def test_part1(workflows, parts):
+    assert part1(workflows, parts) == 19114
+
+
+def test_is_accepted(workflows, parts):
+    results = ["A", "R", "A", "R", "A"]
+    for part, result in zip(parts, results):
+        print("\n", part, result)
+        assert is_accepted(part, workflows) == (result == "A")
+
+
 def parse_workflows(rules):
     for rule in rules:
         match = re.match(r"(\w+)\{([^}]*)}", rule)
         name, conditions = match.groups()
         rules = conditions.split(",")
-        yield name, [parse_workflow(rule) for rule in rules[:-1]] + [rules[-1]]
+        yield name, [parse_workflow(rule) for rule in rules[:-1]] + [
+            {"result": rules[-1]}
+        ]
 
 
 def parse_workflow(rule):
-    match = re.match(r"(\w+)([><])(\w+)", rule)
+    match = re.match(r"(\w+)([><])(\d+):(\w+)", rule)
     return {
         "attribute": match.group(1),
         "operator": match.group(2),
         "value": int(match.group(3)),
+        "result": match.group(4),
     }
 
 
@@ -59,8 +89,39 @@ def parse(data):
     )
 
 
-def part1(rules, parts):
-    pass
+def evaluate(rule, part):
+    match rule:
+        case {"attribute": attribute, "operator": operator, "value": value}:
+            match operator:
+                case "<":
+                    return part[attribute] < value
+                case ">":
+                    return part[attribute] > value
+        case _:
+            return True
+
+
+def is_accepted(part, workflows):
+    curr = workflows["in"]
+    while True:
+        for rule in curr:
+            if evaluate(rule, part):
+                match rule["result"]:
+                    case "A":
+                        return True
+                    case "R":
+                        return False
+                    case next:
+                        curr = workflows[next]
+                        break
+
+
+def rating(part):
+    return part["x"] + part["m"] + part["a"] + part["s"]
+
+
+def part1(workflows, parts):
+    return sum(rating(part) for part in parts if is_accepted(part, workflows))
 
 
 def part2(rules, parts):
