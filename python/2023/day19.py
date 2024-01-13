@@ -1,3 +1,4 @@
+import math
 import re
 import timeit
 
@@ -124,8 +125,55 @@ def part1(workflows, parts):
     return sum(rating(part) for part in parts if is_accepted(part, workflows))
 
 
+def count(curr, ranges, workflows):
+    for rule in curr:
+        match rule:
+            case {
+                "attribute": attribute,
+                "operator": operator,
+                "value": value,
+                "result": result,
+            }:
+                match operator:
+                    case "<":
+                        original = ranges[attribute]["max"]
+                        ranges[attribute]["max"] = value
+                        if result == "A":
+                            return True
+                        if result == "R":
+                            return False
+                        accepted = count(workflows[result], ranges, workflows)
+                        if accepted:
+                            return True
+                        ranges[attribute]["max"] = original
+                    case ">":
+                        original = ranges[attribute]["min"]
+                        ranges[attribute]["min"] = value
+                        if result == "A":
+                            return True
+                        if result == "R":
+                            return False
+                        accepted = count(workflows[result], ranges, workflows)
+                        if accepted:
+                            return True
+                        ranges[attribute]["max"] = original
+            case {"result": "R"}:
+                return False
+            case {"result": "A"}:
+                return True
+
+
 def part2(workflows):
-    pass
+    curr = workflows["in"]
+    ranges = {
+        attribute: {
+            "min": 1,
+            "max": 4000,
+        }
+        for attribute in ["x", "m", "a", "s"]
+    }
+    count(curr, ranges, workflows)
+    return math.prod(a["max"] - a["min"] + 1 for a in ranges.values())
 
 
 def main():
