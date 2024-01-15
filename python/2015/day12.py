@@ -22,12 +22,29 @@ def get_numbers(data):
                 yield from get_numbers(v)
 
 
+def get_not_red_numbers(data):
+    match data:
+        case int(data):
+            yield data
+        case str(data):
+            yield 0
+        case list(data):
+            for d in data:
+                yield from get_not_red_numbers(d)
+        case dict(data):
+            if "red" in data.values():
+                yield 0
+            else:
+                for k, v in data.items():
+                    yield from get_not_red_numbers(v)
+
+
 def part1(data):
     return sum(get_numbers(data))
 
 
 def part2(data):
-    pass
+    return sum(get_not_red_numbers(data))
 
 
 def main():
