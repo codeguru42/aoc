@@ -4,65 +4,89 @@ import unittest
 
 class Day11Tests(unittest.TestCase):
     def test_has_straight(self):
-        self.assertTrue(has_straight('hijklmmn'))
+        self.assertTrue(has_straight("hijklmmn"))
 
     def test_does_not_have_straight(self):
-        self.assertFalse(has_straight('abbceffg'))
+        self.assertFalse(has_straight("abbceffg"))
 
     def test_contains_illegal_letters(self):
-        self.assertTrue(contains_illegal_letters('hijklmmn'))
+        self.assertTrue(contains_illegal_letters("hijklmmn"))
 
     def test_contains_non_overlapping_pairs(self):
-        self.assertTrue(contains_non_overlapping_pairs('abbceffg'))
+        self.assertTrue(contains_non_overlapping_pairs("abbceffg"))
 
     def test_does_not_contain_non_overlapping_pairs(self):
-        self.assertFalse(contains_non_overlapping_pairs('abbcegjk'))
+        self.assertFalse(contains_non_overlapping_pairs("abbcegjk"))
 
     def test_valid_password1(self):
-        self.assertFalse(valid_password('hijklmmn'))
+        self.assertFalse(valid_password("hijklmmn"))
 
     def test_valid_password2(self):
-        self.assertFalse(valid_password('abbceffg'))
+        self.assertFalse(valid_password("abbceffg"))
 
     def test_valid_password3(self):
-        self.assertFalse(valid_password('abbcegjk'))
+        self.assertFalse(valid_password("abbcegjk"))
 
     def test_increment_base26_1(self):
-        self.assertEqual([1], list(increment_base26((0, ))))
+        self.assertEqual([1], list(increment_base26((0,))))
 
     def test_increment_base26_2(self):
-        self.assertEqual([0, 1], list(increment_base26((25, ))))
+        self.assertEqual([0, 1], list(increment_base26((25,))))
 
     def test_increment_base26_3(self):
         self.assertEqual([1, 1], list(increment_base26((0, 1))))
 
     def test_increment_base26_4(self):
-        self.assertEqual([20, 4, 14, 10, 24, 10, 17, 3], list(increment_base26([19, 4, 14, 10, 24, 10, 17, 3])))
+        self.assertEqual(
+            [20, 4, 14, 10, 24, 10, 17, 3],
+            list(increment_base26([19, 4, 14, 10, 24, 10, 17, 3])),
+        )
 
     def test_string_to_base26_1(self):
-        self.assertEqual([1, ], list(string_to_base26('a')))
+        self.assertEqual(
+            [
+                1,
+            ],
+            list(string_to_base26("a")),
+        )
 
     def test_string_to_base26_2(self):
-        self.assertEqual([0, ], list(string_to_base26('z')))
+        self.assertEqual(
+            [
+                0,
+            ],
+            list(string_to_base26("z")),
+        )
 
     def test_string_to_base26_3(self):
-        self.assertEqual([0] + list(range(25, 0, -1)), list(string_to_base26('abcdefghijklmnopqrstuvwxyz')))
+        self.assertEqual(
+            [0] + list(range(25, 0, -1)),
+            list(string_to_base26("abcdefghijklmnopqrstuvwxyz")),
+        )
 
     def test_string_to_base26_4(self):
-        self.assertEqual([19, 4, 14, 10, 24, 10, 17, 3], list(string_to_base26('cqjxjnds')))
+        self.assertEqual(
+            [19, 4, 14, 10, 24, 10, 17, 3], list(string_to_base26("cqjxjnds"))
+        )
 
     def test_base26_to_string_1(self):
-        self.assertEqual('cqjxjndt', base26_to_string([20, 4, 14, 10, 24, 10, 17, 3]))
+        self.assertEqual("cqjxjndt", base26_to_string([20, 4, 14, 10, 24, 10, 17, 3]))
 
     def test_base26_to_string_2(self):
-        self.assertEqual('abcdefghijklmnopqrstuvwxyz', base26_to_string([0] + list(range(25, 0, -1))))
+        self.assertEqual(
+            "abcdefghijklmnopqrstuvwxyz", base26_to_string([0] + list(range(25, 0, -1)))
+        )
 
     def test_next_password(self):
-        self.assertEqual('cqjxjndt', next_password('cqjxjnds'))
+        self.assertEqual("cqjxjndt", next_password("cqjxjnds"))
 
 
 def valid_password(password):
-    return has_straight(password) and not contains_illegal_letters(password) and contains_non_overlapping_pairs(password)
+    return (
+        has_straight(password)
+        and not contains_illegal_letters(password)
+        and contains_non_overlapping_pairs(password)
+    )
 
 
 def has_straight(password):
@@ -78,7 +102,7 @@ def has_straight(password):
 
 
 def contains_illegal_letters(password):
-    return 'i' not in password or 'o' not in password or 'l' not in password
+    return "i" not in password or "o" not in password or "l" not in password
 
 
 def contains_non_overlapping_pairs(password):
@@ -104,11 +128,11 @@ def increment_base26(num):
 
 
 def string_to_base26(s):
-    return reversed([(ord(c) - ord('a') + 1) % 26 for c in s])
+    return reversed([(ord(c) - ord("a") + 1) % 26 for c in s])
 
 
 def base26_to_string(s):
-    return ''.join(reversed([chr(c + ord('a') - 1) if c > 0 else 'z' for c in s]))
+    return "".join(reversed([chr(c + ord("a") - 1) if c > 0 else "z" for c in s]))
 
 
 def next_password(password):
@@ -132,11 +156,11 @@ def part2():
 
 
 def main():
-    password = 'cqjxjnds'
+    password = "cqjxjnds"
     print(part1(password))
     print(part2())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main(exit=False)
     main()
