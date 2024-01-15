@@ -8,8 +8,22 @@ def parse(data):
     return json.loads(data)
 
 
+def get_numbers(data):
+    match data:
+        case int(data):
+            yield data
+        case str(data):
+            yield 0
+        case list(data):
+            for d in data:
+                yield from get_numbers(d)
+        case dict(data):
+            for k, v in data.items():
+                yield from get_numbers(v)
+
+
 def part1(data):
-    pass
+    return sum(get_numbers(data))
 
 
 def part2(data):
