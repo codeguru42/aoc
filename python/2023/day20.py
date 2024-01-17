@@ -1,4 +1,5 @@
 import timeit
+from collections.abc import Mapping
 from dataclasses import dataclass
 
 from aocd import get_data
@@ -7,6 +8,10 @@ from aocd import get_data
 @dataclass
 class Broadcaster:
     children: list[str]
+
+    def pulse(self, components: Mapping[str,]):
+        for child in self.children:
+            components[child].pulse()
 
 
 @dataclass
