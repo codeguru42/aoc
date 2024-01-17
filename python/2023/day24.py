@@ -43,6 +43,9 @@ class Line:
     point: numpy.typing.ArrayLike
     vector: numpy.typing.ArrayLike
 
+    def get_point(self, t):
+        return self.point + t * self.vector
+
 
 def parse(data):
     lines = data.splitlines()
@@ -65,7 +68,7 @@ def intersection(l1: Line, l2: Line):
     b = (l2.point - l1.point)[:2]
     t, s = np.linalg.solve(a, b)
 
-    return t, s, l1.point + t * l1.vector
+    return t, s, l1.get_point(t)
 
 
 def intersections(lines):
