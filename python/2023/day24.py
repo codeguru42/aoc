@@ -2,11 +2,10 @@ import itertools
 import timeit
 from dataclasses import dataclass
 
-import numpy.typing
 import numpy as np
+import numpy.typing
 import pytest
 from aocd import get_data
-
 
 example = """19, 13, 30 @ -2,  1, -2
 18, 19, 22 @ -1, -1, -2
@@ -45,6 +44,12 @@ class Line:
 
     def get_point(self, t):
         return self.point + t * self.vector
+
+    def gen_points(self):
+        t = 0
+        while True:
+            yield self.get_point(t)
+            t += 1
 
 
 def parse(data):
@@ -88,6 +93,12 @@ def part1(lines, lbound, ubound):
             if in_bounds(x) and in_bounds(y) and t > 0 and s > 0
         ]
     )
+
+
+def is_colinear(p1, p2, p3):
+    v1 = p2 - p1
+    v2 = p3 - p2
+    return np.dot(v1, v2) != np.linalg.norm(v1) * np.linalg.norm(v2)
 
 
 def part2(lines):
