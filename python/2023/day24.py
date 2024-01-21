@@ -98,11 +98,23 @@ def part1(lines, lbound, ubound):
 def is_colinear(p1, p2, p3):
     v1 = p2 - p1
     v2 = p3 - p2
-    return np.dot(v1, v2) != np.linalg.norm(v1) * np.linalg.norm(v2)
+    return np.dot(v1, v2) == np.linalg.norm(v1) * np.linalg.norm(v2)
+
+
+def get_colinear_points(gen1, gen2, gen3, *gens):
+    n = 1000
+    for p1 in itertools.islice(gen1, n):
+        for p2 in itertools.islice(gen2, n):
+            for p3 in itertools.islice(gen3, n):
+                if is_colinear(p1, p2, p3):
+                    yield p1, p2, p3, *get_colinear_points(p2, p3, *gens)
 
 
 def part2(lines):
-    pass
+    point_generators = [line.gen_points() for line in lines]
+    points = get_colinear_points(*point_generators)
+    for point in points:
+        print(point)
 
 
 def main():
