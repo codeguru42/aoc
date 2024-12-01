@@ -11,7 +11,9 @@ def parse(data):
 
 
 def part1(lines):
-    pass
+    left, right = zip(*lines)
+    s = zip(sorted(left), sorted(right))
+    return sum(abs(l - r) for l, r in s)
 
 
 def part2(lines):
