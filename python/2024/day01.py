@@ -1,4 +1,5 @@
 import timeit
+from typing import Counter
 
 from aocd import get_data
 
@@ -17,7 +18,9 @@ def part1(lines):
 
 
 def part2(lines):
-    pass
+    left, right = zip(*lines)
+    counts = Counter[int](right)
+    return sum(l * counts[l] for l in left)
 
 
 def main():
