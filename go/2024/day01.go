@@ -11,6 +11,11 @@ import (
 )
 
 func main() {
+	left, right := parse()
+	fmt.Println(part1(left, right))
+}
+
+func parse() ([]int, []int) {
 	fi, err := os.Open("day01.txt")
 
 	if err != nil {
@@ -32,6 +37,14 @@ func main() {
 		right = append(right, p2)
 	}
 
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+
+	return left, right
+}
+
+func part1(left []int, right []int) int {
 	sort.Slice(left, func(i, j int) bool { return left[i] < left[j] })
 	sort.Slice(right, func(i, j int) bool { return right[i] < right[j] })
 
@@ -45,9 +58,5 @@ func main() {
 		sum += val
 	}
 
-	fmt.Println(int(sum))
-
-	if err := scanner.Err(); err != nil {
-		panic(err)
-	}
+	return int(sum)
 }
