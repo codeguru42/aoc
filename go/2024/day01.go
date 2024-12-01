@@ -13,6 +13,7 @@ import (
 func main() {
 	left, right := parse()
 	fmt.Println(part1(left, right))
+	fmt.Println(part2(left, right))
 }
 
 func parse() ([]int, []int) {
@@ -59,4 +60,18 @@ func part1(left []int, right []int) int {
 	}
 
 	return int(sum)
+}
+
+func part2(left []int, right []int) int {
+	var counts = make(map[int]int)
+	for _, val := range right {
+		counts[val] = counts[val] + 1
+	}
+
+	var sum = 0
+	for _, val := range left {
+		sum += val * counts[val]
+	}
+
+	return sum
 }
