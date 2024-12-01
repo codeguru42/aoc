@@ -1,4 +1,5 @@
 import itertools
+import timeit
 import unittest
 
 
@@ -157,8 +158,8 @@ def part2():
 
 def main():
     password = "cqjxjnds"
-    print(part1(password))
-    print(part2())
+    print("Part 1:", timeit.timeit(lambda: print(part1(password)), number=1))
+    print("Part 2:", timeit.timeit(lambda: print(part2()), number=1))
 
 
 if __name__ == "__main__":
