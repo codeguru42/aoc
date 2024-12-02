@@ -93,7 +93,7 @@ def valid_password(password):
 def has_straight(password):
     count = 1
     for prev, c in itertools.pairwise(password):
-        if chr(ord(prev) + 1) == c:
+        if prev + 1 == c:
             count += 1
             if count == 3:
                 return True
@@ -137,19 +137,19 @@ def base26_to_string(s):
 
 
 def next_password(password):
-    return base26_to_string(increment_base26(list(string_to_base26(password))))
+    return increment_base26(password)
 
 
 def generate_passwords(password):
+    b26password = list(string_to_base26(password))
     while True:
-        password = next_password(password)
-        yield password
+        yield next_password(b26password)
 
 
 def part1(password):
     for pp in generate_passwords(password):
         if valid_password(pp):
-            return pp
+            return base26_to_string(pp)
 
 
 def part2():
@@ -163,5 +163,4 @@ def main():
 
 
 if __name__ == "__main__":
-    unittest.main(exit=False)
     main()
