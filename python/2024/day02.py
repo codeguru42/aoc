@@ -45,8 +45,23 @@ def part1(lines):
     return sum(int(is_safe(line)) for line in lines)
 
 
+def dampened(nums):
+    for i in range(len(nums)):
+        yield nums[:i] + nums[i + 1 :]
+
+
+def is_safe_dampened(nums):
+    if is_safe(nums):
+        return True
+
+    for dampened_nums in dampened(nums):
+        if is_safe(dampened_nums):
+            return True
+    return False
+
+
 def part2(lines):
-    pass
+    return sum(int(is_safe_dampened(line)) for line in lines)
 
 
 def main():
