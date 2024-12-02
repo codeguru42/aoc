@@ -1,3 +1,4 @@
+import itertools
 import timeit
 
 from aocd import get_data
@@ -9,8 +10,20 @@ def parse(data):
         yield [int(x) for x in line.strip().split()]
 
 
+def diffs(nums):
+    for x, y in itertools.pairwise(nums):
+        yield x - y
+
+
+def is_safe(nums):
+    ds = list(diffs(nums))
+    return (all(d > 0 for d in ds) or (all(d < 0 for d in ds))) and all(
+        1 <= d <= 3 for d in ds
+    )
+
+
 def part1(lines):
-    pass
+    return sum(int(is_safe(line)) for line in lines)
 
 
 def part2(lines):
