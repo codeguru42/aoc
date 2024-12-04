@@ -139,7 +139,22 @@ def reversed_up_diagonals(lines):
 
 
 def part2(lines):
-    pass
+    count = 0
+    n = len(lines)
+    for r, line in enumerate(lines):
+        for c, val in enumerate(line):
+            if val == "A":
+                if 1 <= r < n - 1 and 1 <= c < n - 1:
+                    if (lines[r - 1][c - 1] == "M" and lines[r + 1][c + 1] == "S") or (
+                        lines[r - 1][c - 1] == "S" and lines[r + 1][c + 1] == "M"
+                    ):
+                        if (
+                            lines[r - 1][c + 1] == "M" and lines[r + 1][c - 1] == "S"
+                        ) or (
+                            lines[r - 1][c + 1] == "S" and lines[r + 1][c - 1] == "M"
+                        ):
+                            count += 1
+    return count
 
 
 def main():
