@@ -14,7 +14,7 @@ def parse_rules_graph(rules):
 
 def parse_updates(updates):
     for line in updates.splitlines():
-        yield line.split(",")
+        yield [int(x) for x in line.split(",")]
 
 
 def parse(data):
@@ -22,8 +22,19 @@ def parse(data):
     return parse_rules_graph(rules), list(parse_updates(updates))
 
 
-def part1(lines, updates):
-    pass
+def is_in_order(rules, update):
+    print(f"{update=}")
+    for i, x in enumerate(update):
+        for y in update[i + 1 :]:
+            if not rules.has_edge(x, y):
+                return False
+    return True
+
+
+def part1(rules, updates):
+    return sum(
+        update[len(update) // 2 + 1] for update in updates if is_in_order(rules, update)
+    )
 
 
 def part2(lines, updates):
