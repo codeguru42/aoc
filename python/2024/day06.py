@@ -1,3 +1,5 @@
+import collections
+import itertools
 import timeit
 
 from aocd import get_data
@@ -13,11 +15,30 @@ def find_start(lines):
 def parse(data):
     lines = data.splitlines()
     x, y = find_start(lines)
-    return x, y, lines
+    return x, y, [list(line) for line in lines]
+
+
+def predict_route(x, y, m):
+    deltas = iter(itertools.cycle([(0, -1), (1, 0), (0, 1), (-1, 0)]))
+    delta = next(deltas)
+    while 0 <= x < len(m[0]) and 0 <= y < len(m):
+        next_x = x + delta[0]
+        next_y = y + delta[1]
+        if m[next_x][next_y] != "#":
+            m[x][y] = "X"
+            x, y = next_x, next_y
+        else:
+            delta = next(deltas)
+
+
+def count_visited(m):
+    counts = [collections.Counter(line) for line in m]
+    return sum(count["X"] for count in counts)
 
 
 def part1(x, y, m):
-    pass
+    predict_route(x, y, m)
+    return count_visited(m)
 
 
 def part2(x, y, m):
