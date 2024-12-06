@@ -97,8 +97,12 @@ def part1(rules, updates):
     )
 
 
-def part2(lines, updates):
-    pass
+def part2(rules, updates):
+    return sum(
+        sorted(update, key=lambda x: x)[len(update) // 2]
+        for update in updates
+        if not is_in_order(rules, update)
+    )
 
 
 def main():
