@@ -1,3 +1,4 @@
+import functools
 import timeit
 
 import networkx as nx
@@ -99,7 +100,16 @@ def part1(rules, updates):
 
 def part2(rules, updates):
     return sum(
-        sorted(update, key=lambda x: x)[len(update) // 2]
+        sorted(
+            update,
+            key=functools.cmp_to_key(
+                lambda x, y: 1
+                if rules.has_edge(x, y)
+                else -1
+                if rules.has_edge(y, x)
+                else 0
+            ),
+        )[len(update) // 2]
         for update in updates
         if not is_in_order(rules, update)
     )
