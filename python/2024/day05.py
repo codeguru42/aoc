@@ -84,7 +84,6 @@ def parse(data):
 
 
 def is_in_order(rules, update):
-    print(f"{update=}")
     for i, x in enumerate(update):
         for y in update[i + 1 :]:
             if rules.has_edge(y, x):
@@ -118,8 +117,6 @@ def part2(rules, updates):
 def main():
     data = get_data(year=2024, day=5)
     rules, updates = parse(data)
-    print(rules)
-    print(updates)
     print("Part 1:", timeit.timeit(lambda: print(part1(rules, updates)), number=1))
     print("Part 2:", timeit.timeit(lambda: print(part2(rules, updates)), number=1))
 
