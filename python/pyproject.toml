@@ -5,7 +5,7 @@ description = ""
 authors = ["Code-Apprentice <codeguru42@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.13"
 advent-of-code-data = "^2.0.1"
 browser-cookie3 = "^0.19.1"
 pytest = "^8.3.4"
