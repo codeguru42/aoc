@@ -98,14 +98,13 @@ def part1(equations):
 def is_valid2(result, terms):
     if len(terms) == 1:
         return result == terms[0]
+    num_digits = math.floor(math.log10(terms[-1])) + 1
     return (
         is_valid2(result - terms[-1], terms[:-1])
         or is_valid2(result / terms[-1], terms[:-1])
         or (
-            terms[-1] == result % (10 ** (math.floor(math.log10(terms[-1])) + 1))
-            and is_valid2(
-                result // (10 ** (math.floor(math.log10(terms[-1])) + 1)), terms[:-1]
-            )
+            terms[-1] == result % (10**num_digits)
+            and is_valid2(result // (10**num_digits), terms[:-1])
         )
     )
 
