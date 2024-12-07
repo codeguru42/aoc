@@ -3,7 +3,6 @@ import timeit
 
 import pytest
 from aocd import get_data
-from numpy.core.numeric import True_
 
 test_input = """190: 10 19
 3267: 81 40 27
