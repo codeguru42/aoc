@@ -1,7 +1,9 @@
+import math
 import timeit
 
 import pytest
 from aocd import get_data
+from numpy.core.numeric import True_
 
 test_input = """190: 10 19
 3267: 81 40 27
@@ -22,6 +24,10 @@ def equations():
 
 def test_part1(equations):
     assert part1(equations) == 3749
+
+
+def test_part2(equations):
+    assert part2(equations) == 11387
 
 
 def parse_equations(lines):
@@ -56,6 +62,27 @@ def test_is_valid(equation, expected):
     assert is_valid(equation[0], equation[1]) == expected
 
 
+@pytest.mark.parametrize(
+    "equation,expected",
+    zip(
+        parse(test_input),
+        [
+            True,
+            True,
+            False,
+            True,
+            True,
+            False,
+            True,
+            False,
+            True,
+        ],
+    ),
+)
+def test_is_valid2(equation, expected):
+    assert is_valid2(equation[0], equation[1]) == expected
+
+
 def is_valid(result, terms):
     if len(terms) == 1:
         return result == terms[0]
@@ -68,8 +95,23 @@ def part1(equations):
     return sum(result for result, terms in equations if is_valid(result, terms))
 
 
-def part2(lines):
-    pass
+def is_valid2(result, terms):
+    if len(terms) == 1:
+        return result == terms[0]
+    return (
+        is_valid2(result - terms[-1], terms[:-1])
+        or is_valid2(result / terms[-1], terms[:-1])
+        or (
+            terms[-1] == result % (10 ** (math.ceil(math.log10(terms[-1]))))
+            and is_valid2(
+                result // (10 ** (math.ceil(math.log10(terms[-1])))), terms[:-1]
+            )
+        )
+    )
+
+
+def part2(equations):
+    return sum(result for result, terms in equations if is_valid2(result, terms))
 
 
 def main():
