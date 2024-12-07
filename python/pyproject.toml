@@ -8,12 +8,12 @@ authors = ["Code-Apprentice <codeguru42@gmail.com>"]
 python = "^3.11"
 advent-of-code-data = "^2.0.1"
 browser-cookie3 = "^0.19.1"
-pytest = "^7.4.3"
-black = "^23.11.0"
+pytest = "^8.3.4"
+black = "^24.10.0"
 networkx = "^3.2.1"
 matplotlib = "^3.8.2"
 scipy = "^1.11.4"
-numpy = "^1.26.2"
+numpy = "^2.1.3"
 
 [tool.poetry.dev-dependencies]
 
