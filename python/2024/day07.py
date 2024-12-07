@@ -102,9 +102,9 @@ def is_valid2(result, terms):
         is_valid2(result - terms[-1], terms[:-1])
         or is_valid2(result / terms[-1], terms[:-1])
         or (
-            terms[-1] == result % (10 ** (math.ceil(math.log10(terms[-1]))))
+            terms[-1] == result % (10 ** (math.floor(math.log10(terms[-1])) + 1))
             and is_valid2(
-                result // (10 ** (math.ceil(math.log10(terms[-1])))), terms[:-1]
+                result // (10 ** (math.floor(math.log10(terms[-1])) + 1)), terms[:-1]
             )
         )
     )
