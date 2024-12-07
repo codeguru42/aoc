@@ -60,7 +60,7 @@ def is_valid(result, terms):
     if len(terms) == 1:
         return result == terms[0]
     return is_valid(result - terms[-1], terms[:-1]) or is_valid(
-        result // terms[-1], terms[:-1]
+        result / terms[-1], terms[:-1]
     )
 
 
