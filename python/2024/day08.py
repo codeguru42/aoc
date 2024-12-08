@@ -1,4 +1,5 @@
 import collections
+import itertools
 import timeit
 
 from aocd import get_data
@@ -11,24 +12,40 @@ def parse(data):
         for c, antenna in enumerate(line):
             if antenna != ".":
                 antennas[antenna].append((r, c))
-    return antennas
+    return antennas, len(lines), len(lines[0])
 
 
-def part1(lines):
-    pass
+def get_antinodes(antennas, height, width):
+    for coords in antennas.values():
+        for p1, p2 in itertools.combinations(coords, 2):
+            dr, dc = (p1[0] - p2[0], p1[1] - p2[1])
+            a1 = p1[0] + dr, p1[1] + dc
+            a2 = p2[0] - dr, p2[1] - dc
+            if 0 <= a1[0] < height and 0 <= a1[1] < width:
+                yield a1
+            if 0 <= a2[0] < height and 0 <= a2[1] < width:
+                yield a2
 
 
-def part2(lines):
+def part1(antennas, height, width):
+    return len(set(get_antinodes(antennas, height, width)))
+
+
+def part2(antennas, height, width):
     pass
 
 
 def main():
     data = get_data(year=2024, day=8)
-    print(data)
-    parsed = parse(data)
-    print(parsed)
-    print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
-    print("Part 2:", timeit.timeit(lambda: print(part2(parsed)), number=1))
+    antennas, height, width = parse(data)
+    print(
+        "Part 1:",
+        timeit.timeit(lambda: print(part1(antennas, height, width)), number=1),
+    )
+    print(
+        "Part 2:",
+        timeit.timeit(lambda: print(part2(antennas, height, width)), number=1),
+    )
 
 
 if __name__ == "__main__":
