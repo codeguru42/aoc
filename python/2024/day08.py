@@ -1,5 +1,6 @@
 import collections
 import itertools
+import math
 import timeit
 
 from aocd import get_data
@@ -54,6 +55,8 @@ def get_antinodes2(antennas, height, width):
     for coords in antennas.values():
         for p1, p2 in itertools.combinations(coords, 2):
             dr, dc = (p1[0] - p2[0], p1[1] - p2[1])
+            div = math.gcd(dr, dc)
+            dr, dc = (dr / div, dc / div)
             a1 = p1
             while 0 <= a1[0] < height and 0 <= a1[1] < width:
                 a1 = a1[0] + dr, a1[1] + dc
