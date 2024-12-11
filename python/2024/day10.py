@@ -36,26 +36,31 @@ def is_in_bounds(r, c, row_count, col_count):
 
 
 def get_score(r, c, lines):
+    score = 0
     width = len(lines)
     height = len(lines[0])
-    if not is_in_bounds(r, c, width, height):
-        return 0
-    if lines[r][c] == 9:
-        return 1
-    return sum(
-        get_score(n_r, n_c, lines)
-        for n_r, n_c in neighbors(r, c)
-        if is_in_bounds(n_r, n_c, width, height) and lines[n_r][n_c] == lines[r][c] + 1
-    )
+    visited = set()
+    to_visit = [(r, c)]
+    while to_visit:
+        (r, c) = to_visit.pop()
+        for n_r, n_c in neighbors(r, c):
+            if is_in_bounds(n_r, n_c, width, height):
+                if (n_r, n_c) not in visited:
+                    if lines[n_r][n_c] == 9:
+                        score += 1
+                    elif lines[n_r][n_c] == lines[r][c] + 1:
+                        to_visit.append((n_r, n_c))
+                    visited.add((n_r, n_c))
+    return score
 
 
 def part1(lines):
-    count = 0
+    total = 0
     for r, line in enumerate(lines):
         for c, v in enumerate(line):
             if v == 0:
-                count += get_score(r, c, lines)
-    return count
+                total += get_score(r, c, lines)
+    return total
 
 
 def part2(lines):
