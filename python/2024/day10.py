@@ -2,9 +2,25 @@ import timeit
 
 from aocd import get_data
 
+test_input = """
+89010123
+78121874
+87430965
+96549874
+45678903
+32019012
+01329801
+10456732
+"""
+
+
+def test_part1():
+    lines = list(parse(test_input))
+    assert part1(lines) == 36
+
 
 def parse(data):
-    lines = data.splitlines()
+    lines = data.strip().splitlines()
     for line in lines:
         yield [int(x) for x in line]
 
@@ -19,16 +35,18 @@ def is_in_bounds(r, c, row_count, col_count):
     return 0 <= r < row_count and 0 <= c < col_count
 
 
-def is_trailhead(r, c, lines):
-    row_count = len(lines)
-    col_count = len(lines[0])
-    for height in range(1, 10):
-        if not any(
-            is_in_bounds(n_r, n_c, row_count, col_count) and lines[n_r][n_c] == height
-            for n_r, n_c in neighbors(r, c)
-        ):
-            return False
-    return True
+def get_score(r, c, lines):
+    width = len(lines)
+    height = len(lines[0])
+    if not is_in_bounds(r, c, width, height):
+        return 0
+    if lines[r][c] == 9:
+        return 1
+    return sum(
+        get_score(n_r, n_c, lines)
+        for n_r, n_c in neighbors(r, c)
+        if is_in_bounds(n_r, n_c, width, height) and lines[n_r][n_c] == lines[r][c] + 1
+    )
 
 
 def part1(lines):
@@ -36,8 +54,7 @@ def part1(lines):
     for r, line in enumerate(lines):
         for c, v in enumerate(line):
             if v == 0:
-                if is_trailhead(r, c, lines):
-                    count += 1
+                count += get_score(r, c, lines)
     return count
 
 
