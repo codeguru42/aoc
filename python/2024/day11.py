@@ -34,8 +34,10 @@ def part1(stones):
     return len(stones)
 
 
-def part2(lines):
-    pass
+def part2(stones):
+    for _ in range(75):
+        stones = list(blink(stones))
+    return len(stones)
 
 
 def main():
