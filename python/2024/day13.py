@@ -2,7 +2,13 @@ import re
 import timeit
 from dataclasses import dataclass
 
+import pytest
 from aocd import get_data
+
+
+@pytest.mark.parametrize("a,b,x,y", [(15, 6, 1, -2), (21, 15, -2, 3)])
+def test_euler(a, b, x, y):
+    assert euler(a, b) == (x, y)
 
 
 @dataclass
@@ -36,6 +42,15 @@ def parse(data):
             button_b=Button(x=int(line2.group(1)), y=int(line2.group(2))),
             prize=Prize(int(line3.group(1)), int(line3.group(2))),
         )
+
+
+def euler(a: int, b: int) -> tuple[int, int]:
+    if a % b == 0:
+        return a // b, 0
+    (x, y) = euler(b, a % b)
+    if y == 0:
+        return (1, -x)
+    return (y, 1 + y * -x)
 
 
 def part1(lines):
