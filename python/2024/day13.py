@@ -6,7 +6,9 @@ import pytest
 from aocd import get_data
 
 
-@pytest.mark.parametrize("a,b,x,y,r", [(15, 6, 1, -2, 3), (21, 15, -2, 3, 6)])
+@pytest.mark.parametrize(
+    "a,b,x,y,r", [(15, 6, 1, -2, 3), (21, 15, -2, 3, 3), (29, 52, 9, 5, 1)]
+)
 def test_euler(a, b, x, y, r):
     assert euler(a, b) == (x, y, r)
 
@@ -49,8 +51,8 @@ def euler(a: int, b: int) -> tuple[int, int, int]:
         return a // b, 0, 0
     (x, y, r) = euler(b, a % b)
     if y == 0:
-        return (1, -x, a % b)
-    return (y, 1 + y * -x, a % b)
+        return (1, -(a // b), a % b)
+    return (y, 1 + y * -x, r)
 
 
 def part1(lines):
