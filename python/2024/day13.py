@@ -2,8 +2,31 @@ import re
 import timeit
 from dataclasses import dataclass
 
+import numpy as np
 import pytest
 from aocd import get_data
+
+test_input = """Button A: X+94, Y+34
+Button B: X+22, Y+67
+Prize: X=8400, Y=5400
+
+Button A: X+26, Y+66
+Button B: X+67, Y+21
+Prize: X=12748, Y=12176
+
+Button A: X+17, Y+86
+Button B: X+84, Y+37
+Prize: X=7870, Y=6450
+
+Button A: X+69, Y+23
+Button B: X+27, Y+71
+Prize: X=18641, Y=10279
+"""
+
+
+@pytest.fixture
+def machines():
+    return list(parse(test_input))
 
 
 @pytest.mark.parametrize(
@@ -11,6 +34,13 @@ from aocd import get_data
 )
 def test_euclid(a, b, x, y, r):
     assert euclid(a, b) == (x, y, r)
+
+
+def test_solve(machines):
+    print()
+    for machine in machines:
+        actual = solve(machine)
+        print(actual)
 
 
 @dataclass
@@ -55,8 +85,26 @@ def euclid(a: int, b: int) -> tuple[int, int, int]:
     return (y, 1 + y * -x, r)
 
 
-def part1(lines):
-    pass
+def solve(machine):
+    a = np.array(
+        [
+            [machine.button_a.x, machine.button_b.x],
+            [machine.button_a.y, machine.button_b.y],
+        ]
+    )
+    b = np.array([machine.prize.x, machine.prize.y])
+    return np.linalg.solve(a, b)
+
+
+def is_int(x):
+    y = x.round()
+    return np.all(np.abs(x - y) < [0.0001, 0.0001])
+
+
+def part1(machines):
+    presses = [solve(machine) for machine in machines]
+    filtered = [x for x in presses if is_int(x)]
+    return np.sum(np.sum(np.array([3, 1]) * x for x in filtered))
 
 
 def part2(lines):
@@ -64,7 +112,8 @@ def part2(lines):
 
 
 def main():
-    data = get_data(year=2024, day=13)
+    with open("../day13.txt") as f:
+        data = f.read()
     parsed = list(parse(data))
     print(parsed)
     print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
