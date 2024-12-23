@@ -91,8 +91,13 @@ def part1(machines):
     return np.sum(np.sum(np.array([3, 1]) * x for x in filtered))
 
 
-def part2(lines):
-    pass
+def part2(machines):
+    for machine in machines:
+        machine.prize.x += 10000000000000
+        machine.prize.y += 10000000000000
+    presses = [solve(machine) for machine in machines]
+    filtered = [x for x in presses if is_int(x)]
+    return np.sum(np.sum(np.array([3, 1]) * x for x in filtered))
 
 
 def main():
