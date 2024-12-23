@@ -9,8 +9,8 @@ from aocd import get_data
 @pytest.mark.parametrize(
     "a,b,x,y,r", [(15, 6, 1, -2, 3), (21, 15, -2, 3, 3), (29, 52, 9, 5, 1)]
 )
-def test_euler(a, b, x, y, r):
-    assert euler(a, b) == (x, y, r)
+def test_euclid(a, b, x, y, r):
+    assert euclid(a, b) == (x, y, r)
 
 
 @dataclass
@@ -46,10 +46,10 @@ def parse(data):
         )
 
 
-def euler(a: int, b: int) -> tuple[int, int, int]:
+def euclid(a: int, b: int) -> tuple[int, int, int]:
     if a % b == 0:
         return a // b, 0, 0
-    (x, y, r) = euler(b, a % b)
+    (x, y, r) = euclid(b, a % b)
     if y == 0:
         return (1, -(a // b), a % b)
     return (y, 1 + y * -x, r)
