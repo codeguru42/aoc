@@ -89,7 +89,7 @@ def part1(robots, width, height, seconds):
     final_positions = map(
         lambda r: calculate_final_position(r, width, height, seconds), robots
     )
-    quadrants = list(map(lambda p: get_quadrant(p, width, height), final_positions))
+    quadrants = map(lambda p: get_quadrant(p, width, height), final_positions)
     return math.prod(collections.Counter(quadrants).values())
 
 
