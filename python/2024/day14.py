@@ -64,12 +64,10 @@ def test_calculate_all_final_positions(robots, width, height, seconds):
         Point(1, 6): 1,
         Point(6, 6): 1,
     }
-    assert (
-        collections.Counter(
-            calculate_all_final_positions(robots, width, height, seconds)
-        )
-        == expected
+    result = collections.Counter(
+        calculate_all_final_positions(robots, width, height, seconds)
     )
+    assert result == expected
 
 
 @dataclass(frozen=True)
