@@ -1,3 +1,5 @@
+import collections
+import math
 import re
 import timeit
 from dataclasses import dataclass
@@ -27,8 +29,28 @@ def parse(data):
         )
 
 
-def part1(lines):
-    pass
+def calculate_final_position(robots, width, height, seconds):
+    for robot in robots:
+        x = (robot.p.x + seconds * robot.v.x) % width
+        y = (robot.p.y + seconds * robot.v.y) % height
+        yield Point(x, y)
+
+
+def get_quadrant(p, width, height):
+    if p.x < width / 2 and p.y < height / 2:
+        return 1
+    if p.x < width / 2 and p.y > height / 2:
+        return 2
+    if p.x > width / 2 and p.y < height / 2:
+        return 3
+    if p.x > width / 2 and p.y > height / 2:
+        return 4
+
+
+def part1(robots, width, height):
+    final_positions = calculate_final_position(robots, width, height, 100)
+    quadrants = map(lambda p: get_quadrant(p, width, height), final_positions)
+    return math.prod(collections.Counter(quadrants).values())
 
 
 def part2(lines):
@@ -38,8 +60,11 @@ def part2(lines):
 def main():
     data = get_data(year=2024, day=14)
     parsed = list(parse(data))
-    print(parsed)
-    print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
+    width = 101
+    height = 103
+    print(
+        "Part 1:", timeit.timeit(lambda: print(part1(parsed, width, height)), number=1)
+    )
     print("Part 2:", timeit.timeit(lambda: print(part2(parsed)), number=1))
 
 
