@@ -43,7 +43,7 @@ def test_part1(robots, width, height):
 
 def test_calculate_final_position(width, height):
     robot = Robot(Point(2, 4), Point(2, -3))
-    assert list(calculate_final_position(robot, width, height, 5)) == [Point(1, 3)]
+    assert calculate_final_position(robot, width, height, 5) == Point(1, 3)
 
 
 @dataclass
@@ -71,7 +71,7 @@ def parse(data):
 def calculate_final_position(robot, width, height, seconds):
     x = (robot.p.x + seconds * robot.v.x) % width
     y = (robot.p.y + seconds * robot.v.y) % height
-    yield Point(x, y)
+    return Point(x, y)
 
 
 def get_quadrant(p, width, height):
@@ -86,10 +86,10 @@ def get_quadrant(p, width, height):
 
 
 def part1(robots, width, height, seconds):
-    final_positions = map(
-        lambda r: calculate_final_position(r, width, height, seconds), robots
+    final_positions = list(
+        map(lambda r: calculate_final_position(r, width, height, seconds), robots)
     )
-    quadrants = map(lambda p: get_quadrant(p, width, height), final_positions)
+    quadrants = list(map(lambda p: get_quadrant(p, width, height), final_positions))
     return math.prod(collections.Counter(quadrants).values())
 
 
