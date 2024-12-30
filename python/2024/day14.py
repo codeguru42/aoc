@@ -7,6 +7,19 @@ from dataclasses import dataclass
 import pytest
 from aocd import get_data
 
+
+@dataclass(frozen=True)
+class Point:
+    x: int
+    y: int
+
+
+@dataclass
+class Robot:
+    p: Point
+    v: Point
+
+
 test_input = """p=0,4 v=3,-3
 p=6,3 v=-1,-3
 p=10,3 v=-1,2
@@ -70,16 +83,18 @@ def test_calculate_all_final_positions(robots, width, height, seconds):
     assert result == expected
 
 
-@dataclass(frozen=True)
-class Point:
-    x: int
-    y: int
-
-
-@dataclass
-class Robot:
-    p: Point
-    v: Point
+@pytest.mark.parametrize(
+    "point,quadrant",
+    [
+        (Point(5, 4), None),
+        (Point(0, 2), 1),
+        (Point(1, 6), 2),
+        (Point(6, 0), 3),
+        (Point(6, 6), 4),
+    ],
+)
+def test_get_quadrant(point, quadrant, width, height):
+    assert get_quadrant(point, width, height) is quadrant
 
 
 def parse(data):
@@ -105,13 +120,13 @@ def calculate_all_final_positions(robots, width, height, seconds):
 
 
 def get_quadrant(p, width, height):
-    if p.x < width / 2 and p.y < height / 2:
+    if p.x < width // 2 and p.y < height // 2:
         return 1
-    if p.x < width / 2 and p.y > height / 2:
+    if p.x < width // 2 and p.y > height // 2:
         return 2
-    if p.x > width / 2 and p.y < height / 2:
+    if p.x > width // 2 and p.y < height // 2:
         return 3
-    if p.x > width / 2 and p.y > height / 2:
+    if p.x > width // 2 and p.y > height // 2:
         return 4
 
 
