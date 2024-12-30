@@ -7,7 +7,7 @@ authors = ["Code-Apprentice <codeguru42@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.13"
 advent-of-code-data = "^2.0.1"
-browser-cookie3 = "^0.19.1"
+browser-cookie3 = "^0.20.1"
 pytest = "^8.3.4"
 black = "^24.10.0"
 networkx = "^3.2.1"
