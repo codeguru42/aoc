@@ -74,6 +74,12 @@ def calculate_final_position(robot, width, height, seconds):
     return Point(x, y)
 
 
+def calculate_all_final_positions(robots, width, height, seconds):
+    return list(
+        map(lambda r: calculate_final_position(r, width, height, seconds), robots)
+    )
+
+
 def get_quadrant(p, width, height):
     if p.x < width / 2 and p.y < height / 2:
         return 1
@@ -85,11 +91,13 @@ def get_quadrant(p, width, height):
         return 4
 
 
+def get_all_quadrants(final_positions, width, height):
+    return list(map(lambda p: get_quadrant(p, width, height), final_positions))
+
+
 def part1(robots, width, height, seconds):
-    final_positions = list(
-        map(lambda r: calculate_final_position(r, width, height, seconds), robots)
-    )
-    quadrants = list(map(lambda p: get_quadrant(p, width, height), final_positions))
+    final_positions = calculate_all_final_positions(robots, width, height, seconds)
+    quadrants = get_all_quadrants(final_positions, width, height)
     return math.prod(collections.Counter(quadrants).values())
 
 
