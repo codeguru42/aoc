@@ -137,7 +137,9 @@ def get_all_quadrants(final_positions, width, height):
 def part1(robots, width, height, seconds):
     final_positions = calculate_all_final_positions(robots, width, height, seconds)
     quadrants = get_all_quadrants(final_positions, width, height)
-    return math.prod(collections.Counter(quadrants).values())
+    return math.prod(
+        v for k, v in collections.Counter(quadrants).items() if k is not None
+    )
 
 
 def part2(lines):
