@@ -88,7 +88,7 @@ def is_int(x):
 def part1(machines):
     presses = [solve(machine) for machine in machines]
     filtered = [x for x in presses if is_int(x)]
-    return np.sum(np.sum(np.array([3, 1]) * x for x in filtered))
+    return int(np.sum(np.sum(np.array([3, 1]) * x for x in filtered)))
 
 
 def part2(machines):
@@ -97,7 +97,7 @@ def part2(machines):
         machine.prize.y += 10000000000000
     presses = [solve(machine) for machine in machines]
     filtered = [x for x in presses if is_int(x)]
-    return np.sum(np.sum(np.array([3, 1]) * x for x in filtered))
+    return int(np.sum(np.sum(np.array([3, 1]) * x for x in filtered)))
 
 
 def main():
