@@ -37,8 +37,13 @@ def height():
     return 7
 
 
-def test_part1(robots, width, height):
-    assert part1(robots, width, height, 100) == 12
+@pytest.fixture
+def seconds():
+    return 100
+
+
+def test_part1(robots, width, height, seconds):
+    assert part1(robots, width, height, seconds) == 12
 
 
 def test_calculate_final_position(width, height):
@@ -46,7 +51,28 @@ def test_calculate_final_position(width, height):
     assert calculate_final_position(robot, width, height, 5) == Point(1, 3)
 
 
-@dataclass
+def test_calculate_all_final_positions(robots, width, height, seconds):
+    expected = {
+        Point(6, 0): 2,
+        Point(9, 0): 1,
+        Point(0, 2): 1,
+        Point(1, 3): 1,
+        Point(2, 3): 1,
+        Point(5, 4): 1,
+        Point(3, 5): 1,
+        Point(4, 5): 2,
+        Point(1, 6): 1,
+        Point(6, 6): 1,
+    }
+    assert (
+        collections.Counter(
+            calculate_all_final_positions(robots, width, height, seconds)
+        )
+        == expected
+    )
+
+
+@dataclass(frozen=True)
 class Point:
     x: int
     y: int
