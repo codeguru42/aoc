@@ -31,10 +31,12 @@ def part2(lines):
     count = 0
     for line in lines:
         position += line
-        count += abs(position // 100)
-        # if position <= 0 or position >= 100:
-        #     count += 1
-        position %= 100
+        while position < 0:
+            position += 100
+            count += 1
+        while position >= 100:
+            position -= 100
+            count += 1
         print(line, position, count)
     return count
 
