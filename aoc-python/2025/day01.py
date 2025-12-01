@@ -34,8 +34,10 @@ def part2(lines):
         while position < 0:
             position += 100
             count += 1
-        while position >= 100:
+        while position > 100:
             position -= 100
+            count += 1
+        if position == 0 or position == 100:
             count += 1
         print(line, position, count)
     return count
