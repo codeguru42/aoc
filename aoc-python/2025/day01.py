@@ -27,7 +27,16 @@ def part1(lines):
 
 
 def part2(lines):
-    pass
+    position = 50
+    count = 0
+    for line in lines:
+        position += line
+        count += abs(position // 100)
+        # if position <= 0 or position >= 100:
+        #     count += 1
+        position %= 100
+        print(line, position, count)
+    return count
 
 
 def main():
