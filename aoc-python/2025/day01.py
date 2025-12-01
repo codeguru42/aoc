@@ -1,11 +1,16 @@
 import timeit
 
+import pytest
 from aocd import get_data
 
-def test_part2():
-    data = "L50\nL100\n"
+
+@pytest.mark.parametrize(
+    "data,expected",
+    (("L50\nL100\n", 2), ("L68\nL30\nR48\nL5\nR60\nL55\nL1\nL99\nR14\nL82\n", 6)),
+)
+def test_part2(data, expected):
     parsed = list(parse(data))
-    assert part2(parsed) == 2
+    assert part2(parsed) == expected
 
 
 def parse(data):
