@@ -2,6 +2,11 @@ import timeit
 
 from aocd import get_data
 
+def test_part2():
+    data = "L50\nL100\n"
+    parsed = list(parse(data))
+    assert part2(parsed) == 2
+
 
 def parse(data):
     for line in data.splitlines():
@@ -31,15 +36,14 @@ def part2(lines):
     count = 0
     for line in lines:
         position += line
+        if position == 0:
+            count += 1
         while position < 0:
             position += 100
             count += 1
-        while position > 100:
+        while position >= 100:
             position -= 100
             count += 1
-        if position == 0 or position == 100:
-            count += 1
-        print(line, position, count)
     return count
 
 
