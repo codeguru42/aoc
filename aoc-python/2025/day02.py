@@ -4,7 +4,9 @@ from aocd import get_data
 
 
 def parse(data):
-    return data.splitlines()
+    for line in data.splitlines():
+        for range in line.split(','):
+            yield tuple(map(int, range.split('-')))
 
 
 def part1(lines):
@@ -17,8 +19,8 @@ def part2(lines):
 
 def main():
     data = get_data(year=2025, day=2)
-    print(data)
-    parsed = parse(data)
+    parsed = list(parse(data))
+    print(parsed)
     print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
     print("Part 2:", timeit.timeit(lambda: print(part2(parsed)), number=1))
 
