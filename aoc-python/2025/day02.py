@@ -17,12 +17,11 @@ def is_invalid(ident):
 def gen_ranges(ranges):
     for a, b in ranges:
         for i in range(a, b + 1):
-            if is_invalid(i):
-                yield i
+            yield i
 
 
 def part1(ranges):
-    return sum(gen_ranges(ranges))
+    return sum(i for i in gen_ranges(ranges) if is_invalid(i))
 
 def part2(lines):
     pass
