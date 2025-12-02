@@ -41,14 +41,10 @@ def part2(lines):
     count = 0
     for line in lines:
         position += line
-        if position == 0:
-            count += 1
-        while position < 0:
-            position += 100
-            count += 1
-        while position >= 100:
-            position -= 100
-            count += 1
+        count += abs(position // 100)
+        position %= 100
+    if position == 0:
+        count += 1
     return count
 
 
