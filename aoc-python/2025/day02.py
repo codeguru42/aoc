@@ -9,9 +9,20 @@ def parse(data):
             yield tuple(map(int, range.split('-')))
 
 
-def part1(lines):
-    pass
+def is_invalid(ident):
+    s = str(ident)
+    return s[:len(s) // 2] == s[len(s) // 2:]
 
+
+def gen_ranges(ranges):
+    for a, b in ranges:
+        for i in range(a, b + 1):
+            if is_invalid(i):
+                yield i
+
+
+def part1(ranges):
+    return sum(gen_ranges(ranges))
 
 def part2(lines):
     pass
@@ -20,7 +31,6 @@ def part2(lines):
 def main():
     data = get_data(year=2025, day=2)
     parsed = list(parse(data))
-    print(parsed)
     print("Part 1:", timeit.timeit(lambda: print(part1(parsed)), number=1))
     print("Part 2:", timeit.timeit(lambda: print(part2(parsed)), number=1))
 
