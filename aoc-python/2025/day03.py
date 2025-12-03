@@ -40,9 +40,9 @@ def max_second_digit(line):
     return m, line[i + 1 :]
 
 
-def joltages(lines):
+def joltages(lines, n):
     for line in lines:
-        yield max_joltage(line, 2)
+        yield max_joltage(line, n)
 
 
 def max_joltage(line, n):
@@ -55,11 +55,11 @@ def max_joltage(line, n):
 
 
 def part1(lines):
-    return sum(joltages(lines))
+    return sum(joltages(lines, 2))
 
 
 def part2(lines):
-    pass
+    return sum(joltages(lines, 12))
 
 
 def main():
