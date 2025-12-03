@@ -1,12 +1,31 @@
 import operator
 import timeit
 
+import pytest
 from aocd import get_data
+
+
+@pytest.mark.parametrize(
+    "line, expected",
+    (
+        ("987654321111111", 98),
+        ("811111111111119", 89),
+        ("234234234234278", 78),
+        ("818181911112111", 92),
+    ),
+)
+def test_max_joltage(line, expected):
+    parsed = parse_line(line)
+    assert max_joltage(parsed) == expected
 
 
 def parse(data):
     for line in data.splitlines():
-        yield [int(char) for char in line.strip()]
+        yield parse_line(line)
+
+
+def parse_line(line) -> list[int]:
+    return [int(char) for char in line.strip()]
 
 
 def max_digit(line):
@@ -18,9 +37,13 @@ def max_digit(line):
 
 def joltages(lines):
     for line in lines:
-        m1, rest = max_digit(line)
-        m2, _ = max_digit(rest)
-        yield 10 * m1 + m2
+        yield max_joltage(line)
+
+
+def max_joltage(line):
+    m1, rest = max_digit(line)
+    m2, _ = max_digit(rest)
+    return 10 * m1 + m2
 
 
 def part1(lines):
