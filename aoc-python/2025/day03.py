@@ -31,7 +31,7 @@ def parse_line(line) -> list[int]:
 def max_digit(line, n, k):
     if len(line) == 1:
         return line[0], []
-    i, m = max(enumerate(line[: len(line)-(n - k)]), key=operator.itemgetter(1))
+    i, m = max(enumerate(line[: len(line) - (n - k)]), key=operator.itemgetter(1))
     return m, line[i + 1 :]
 
 
