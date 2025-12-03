@@ -28,10 +28,10 @@ def parse_line(line) -> list[int]:
     return [int(char) for char in line.strip()]
 
 
-def max_first_digit(line):
+def max_digit(line, n, k):
     if len(line) == 1:
         return line[0], []
-    i, m = max(enumerate(line[:-1]), key=operator.itemgetter(1))
+    i, m = max(enumerate(line[: len(line)-(n - k)]), key=operator.itemgetter(1))
     return m, line[i + 1 :]
 
 
@@ -46,8 +46,8 @@ def joltages(lines):
 
 
 def max_joltage(line):
-    m1, rest = max_first_digit(line)
-    m2, _ = max_second_digit(rest)
+    m1, rest = max_digit(line, 2, 1)
+    m2, _ = max_digit(rest, 2, 2)
     return 10 * m1 + m2
 
 
