@@ -35,11 +35,6 @@ def max_digit(line, n, k):
     return m, line[i + 1 :]
 
 
-def max_second_digit(line):
-    i, m = max(enumerate(line), key=operator.itemgetter(1))
-    return m, line[i + 1 :]
-
-
 def joltages(lines, n):
     for line in lines:
         yield max_joltage(line, n)
