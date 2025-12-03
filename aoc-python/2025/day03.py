@@ -16,7 +16,7 @@ from aocd import get_data
 )
 def test_max_joltage(line, expected):
     parsed = parse_line(line)
-    assert max_joltage(parsed) == expected
+    assert max_joltage(parsed, 2) == expected
 
 
 def parse(data):
@@ -42,13 +42,16 @@ def max_second_digit(line):
 
 def joltages(lines):
     for line in lines:
-        yield max_joltage(line)
+        yield max_joltage(line, 2)
 
 
-def max_joltage(line):
-    m1, rest = max_digit(line, 2, 1)
-    m2, _ = max_digit(rest, 2, 2)
-    return 10 * m1 + m2
+def max_joltage(line, n):
+    result = 0
+    rest = line
+    for k in range(n):
+        m, rest = max_digit(rest, n, k + 1)
+        result = 10 * result + m
+    return result
 
 
 def part1(lines):
